@@ -32,11 +32,11 @@ Both templates use the same shape:
 
     **Performance**
 
-    Cold render of a 20-second composition is ~70 seconds on `standard-4` (4 vCPU). With `--workers auto`, three parallel Chrome workers cut render time roughly 2× vs. single-worker.
+    Renders run on `standard-4` (4 vCPU). With `--workers auto`, three parallel Chrome workers cut render time meaningfully vs. single-worker. Concrete render time depends on composition length, complexity, and asset size.
 
     **Pricing**
 
-    Vercel Pro plans include $20/mo of Sandbox credit, which covers ~100 renders/month of the bundled 20-second example. See [Vercel Sandbox pricing](https://vercel.com/docs/vercel-sandbox/pricing).
+    Vercel Pro plans include Sandbox credit each month. See [Vercel Sandbox pricing](https://vercel.com/docs/vercel-sandbox/pricing) for current per-vCPU and per-GB rates and the up-to-date credit allowance.
 
     <Note>
       Vercel Functions cap at 300s and a 50 MB compressed bundle, which can't fit Chromium + FFmpeg. The template uses Vercel Sandbox specifically because it's the purpose-built primitive for this workload — up to 5 hours of runtime and up to 8 vCPUs per render.
@@ -55,11 +55,11 @@ Both templates use the same shape:
 
     **Performance**
 
-    With `--workers auto` on `standard-4` (4 vCPU, 12 GiB), three parallel Chrome workers cut render time roughly 2× vs. single-worker. The bundled 13-second composition renders in ~25 seconds when tested locally against the container image on a 6-vCPU host (`scripts/test-render.mjs`); production timings on `standard-4` will vary with composition length and complexity. Container instances sleep after 10 minutes of inactivity.
+    Renders run on `standard-4` (4 vCPU, 12 GiB). With `--workers auto`, three parallel Chrome workers cut render time meaningfully vs. single-worker. Container instances sleep after 10 minutes of inactivity, so the next request after a quiet period pays a cold-start penalty.
 
     **Pricing**
 
-    Cloudflare Containers bills per-10ms for memory, CPU, and disk. A 70-second render on `standard-4` costs ~$0.008. R2 storage is $0.015/GB-month with no egress within Cloudflare's network. Requires a [Workers Paid](https://developers.cloudflare.com/workers/platform/pricing/) plan. See [Cloudflare Containers pricing](https://developers.cloudflare.com/containers/pricing/).
+    Cloudflare Containers bills per-10ms for memory, CPU, and disk; R2 storage has no egress within Cloudflare's network. Requires a [Workers Paid](https://developers.cloudflare.com/workers/platform/pricing/) plan. See [Cloudflare Containers pricing](https://developers.cloudflare.com/containers/pricing/) and [R2 pricing](https://developers.cloudflare.com/r2/pricing/) for current rates.
 
     <Note>
       Cloudflare's hosted [Browser Rendering](https://developers.cloudflare.com/browser-rendering/) API can't install FFmpeg — that's why the template uses Cloudflare Containers, which gives you a real OCI container in a Worker-bound Durable Object with up to 4 vCPUs and 12 GiB RAM.
