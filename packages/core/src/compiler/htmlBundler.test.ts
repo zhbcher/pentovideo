@@ -105,12 +105,12 @@ describe("bundleToSingleHtml", () => {
     const bundled = await bundleToSingleHtml(dir);
     // Run every inline script body through esbuild; if the line comment ate
     // the separator, parse would fail with an unexpected-token error somewhere
-    // around the chunk boundary.
+    // around the chunk boundary. Use a real HTML parser (CodeQL flags regex-
+    // based script extraction as bad-tag-filter).
     const { transformSync } = await import("esbuild");
-    const re = /<script\b[^>]*>([\s\S]*?)<\/script[^>]*>/gi;
-    let m: RegExpExecArray | null;
-    while ((m = re.exec(bundled)) !== null) {
-      const body = m[1];
+    const { document } = parseHTML(bundled);
+    for (const script of document.querySelectorAll("script")) {
+      const body = script.textContent;
       if (!body || !body.trim()) continue;
       expect(() => transformSync(body, { loader: "js", minify: false })).not.toThrow();
     }
