@@ -60,7 +60,7 @@ describe("renderLocal browser GPU config", () => {
       quality: "standard",
       format: "mp4",
       gpu: false,
-      browserGpu: false,
+      browserGpuMode: "software",
       hdrMode: "auto",
       quiet: true,
     });
@@ -72,6 +72,25 @@ describe("renderLocal browser GPU config", () => {
     });
   });
 
+  it("forwards browserGpuMode='auto' into producer config (probe-then-choose)", async () => {
+    const { renderLocal } = await import("./render.js");
+    await renderLocal("/tmp/project", "/tmp/out.mp4", {
+      fps: 30,
+      quality: "standard",
+      format: "mp4",
+      gpu: false,
+      browserGpuMode: "auto",
+      hdrMode: "auto",
+      quiet: true,
+    });
+
+    expect(producerState.resolveConfigCalls).toContainEqual({ browserGpuMode: "auto" });
+    expect(producerState.createdJobs[0]?.producerConfig).toMatchObject({
+      browserGpuMode: "auto",
+      resolved: true,
+    });
+  });
+
   it("passes an explicit hardware override for default local browser GPU", async () => {
     const { renderLocal } = await import("./render.js");
     await renderLocal("/tmp/project", "/tmp/out.mp4", {
@@ -79,7 +98,7 @@ describe("renderLocal browser GPU config", () => {
       quality: "standard",
       format: "mp4",
       gpu: false,
-      browserGpu: true,
+      browserGpuMode: "hardware",
       hdrMode: "auto",
       quiet: true,
     });
@@ -94,12 +113,18 @@ describe("renderLocal browser GPU config", () => {
   it("resolves browser GPU from CLI flags, Docker mode, and env fallback", async () => {
     const { resolveBrowserGpuForCli } = await import("./render.js");
 
-    expect(resolveBrowserGpuForCli(false, undefined, undefined)).toBe(true);
-    expect(resolveBrowserGpuForCli(false, undefined, "hardware")).toBe(true);
-    expect(resolveBrowserGpuForCli(false, undefined, "software")).toBe(false);
-    expect(resolveBrowserGpuForCli(false, true, "software")).toBe(true);
-    expect(resolveBrowserGpuForCli(false, false, "hardware")).toBe(false);
-    expect(resolveBrowserGpuForCli(true, undefined, "hardware")).toBe(false);
+    // Default (no flag, no env): auto — engine probes and chooses.
+    expect(resolveBrowserGpuForCli(false, undefined, undefined)).toBe("auto");
+    // Env override
+    expect(resolveBrowserGpuForCli(false, undefined, "hardware")).toBe("hardware");
+    expect(resolveBrowserGpuForCli(false, undefined, "software")).toBe("software");
+    expect(resolveBrowserGpuForCli(false, undefined, "auto")).toBe("auto");
+    // Explicit CLI flag wins over env
+    expect(resolveBrowserGpuForCli(false, true, "software")).toBe("hardware");
+    expect(resolveBrowserGpuForCli(false, false, "hardware")).toBe("software");
+    // Docker forces software regardless of flags/env
+    expect(resolveBrowserGpuForCli(true, undefined, "hardware")).toBe("software");
+    expect(resolveBrowserGpuForCli(true, undefined, "auto")).toBe("software");
   });
 
   it("forwards parsed --variables payload to createRenderJob", async () => {
@@ -109,7 +134,7 @@ describe("renderLocal browser GPU config", () => {
       quality: "standard",
       format: "mp4",
       gpu: false,
-      browserGpu: false,
+      browserGpuMode: "software",
       hdrMode: "auto",
       quiet: true,
       variables: { title: "Hello", count: 3 },
@@ -125,7 +150,7 @@ describe("renderLocal browser GPU config", () => {
       quality: "standard",
       format: "mp4",
       gpu: false,
-      browserGpu: false,
+      browserGpuMode: "software",
       hdrMode: "auto",
       quiet: true,
     });
@@ -147,7 +172,7 @@ describe("renderLocal browser GPU config", () => {
       quality: "standard",
       format: "mp4",
       gpu: false,
-      browserGpu: true,
+      browserGpuMode: "hardware",
       hdrMode: "auto",
       quiet: true,
       exitAfterComplete: true,
