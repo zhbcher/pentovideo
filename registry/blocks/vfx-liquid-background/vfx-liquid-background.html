@@ -8,7 +8,7 @@
 
 <div
   id="root"
-  data-composition-id="liquid-html"
+  data-composition-id="vfx-liquid-background" data-root="true"
   data-start="0"
   data-duration="12"
   data-width="1920"
@@ -198,7 +198,7 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=block');
 
-    [data-composition-id="liquid-html"] {
+    [data-composition-id="vfx-liquid-background"] {
       background: #000;
       position: relative;
       overflow: hidden;
@@ -817,7 +817,7 @@
       }
     }, 0);
 
-    window.__timelines['liquid-html'] = tl;
+    window.__timelines['vfx-liquid-background'] = tl;
 
     // ── hf-seek integration for Three.js adapter ──
     window.addEventListener('hf-seek', function(e) {
