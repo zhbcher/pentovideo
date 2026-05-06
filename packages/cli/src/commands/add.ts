@@ -4,6 +4,7 @@ import type { Example } from "./_examples.js";
 export const examples: Example[] = [
   ["Add a block to the current project", "hyperframes add claude-code-window"],
   ["Add a component effect", "hyperframes add shader-wipe"],
+  ["Add all blocks with a tag", "hyperframes add --tag vfx"],
   ["Target a specific project directory", "hyperframes add shader-wipe --dir ./my-video"],
   ["Skip the clipboard copy (CI/headless)", "hyperframes add shader-wipe --no-clipboard"],
 ];
@@ -12,7 +13,7 @@ import { existsSync } from "node:fs";
 import { resolve, relative } from "node:path";
 import { ITEM_TYPE_DIRS, type RegistryItem } from "@hyperframes/core";
 import { c } from "../ui/colors.js";
-import { installItem, resolveItem } from "../registry/index.js";
+import { installItem, resolveItem, resolveItemsByTag } from "../registry/index.js";
 import {
   DEFAULT_PROJECT_CONFIG,
   loadProjectConfig,
@@ -174,7 +175,12 @@ export default defineCommand({
     name: {
       type: "positional",
       description: "Registry item name (e.g. claude-code-window, shader-wipe)",
-      required: true,
+      required: false,
+    },
+    tag: {
+      type: "string",
+      alias: "t",
+      description: "Install all blocks matching a tag (e.g. --tag vfx, --tag captions)",
     },
     dir: {
       type: "string",
@@ -193,7 +199,69 @@ export default defineCommand({
     const projectDir = resolve(args.dir ?? process.cwd());
     const json = args.json === true;
     const skipClipboard = args["no-clipboard"] === true;
+    const tag = args.tag?.trim();
     const hasConfigBefore = existsSync(projectConfigPath(projectDir));
+
+    // ── Tag-based bulk install ──────────────────────────────────────────
+    if (tag) {
+      let config = loadProjectConfig(projectDir);
+      if (
+        !existsSync(projectConfigPath(projectDir)) &&
+        existsSync(resolve(projectDir, "index.html"))
+      ) {
+        writeProjectConfig(projectDir, DEFAULT_PROJECT_CONFIG);
+        config = DEFAULT_PROJECT_CONFIG;
+      }
+
+      let items: Awaited<ReturnType<typeof resolveItemsByTag>>;
+      try {
+        items = await resolveItemsByTag(tag, { baseUrl: config.registry });
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        if (json) console.log(JSON.stringify({ ok: false, error: msg }));
+        else console.error(c.error(msg));
+        process.exit(1);
+      }
+
+      if (items.length === 0) {
+        const msg = `No blocks found with tag "${tag}".`;
+        if (json) console.log(JSON.stringify({ ok: false, error: msg }));
+        else console.error(c.error(msg));
+        process.exit(1);
+      }
+
+      if (!json) {
+        console.log("");
+        console.log(
+          `${c.accent("◆")} Installing ${c.accent(String(items.length))} blocks tagged ${c.accent(tag)}`,
+        );
+      }
+
+      const results: RunAddResult[] = [];
+      for (const item of items) {
+        try {
+          const result = await runAdd({ name: item.name, projectDir, skipClipboard: true });
+          results.push(result);
+          if (!json) console.log(`  ${c.success("✓")} ${result.name}`);
+        } catch {
+          if (!json) console.log(`  ${c.error("✗")} ${item.name} (skipped)`);
+        }
+      }
+
+      if (json) {
+        console.log(JSON.stringify({ ok: true, tag, installed: results.map((r) => r.name) }));
+      } else {
+        console.log("");
+        console.log(`${c.success("✓")} Installed ${results.length}/${items.length} blocks`);
+      }
+      return;
+    }
+
+    // ── Single item install ────────────────────────────────────────────
+    if (!args.name) {
+      console.error(c.error("Provide a block name or use --tag <tag> to install by tag."));
+      process.exit(1);
+    }
 
     try {
       const result = await runAdd({ name: args.name, projectDir, skipClipboard });

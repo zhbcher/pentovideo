@@ -87,3 +87,19 @@ export async function resolveItem(
   }
   return fetchItemManifest(entry.name, entry.type, options.baseUrl);
 }
+
+/**
+ * Resolve all items matching a tag. Loads each item's full manifest to check
+ * tags (the top-level registry.json only has name+type, not tags). Items that
+ * fail to load are silently skipped.
+ */
+export async function resolveItemsByTag(
+  tag: string,
+  options: ResolveOptions = {},
+): Promise<RegistryItem[]> {
+  const entries = await listRegistryItems(undefined, options);
+  const allItems = await loadAllItems(entries, { ...options, onWarn: () => {} });
+  return allItems.filter(
+    (item) => "tags" in item && Array.isArray(item.tags) && item.tags.includes(tag),
+  );
+}
