@@ -7,6 +7,7 @@ describe("buildChromeArgs browser GPU mode", () => {
 
   it("uses SwiftShader software GL by default for reproducible local renders", () => {
     const args = buildChromeArgs(base);
+    expect(args).toContain("--enable-features=CanvasDrawElement");
     expect(args).toContain("--use-gl=angle");
     expect(args).toContain("--use-angle=swiftshader");
     expect(args).not.toContain("--enable-gpu-rasterization");

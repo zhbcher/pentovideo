@@ -32,6 +32,11 @@ const tl = init({
 
 The `init()` function captures each scene to a WebGL texture at transition time, crossfades between them using the selected shader, and returns a GSAP timeline. If WebGL is unavailable, it falls back to hard cuts.
 
+When the browser exposes Chrome's experimental CanvasDrawElement API, scene
+capture uses native HTML-in-canvas via `drawElementImage()`. Other browsers keep
+using the existing `html2canvas` fallback. You can feature-detect the native path
+with `isHtmlInCanvasCaptureSupported()`.
+
 ### With an existing timeline
 
 Pass your own GSAP timeline to layer transitions onto it:
