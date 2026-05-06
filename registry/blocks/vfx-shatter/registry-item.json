@@ -5,10 +5,21 @@
   "title": "Shatter",
   "description": "VFX composition block",
   "stability": "experimental",
-  "dimensions": { "width": 1920, "height": 1080 },
+  "dimensions": {
+    "width": 1920,
+    "height": 1080
+  },
   "duration": 12,
-  "tags": ["vfx", "html-in-canvas", "webgl"],
+  "tags": [
+    "vfx",
+    "html-in-canvas",
+    "webgl"
+  ],
   "files": [
-    { "path": "vfx-shatter.html", "target": "compositions/vfx-shatter.html", "type": "hyperframes:composition" }
+    {
+      "path": "vfx-shatter.html",
+      "target": "compositions/vfx-shatter.html",
+      "type": "hyperframes:composition"
+    }
   ]
 }

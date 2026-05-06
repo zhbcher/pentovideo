@@ -5,10 +5,21 @@
   "title": "Liquid Glass",
   "description": "VFX composition block",
   "stability": "experimental",
-  "dimensions": { "width": 1920, "height": 1080 },
+  "dimensions": {
+    "width": 1920,
+    "height": 1080
+  },
   "duration": 20,
-  "tags": ["vfx", "html-in-canvas", "webgl"],
+  "tags": [
+    "vfx",
+    "html-in-canvas",
+    "webgl"
+  ],
   "files": [
-    { "path": "vfx-liquid-glass.html", "target": "compositions/vfx-liquid-glass.html", "type": "hyperframes:composition" }
+    {
+      "path": "vfx-liquid-glass.html",
+      "target": "compositions/vfx-liquid-glass.html",
+      "type": "hyperframes:composition"
+    }
   ]
 }

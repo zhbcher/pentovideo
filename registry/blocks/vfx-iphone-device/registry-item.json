@@ -3,14 +3,22 @@
   "name": "vfx-iphone-device",
   "type": "hyperframes:block",
   "title": "iPhone & MacBook 3D Showcase",
-  "description": "Real GLTF iPhone 15 Pro Max and MacBook Pro models with live HTML-in-Canvas screen content, morphing glass lens, product review camera choreography, and 360° turntable.",
+  "description": "Real GLTF iPhone 15 Pro Max and MacBook Pro models with live HTML-in-Canvas screen content, morphing glass lens, product review camera choreography, and 360\u00b0 turntable.",
   "stability": "experimental",
   "dimensions": {
     "width": 1920,
     "height": 1080
   },
   "duration": 15,
-  "tags": ["vfx", "3d", "device", "iphone", "macbook", "gltf", "html-in-canvas"],
+  "tags": [
+    "html-in-canvas",
+    "vfx",
+    "3d",
+    "device",
+    "iphone",
+    "macbook",
+    "gltf"
+  ],
   "files": [
     {
       "path": "vfx-iphone-device.html",
