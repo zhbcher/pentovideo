@@ -153,8 +153,11 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
     async bundle(dir: string): Promise<string | null> {
       try {
         const { bundleToSingleHtml } = await import("@hyperframes/core/compiler");
-        let html = await bundleToSingleHtml(dir);
-        // Fix empty runtime src from bundler — point to the local runtime endpoint
+        // Studio dev server: ask the bundler for an empty `src=""` placeholder so
+        // we can point it at our hot-reloadable local runtime endpoint. Inlining
+        // ~150 KB of runtime body on every preview render would defeat browser
+        // caching across composition edits.
+        let html = await bundleToSingleHtml(dir, { runtime: "placeholder" });
         html = html.replace(
           'data-hyperframes-preview-runtime="1" src=""',
           'data-hyperframes-preview-runtime="1" src="/api/runtime.js"',

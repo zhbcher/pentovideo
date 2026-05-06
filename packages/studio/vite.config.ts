@@ -60,7 +60,9 @@ interface ScreenshotClip {
 
 function createViteAdapter(dataDir: string, server: ViteDevServer): StudioApiAdapter {
   // Lazy-load the bundler via Vite's SSR module loader
-  let _bundler: ((dir: string) => Promise<string>) | null = null;
+  let _bundler:
+    | ((dir: string, options?: { runtime?: "inline" | "placeholder" }) => Promise<string>)
+    | null = null;
   let _producerModulePromise: Promise<{
     createRenderJob: (config: {
       fps: 24 | 30 | 60;
@@ -78,7 +80,7 @@ function createViteAdapter(dataDir: string, server: ViteDevServer): StudioApiAda
     if (!_bundler) {
       try {
         const mod = await server.ssrLoadModule("@hyperframes/core/compiler");
-        _bundler = (dir: string) => mod.bundleToSingleHtml(dir);
+        _bundler = (dir, options) => mod.bundleToSingleHtml(dir, options);
       } catch (err) {
         console.warn("[Studio] Failed to load compiler, previews will use raw HTML:", err);
         _bundler = null as never;
@@ -171,8 +173,10 @@ function createViteAdapter(dataDir: string, server: ViteDevServer): StudioApiAda
     async bundle(dir: string) {
       const bundler = await getBundler();
       if (!bundler) return null;
-      let html = await bundler(dir);
-      // Fix empty runtime src from bundler — point to the CDN runtime
+      // Studio vite preview: bundler emits an empty `src=""` placeholder so we
+      // can point it at the local /api/runtime.js endpoint. Cached by the browser
+      // across composition hot-reloads instead of being inlined fresh each time.
+      let html = await bundler(dir, { runtime: "placeholder" });
       html = html.replace(
         'data-hyperframes-preview-runtime="1" src=""',
         `data-hyperframes-preview-runtime="1" src="${this.runtimeUrl}"`,
