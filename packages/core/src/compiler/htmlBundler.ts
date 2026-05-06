@@ -10,6 +10,7 @@ import {
 import { rewriteAssetPaths, rewriteCssAssetUrls } from "./rewriteSubCompPaths";
 import { scopeCssToComposition, wrapScopedCompositionScript } from "./compositionScoping";
 import { validateHyperframeHtmlContract } from "./staticGuard";
+import { getHyperframeRuntimeScript } from "../generated/runtime-inline";
 
 /** Resolve a relative path within projectDir, rejecting traversal outside it. */
 function safePath(projectDir: string, relativePath: string): string | null {
@@ -30,8 +31,20 @@ function injectInterceptor(html: string): string {
   const sanitized = stripEmbeddedRuntimeScripts(html);
   if (sanitized.includes(RUNTIME_BOOTSTRAP_ATTR)) return sanitized;
 
-  const runtimeScriptUrl = getRuntimeScriptUrl().replace(/"/g, "&quot;");
-  const tag = `<script ${RUNTIME_BOOTSTRAP_ATTR}="1" src="${runtimeScriptUrl}"></script>`;
+  // When a runtime URL is configured (HYPERFRAME_RUNTIME_URL env var), the bundle
+  // points at it via src=… and the host page serves the script. When no URL is
+  // configured — the common `bundleToSingleHtml` use case — inline the runtime
+  // body so the bundle is genuinely self-contained. An empty src="" attribute
+  // would otherwise resolve to the page URL and trigger an infinite-fetch loop.
+  const runtimeScriptUrl = getRuntimeScriptUrl();
+  let tag: string;
+  if (runtimeScriptUrl) {
+    const escaped = runtimeScriptUrl.replace(/"/g, "&quot;");
+    tag = `<script ${RUNTIME_BOOTSTRAP_ATTR}="1" src="${escaped}"></script>`;
+  } else {
+    const inlinedRuntime = getHyperframeRuntimeScript();
+    tag = `<script ${RUNTIME_BOOTSTRAP_ATTR}="1">${inlinedRuntime}</script>`;
+  }
   if (sanitized.includes("</head>")) {
     return sanitized.replace("</head>", `${tag}\n</head>`);
   }
@@ -268,11 +281,7 @@ function coalesceHeadStylesAndBodyScripts(document: Document): void {
     return !type || type === "text/javascript" || type === "application/javascript";
   });
   if (bodyInlineScripts.length > 0) {
-    const mergedJs = bodyInlineScripts
-      .map((el) => (el.textContent || "").trim())
-      .filter(Boolean)
-      .join("\n;\n")
-      .trim();
+    const mergedJs = joinJsChunks(bodyInlineScripts.map((el) => el.textContent || ""));
     for (const el of bodyInlineScripts) el.remove();
     if (mergedJs) {
       const stripped = stripJsCommentsParserSafe(mergedJs);
@@ -281,6 +290,20 @@ function coalesceHeadStylesAndBodyScripts(document: Document): void {
       document.body.appendChild(inlineScript);
     }
   }
+}
+
+/**
+ * Concatenate JS chunks safely. Each chunk gets a trailing `;` if it doesn't
+ * already end in one, so the joined output never inserts a stray bare-semicolon
+ * line between chunks (the `\n;\n` separator pattern produces a lone `;` on its
+ * own line, which is valid JS but reads as a code smell to most linters).
+ */
+function joinJsChunks(chunks: string[]): string {
+  return chunks
+    .map((chunk) => chunk.trim())
+    .filter((chunk) => chunk.length > 0)
+    .map((chunk) => (chunk.endsWith(";") ? chunk : chunk + ";"))
+    .join("\n");
 }
 
 function stripJsCommentsParserSafe(source: string): string {
@@ -379,12 +402,13 @@ export async function bundleToSingleHtml(
   }
   if (localJsChunks.length > 0) {
     const anchor = document.querySelector('script[data-hf-bundled-local-js="1"]');
+    const joinedJs = joinJsChunks(localJsChunks);
     if (anchor) {
       anchor.removeAttribute("data-hf-bundled-local-js");
-      anchor.textContent = localJsChunks.join("\n;\n");
+      anchor.textContent = joinedJs;
     } else {
       const script = document.createElement("script");
-      script.textContent = localJsChunks.join("\n;\n");
+      script.textContent = joinedJs;
       document.body.appendChild(script);
     }
   }
@@ -623,7 +647,7 @@ export async function bundleToSingleHtml(
   }
   if (compScriptChunks.length) {
     const compScript = document.createElement("script");
-    compScript.textContent = compScriptChunks.join("\n;\n");
+    compScript.textContent = joinJsChunks(compScriptChunks);
     document.body.appendChild(compScript);
   }
 
