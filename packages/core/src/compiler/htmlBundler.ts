@@ -27,20 +27,24 @@ function getRuntimeScriptUrl(): string {
   return configured || DEFAULT_RUNTIME_SCRIPT_URL;
 }
 
-function injectInterceptor(html: string): string {
+function injectInterceptor(html: string, runtimeMode: "inline" | "placeholder" = "inline"): string {
   const sanitized = stripEmbeddedRuntimeScripts(html);
   if (sanitized.includes(RUNTIME_BOOTSTRAP_ATTR)) return sanitized;
 
-  // When a runtime URL is configured (HYPERFRAME_RUNTIME_URL env var), the bundle
-  // points at it via src=… and the host page serves the script. When no URL is
-  // configured — the common `bundleToSingleHtml` use case — inline the runtime
-  // body so the bundle is genuinely self-contained. An empty src="" attribute
-  // would otherwise resolve to the page URL and trigger an infinite-fetch loop.
+  // Three modes for the runtime <script>:
+  //   1. HYPERFRAME_RUNTIME_URL env var set → emit src="<url>" (production CDN deploy).
+  //   2. runtime: "placeholder" passed         → emit src="" for the caller to substitute
+  //                                              (studio + vite preview hot-load a local
+  //                                              runtime endpoint via string replace).
+  //   3. runtime: "inline" (default)           → embed the IIFE body directly so the
+  //                                              bundle is genuinely self-contained.
   const runtimeScriptUrl = getRuntimeScriptUrl();
   let tag: string;
   if (runtimeScriptUrl) {
     const escaped = runtimeScriptUrl.replace(/"/g, "&quot;");
     tag = `<script ${RUNTIME_BOOTSTRAP_ATTR}="1" src="${escaped}"></script>`;
+  } else if (runtimeMode === "placeholder") {
+    tag = `<script ${RUNTIME_BOOTSTRAP_ATTR}="1" src=""></script>`;
   } else {
     const inlinedRuntime = getHyperframeRuntimeScript();
     tag = `<script ${RUNTIME_BOOTSTRAP_ATTR}="1">${inlinedRuntime}</script>`;
@@ -293,16 +297,27 @@ function coalesceHeadStylesAndBodyScripts(document: Document): void {
 }
 
 /**
- * Concatenate JS chunks safely. Each chunk gets a trailing `;` if it doesn't
- * already end in one, so the joined output never inserts a stray bare-semicolon
- * line between chunks (the `\n;\n` separator pattern produces a lone `;` on its
- * own line, which is valid JS but reads as a code smell to most linters).
+ * Concatenate JS chunks safely. Goals:
+ *   - Each chunk's last statement is terminated, so joining can't introduce ASI
+ *     surprises (e.g. `a()` followed by `(b)()` — the second chunk would parse
+ *     as a call on the first's return value).
+ *   - In the common case (chunk already ends with `;` — typical of esbuild
+ *     output and IIFE-wrapped composition scripts ending in `})();`), the join
+ *     produces clean output: chunks separated by `\n` with no stray bare
+ *     semicolon lines.
+ *   - Defensive against trailing line comments. If a chunk ends with `// ...`
+ *     and we appended `;` on the same line, the appended semicolon would be
+ *     swallowed by the comment, leaving the next chunk's first statement
+ *     attached to the previous chunk's last expression — exactly the ASI
+ *     hazard this helper exists to prevent. So when a chunk doesn't already
+ *     end in `;`, we append `\n;` instead — the newline closes any line
+ *     comment, and the standalone `;` becomes the statement separator.
  */
 function joinJsChunks(chunks: string[]): string {
   return chunks
     .map((chunk) => chunk.trim())
     .filter((chunk) => chunk.length > 0)
-    .map((chunk) => (chunk.endsWith(";") ? chunk : chunk + ";"))
+    .map((chunk) => (chunk.endsWith(";") ? chunk : chunk + "\n;"))
     .join("\n");
 }
 
@@ -319,6 +334,22 @@ function stripJsCommentsParserSafe(source: string): string {
 export interface BundleOptions {
   /** Optional media duration prober (e.g., ffprobe). If omitted, media durations are not resolved. */
   probeMediaDuration?: MediaDurationProber;
+  /**
+   * How to handle the HyperFrames runtime <script> tag. Default: `"inline"`.
+   *
+   * - `"inline"` — embed the runtime IIFE body directly into the bundle. Produces
+   *   genuinely self-contained HTML. Right for CLI render output, validate,
+   *   snapshot, and any "ship a single .html file" use case.
+   * - `"placeholder"` — emit `<script ... src=""></script>` so the caller can
+   *   substitute it with a real URL via string replace. Used by the dev studio
+   *   server and vite preview to point at a local runtime endpoint, which keeps
+   *   the runtime cacheable across hot-reloads instead of re-inlining ~150 KB
+   *   on every change.
+   *
+   * The `HYPERFRAME_RUNTIME_URL` env var, when set, takes precedence over both
+   * modes and emits `<script ... src="<URL>">` directly.
+   */
+  runtime?: "inline" | "placeholder";
 }
 
 /**
@@ -347,7 +378,7 @@ export async function bundleToSingleHtml(
     );
   }
 
-  const withInterceptor = injectInterceptor(compiled);
+  const withInterceptor = injectInterceptor(compiled, options?.runtime ?? "inline");
   const document = parseHTMLContent(withInterceptor);
 
   // Inline local CSS

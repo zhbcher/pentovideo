@@ -82,6 +82,40 @@ describe("bundleToSingleHtml", () => {
     expect(innerLength).toBeGreaterThan(1000);
   });
 
+  it("preserves chunk integrity when a chunk ends with a line comment (ASI hazard guard)", async () => {
+    // Regression guard for the joinJsChunks helper. If a chunk ends with `// ...`
+    // and we naively appended `;` on the same line, the appended semicolon would
+    // be eaten by the comment, leaving the next chunk's first statement attached
+    // to the previous chunk's last expression. Verify the helper appends `\n;`
+    // instead so the comment terminates and the semicolon stands alone.
+    const dir = makeTempProject({
+      "index.html": `<!doctype html>
+<html><body>
+  <div data-composition-id="root" data-width="320" data-height="180"></div>
+  <script src="local-a.js"></script>
+  <script src="local-b.js"></script>
+  <script>window.__timelines = window.__timelines || {}; window.__timelines.root = {}</script>
+</body></html>`,
+      // Chunk A ends with a // line comment — without the \n separator before
+      // the appended ;, that ; would be eaten by the comment.
+      "local-a.js": "window.__a = 1 // trailing line comment",
+      "local-b.js": "window.__b = 2",
+    });
+
+    const bundled = await bundleToSingleHtml(dir);
+    // Run every inline script body through esbuild; if the line comment ate
+    // the separator, parse would fail with an unexpected-token error somewhere
+    // around the chunk boundary.
+    const { transformSync } = await import("esbuild");
+    const re = /<script\b[^>]*>([\s\S]*?)<\/script>/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(bundled)) !== null) {
+      const body = m[1];
+      if (!body || !body.trim()) continue;
+      expect(() => transformSync(body, { loader: "js", minify: false })).not.toThrow();
+    }
+  });
+
   it("does not produce stray bare-semicolon lines between concatenated JS chunks", async () => {
     // Regression guard: hf#XXX. Earlier the bundler joined script chunks with
     // `\n;\n`, which produces a lone `;` on its own line between chunks. Valid

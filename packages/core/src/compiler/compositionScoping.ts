@@ -286,5 +286,5 @@ ${source}
   };
   __hfFindRoot();
   __hfRun();
-})()`;
+})();`;
 }
