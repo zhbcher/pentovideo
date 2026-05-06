@@ -42,6 +42,66 @@
     "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/blue-sweater-intro-video.png"
   },
   {
+    "name": "captions-bounce",
+    "type": "block",
+    "title": "Captions – Bounce",
+    "description": "Playful social-media style captions with elastic bounce-in per word on alternating colorful pill backgrounds",
+    "tags": [
+      "captions",
+      "bounce"
+    ],
+    "href": "/catalog/blocks/captions-bounce",
+    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/captions-bounce.png"
+  },
+  {
+    "name": "captions-cinematic",
+    "type": "block",
+    "title": "Captions – Cinematic",
+    "description": "Elegant film-title captions with slow fade, letter-spacing animation, warm tint, and extending horizontal accent line",
+    "tags": [
+      "captions",
+      "cinematic"
+    ],
+    "href": "/catalog/blocks/captions-cinematic",
+    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/captions-cinematic.png"
+  },
+  {
+    "name": "captions-karaoke",
+    "type": "block",
+    "title": "Captions – Karaoke",
+    "description": "Word-by-word color reveal with frosted glass pill background, dimmed-to-highlighted karaoke progression",
+    "tags": [
+      "captions",
+      "karaoke"
+    ],
+    "href": "/catalog/blocks/captions-karaoke",
+    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/captions-karaoke.png"
+  },
+  {
+    "name": "captions-minimal",
+    "type": "block",
+    "title": "Captions – Minimal",
+    "description": "Clean, professional Netflix-subtitle style captions with soft fade and y-offset on a dark pill background",
+    "tags": [
+      "captions",
+      "minimal"
+    ],
+    "href": "/catalog/blocks/captions-minimal",
+    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/captions-minimal.png"
+  },
+  {
+    "name": "captions-slam",
+    "type": "block",
+    "title": "Captions – Slam",
+    "description": "Bold, punchy slam captions with back-eased overshoot scale-in, uppercase Inter 900, and per-word accent styling",
+    "tags": [
+      "captions",
+      "slam"
+    ],
+    "href": "/catalog/blocks/captions-slam",
+    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/captions-slam.png"
+  },
+  {
     "name": "chromatic-radial-split",
     "type": "block",
     "title": "Chromatic Radial Split",
@@ -541,6 +601,100 @@
     ],
     "href": "/catalog/blocks/ui-3d-reveal",
     "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/ui-3d-reveal.png"
+  },
+  {
+    "name": "vfx-iphone-device",
+    "type": "block",
+    "title": "iPhone & MacBook 3D Showcase",
+    "description": "Real GLTF iPhone 15 Pro Max and MacBook Pro models with live HTML-in-Canvas screen content, morphing glass lens, product review camera choreography, and 360° turntable.",
+    "tags": [
+      "html-in-canvas",
+      "3d",
+      "device",
+      "iphone",
+      "macbook",
+      "gltf"
+    ],
+    "href": "/catalog/blocks/vfx-iphone-device",
+    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vfx-iphone-device.png"
+  },
+  {
+    "name": "vfx-liquid-background",
+    "type": "block",
+    "title": "Liquid Background",
+    "description": "Organic liquid simulation with vertex displacement on a subdivided plane. HTML content floats above rippling fluid surface with real-time wave dynamics.",
+    "tags": [
+      "html-in-canvas",
+      "liquid",
+      "webgl",
+      "displacement",
+      "background"
+    ],
+    "href": "/catalog/blocks/vfx-liquid-background",
+    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vfx-liquid-background.png"
+  },
+  {
+    "name": "vfx-liquid-glass",
+    "type": "block",
+    "title": "Liquid Glass",
+    "description": "VFX composition block",
+    "tags": [
+      "html-in-canvas",
+      "webgl"
+    ],
+    "href": "/catalog/blocks/vfx-liquid-glass",
+    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vfx-liquid-glass.png"
+  },
+  {
+    "name": "vfx-magnetic",
+    "type": "block",
+    "title": "Magnetic",
+    "description": "VFX composition block",
+    "tags": [
+      "html-in-canvas",
+      "webgl"
+    ],
+    "href": "/catalog/blocks/vfx-magnetic",
+    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vfx-magnetic.png"
+  },
+  {
+    "name": "vfx-portal",
+    "type": "block",
+    "title": "Portal",
+    "description": "VFX composition block",
+    "tags": [
+      "html-in-canvas",
+      "webgl"
+    ],
+    "href": "/catalog/blocks/vfx-portal",
+    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vfx-portal.png"
+  },
+  {
+    "name": "vfx-shatter",
+    "type": "block",
+    "title": "Shatter",
+    "description": "VFX composition block",
+    "tags": [
+      "html-in-canvas",
+      "webgl"
+    ],
+    "href": "/catalog/blocks/vfx-shatter",
+    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vfx-shatter.png"
+  },
+  {
+    "name": "vfx-text-cursor",
+    "type": "block",
+    "title": "VFX Text Cursor",
+    "description": "Dramatic text reveal with cursor glow, chromatic shadow rays, and directional lighting on a black stage. Canvas-based shader post-processing with spectral color edges.",
+    "tags": [
+      "html-in-canvas",
+      "text",
+      "shader",
+      "cursor",
+      "chromatic"
+    ],
+    "href": "/catalog/blocks/vfx-text-cursor",
+    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vfx-text-cursor.png"
   },
   {
     "name": "vpn-youtube-spot",

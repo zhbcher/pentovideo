@@ -265,6 +265,8 @@ export interface BuildChromeArgsOptions {
   platform?: NodeJS.Platform;
 }
 
+const CANVAS_DRAW_ELEMENT_FEATURE_FLAG = "--enable-features=CanvasDrawElement";
+
 export function buildChromeArgs(
   options: BuildChromeArgsOptions,
   config?: Partial<Pick<EngineConfig, "browserGpuMode" | "disableGpu" | "chromePath">>,
@@ -282,6 +284,7 @@ export function buildChromeArgs(
     "--no-sandbox",
     "--disable-setuid-sandbox",
     "--disable-dev-shm-usage",
+    CANVAS_DRAW_ELEMENT_FEATURE_FLAG,
     "--enable-webgl",
     "--ignore-gpu-blocklist",
     ...getBrowserGpuArgs(browserGpuMode, platform),

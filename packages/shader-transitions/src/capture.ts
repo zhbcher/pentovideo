@@ -90,11 +90,81 @@ function stabilizeTransformedBoxShadows(root: HTMLElement): void {
   });
 }
 
+// ── HTML-in-Canvas (drawElementImage) native capture ──────────────────────
+
+interface CanvasWithLayoutSubtree extends HTMLCanvasElement {
+  layoutSubtree: boolean;
+  requestPaint: () => void;
+}
+
+interface CanvasRenderingContext2DWithDrawElement extends CanvasRenderingContext2D {
+  drawElementImage: (element: Element, x: number, y: number, w: number, h: number) => void;
+}
+
+export function isHtmlInCanvasCaptureSupported(): boolean {
+  if (typeof document === "undefined") return false;
+  const probe = document.createElement("canvas") as HTMLCanvasElement & {
+    layoutSubtree?: boolean;
+  };
+  probe.setAttribute("layoutsubtree", "");
+  if (!("layoutSubtree" in probe)) return false;
+  const ctx = probe.getContext("2d") as CanvasRenderingContext2DWithDrawElement | null;
+  return ctx != null && typeof ctx.drawElementImage === "function";
+}
+
+async function captureSceneWithHtmlInCanvas(
+  sceneEl: HTMLElement,
+  bgColor: string,
+  width: number,
+  height: number,
+): Promise<HTMLCanvasElement> {
+  const canvas = document.createElement("canvas") as CanvasWithLayoutSubtree;
+  canvas.width = width;
+  canvas.height = height;
+  canvas.setAttribute("layoutsubtree", "");
+  canvas.style.cssText = `position:fixed;top:0;left:0;width:${width}px;height:${height}px;z-index:-9999;pointer-events:none;opacity:0`;
+  canvas.appendChild(sceneEl.cloneNode(true));
+  document.body.appendChild(canvas);
+
+  try {
+    await new Promise<void>((r) => requestAnimationFrame(() => requestAnimationFrame(() => r())));
+    const ctx = canvas.getContext("2d") as CanvasRenderingContext2DWithDrawElement;
+    ctx.fillStyle = bgColor;
+    ctx.fillRect(0, 0, width, height);
+    const child = canvas.firstElementChild;
+    if (child) ctx.drawElementImage(child, 0, 0, width, height);
+    const result = document.createElement("canvas");
+    result.width = width;
+    result.height = height;
+    result.getContext("2d")!.drawImage(canvas, 0, 0);
+    canvas.remove();
+    return result;
+  } catch (err) {
+    canvas.remove();
+    throw err;
+  }
+}
+
 export function captureScene(
   sceneEl: HTMLElement,
   bgColor: string,
   width: number = DEFAULT_WIDTH,
   height: number = DEFAULT_HEIGHT,
+  options: CaptureSceneOptions = {},
+): Promise<HTMLCanvasElement> {
+  if (isHtmlInCanvasCaptureSupported() && !options.preferBrowserPaint) {
+    return captureSceneWithHtmlInCanvas(sceneEl, bgColor, width, height).catch(() =>
+      captureSceneWithHtml2Canvas(sceneEl, bgColor, width, height, options),
+    );
+  }
+  return captureSceneWithHtml2Canvas(sceneEl, bgColor, width, height, options);
+}
+
+function captureSceneWithHtml2Canvas(
+  sceneEl: HTMLElement,
+  bgColor: string,
+  width: number,
+  height: number,
   options: CaptureSceneOptions = {},
 ): Promise<HTMLCanvasElement> {
   const captureWithRenderer = (foreignObjectRendering: boolean): Promise<HTMLCanvasElement> => {

@@ -32,6 +32,11 @@ const tl = init({
 
 The `init()` function pre-captures animated scene samples for every transition, composites cached samples with the selected shader during playback, and returns a GSAP timeline. Scene animations keep advancing through shader transitions without running DOM captures in the playback loop. If WebGL is unavailable, it falls back to normal timeline playback without shader compositing.
 
+When the browser exposes Chrome's experimental CanvasDrawElement API, scene
+capture uses native HTML-in-canvas via `drawElementImage()`. Other browsers keep
+using the existing `html2canvas` fallback. You can feature-detect the native path
+with `isHtmlInCanvasCaptureSupported()`.
+
 ### With an existing timeline
 
 Pass your own GSAP timeline to layer transitions onto it:

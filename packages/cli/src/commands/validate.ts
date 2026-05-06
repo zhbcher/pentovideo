@@ -148,18 +148,22 @@ async function validateInBrowser(
   const errors: ConsoleEntry[] = [];
   const warnings: ConsoleEntry[] = [];
   let contrast: ContrastEntry[] | undefined;
+  const viewport = resolveCompositionViewportFromHtml(html);
 
   try {
     const browser = await ensureBrowser();
     const puppeteer = await import("puppeteer-core");
+    const { buildChromeArgs } = await import("@hyperframes/engine");
+    const browserGpuMode =
+      process.env.PRODUCER_BROWSER_GPU_MODE === "software" ? "software" : "hardware";
     const chromeBrowser = await puppeteer.default.launch({
       headless: true,
       executablePath: browser.executablePath,
-      args: ["--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage"],
+      args: buildChromeArgs({ ...viewport, captureMode: "screenshot" }, { browserGpuMode }),
     });
 
     const page = await chromeBrowser.newPage();
-    await page.setViewport(resolveCompositionViewportFromHtml(html));
+    await page.setViewport(viewport);
 
     page.on("console", (msg) => {
       const type = msg.type();
