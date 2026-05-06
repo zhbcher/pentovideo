@@ -143,6 +143,21 @@ describe("renderLocal browser GPU config", () => {
     expect(producerState.createdJobs[0]?.variables).toEqual({ title: "Hello", count: 3 });
   });
 
+  it("forwards format: png-sequence through to createRenderJob", async () => {
+    const { renderLocal } = await import("./render.js");
+    await renderLocal("/tmp/project", "/tmp/frames", {
+      fps: 30,
+      quality: "standard",
+      format: "png-sequence",
+      gpu: false,
+      browserGpuMode: "software",
+      hdrMode: "auto",
+      quiet: true,
+    });
+
+    expect(producerState.createdJobs[0]?.format).toBe("png-sequence");
+  });
+
   it("omits variables from createRenderJob when not provided", async () => {
     const { renderLocal } = await import("./render.js");
     await renderLocal("/tmp/project", "/tmp/out.mp4", {
@@ -165,7 +180,7 @@ describe("renderLocal browser GPU config", () => {
       quality: "standard",
       format: "mp4",
       gpu: false,
-      browserGpu: false,
+      browserGpuMode: "software",
       hdrMode: "auto",
       quiet: true,
       entryFile: "compositions/intro.html",
@@ -181,7 +196,7 @@ describe("renderLocal browser GPU config", () => {
       quality: "standard",
       format: "mp4",
       gpu: false,
-      browserGpu: false,
+      browserGpuMode: "software",
       hdrMode: "auto",
       quiet: true,
     });
