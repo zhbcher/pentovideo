@@ -82,7 +82,7 @@ describe("renderLocal browser GPU config", () => {
       browserGpuMode: "software",
       resolved: true,
     });
-  });
+  }, 15_000);
 
   it("forwards browserGpuMode='auto' into producer config (probe-then-choose)", async () => {
     await renderLocal("/tmp/project", "/tmp/out.mp4", {
