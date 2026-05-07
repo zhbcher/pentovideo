@@ -423,7 +423,7 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
     <main>
       <h1>Studio bundle missing</h1>
       <p>The preview server started, but this CLI build does not contain the Studio assets.</p>
-      <code>pnpm run build</code>
+      <code>bun run build</code>
     </main>
   </body>
 </html>`,
