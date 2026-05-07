@@ -15,21 +15,35 @@ interface RenderQueueProps {
   isRendering: boolean;
 }
 
-const RESOLUTION_OPTIONS: { value: ResolutionPreset | "auto"; label: string; title: string }[] = [
-  { value: "auto", label: "Auto", title: "Render at the composition's authored resolution" },
-  { value: "landscape", label: "1080p", title: "1920×1080 landscape" },
-  { value: "portrait", label: "1080p ↕", title: "1080×1920 portrait" },
-  {
-    value: "landscape-4k",
+// Indexing the table by `ResolutionPreset | "auto"` makes adding a new preset
+// to `core.types` (e.g. an 8K row) a TypeScript error here instead of a
+// silently missing dropdown entry. Order is fixed by the array below.
+const RESOLUTION_LABELS: Record<ResolutionPreset | "auto", { label: string; title: string }> = {
+  auto: { label: "Auto", title: "Render at the composition's authored resolution" },
+  landscape: { label: "1080p", title: "1920×1080 landscape" },
+  portrait: { label: "1080p ↕", title: "1080×1920 portrait" },
+  "landscape-4k": {
     label: "4K",
     title: "3840×2160 — supersamples a 1080p composition via Chrome DPR. Slower, larger files.",
   },
-  {
-    value: "portrait-4k",
+  "portrait-4k": {
     label: "4K ↕",
     title: "2160×3840 — supersamples a 1080p portrait composition via Chrome DPR.",
   },
+};
+
+const RESOLUTION_OPTION_ORDER: (ResolutionPreset | "auto")[] = [
+  "auto",
+  "landscape",
+  "portrait",
+  "landscape-4k",
+  "portrait-4k",
 ];
+
+const RESOLUTION_OPTIONS = RESOLUTION_OPTION_ORDER.map((value) => ({
+  value,
+  ...RESOLUTION_LABELS[value],
+}));
 
 const FORMAT_INFO: Record<"mp4" | "webm" | "mov", { label: string; desc: string }> = {
   mp4: { label: "MP4", desc: "Best for general use. Smallest file, universal playback." },
@@ -128,6 +142,10 @@ function FormatExportButton({
   return (
     <div className="flex items-center gap-1">
       <FormatInfoTooltip format={format} />
+      {/* Resolution must remain the leftmost <select> in this row — it
+          carries `rounded-l` for the joined-button look. If you ever hide it
+          (feature-flag, etc.), move `rounded-l` to whichever element ends up
+          leftmost. */}
       <select
         value={resolution}
         onChange={(e) => setResolution(e.target.value as ResolutionPreset | "auto")}
