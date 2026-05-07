@@ -23,11 +23,18 @@ export interface VideoFrameInjectorOptions extends Partial<
 interface FrameSourceCacheStats {
   entries: number;
   bytes: number;
+  /** Total entries evicted since cache creation. A high count vs a small
+   * composition signals the byte budget is too tight (cache thrash). */
+  evictions: number;
+  /** Total inserts rejected because the entry alone exceeds bytesLimit.
+   * Non-zero means a single frame is bigger than the configured budget —
+   * raise `frameDataUriCacheBytesLimitMb` if it recurs in production. */
+  oversizedRejections: number;
 }
 
 interface FrameSourceCache {
   get: (framePath: string) => Promise<string>;
-  /** Exposed for tests; reflects the current cache occupancy. */
+  /** Exposed for tests + telemetry; reflects current cache occupancy. */
   stats: () => FrameSourceCacheStats;
 }
 
@@ -36,6 +43,14 @@ interface FrameSourceCache {
  * oldest entry — entry count protects against pathological many-tiny-frames
  * cases, and the byte budget keeps memory bounded when the per-frame data
  * URI grows (4K PNG frames are ~33 MB once base64-encoded).
+ *
+ * If a single entry's data URI exceeds `bytesLimit`, we skip caching it
+ * (returning the URI directly to the caller). Without this guard, the
+ * post-insert eviction loop would drop the entry we just inserted and the
+ * cache would degrade into a CPU hot path — every subsequent `get()` would
+ * re-read from disk and re-base64 the same frame. The lost cache hit costs
+ * one re-read per access; pretending to cache and immediately evicting
+ * costs one re-read per access *plus* the futile insert/evict bookkeeping.
  */
 function createFrameSourceCache(
   entryLimit: number,
@@ -46,6 +61,8 @@ function createFrameSourceCache(
   const sizes = new Map<string, number>();
   const inFlight = new Map<string, Promise<string>>();
   let totalBytes = 0;
+  let evictions = 0;
+  let oversizedRejections = 0;
 
   function evictOldest(): void {
     const oldestKey = cache.keys().next().value;
@@ -54,9 +71,24 @@ function createFrameSourceCache(
     cache.delete(oldestKey);
     sizes.delete(oldestKey);
     totalBytes = Math.max(0, totalBytes - size);
+    evictions++;
   }
 
   function remember(framePath: string, dataUri: string): string {
+    // Skip caching entries that alone exceed the byte budget. Caching them
+    // would trigger immediate self-eviction on insert and pollute LRU order
+    // by displacing the previous entry's slot.
+    if (dataUri.length > bytesLimit) {
+      oversizedRejections++;
+      // Drop any stale prior version so the caller sees consistent state.
+      if (cache.has(framePath)) {
+        const prev = sizes.get(framePath) ?? 0;
+        cache.delete(framePath);
+        sizes.delete(framePath);
+        totalBytes = Math.max(0, totalBytes - prev);
+      }
+      return dataUri;
+    }
     if (cache.has(framePath)) {
       const prev = sizes.get(framePath) ?? 0;
       cache.delete(framePath);
@@ -104,7 +136,12 @@ function createFrameSourceCache(
 
   return {
     get,
-    stats: () => ({ entries: cache.size, bytes: totalBytes }),
+    stats: () => ({
+      entries: cache.size,
+      bytes: totalBytes,
+      evictions,
+      oversizedRejections,
+    }),
   };
 }
 
