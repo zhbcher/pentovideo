@@ -15,28 +15,60 @@ import { type BeforeCaptureHook } from "./frameCapture.js";
 import { DEFAULT_CONFIG, type EngineConfig } from "../config.js";
 
 export interface VideoFrameInjectorOptions extends Partial<
-  Pick<EngineConfig, "frameDataUriCacheLimit">
+  Pick<EngineConfig, "frameDataUriCacheLimit" | "frameDataUriCacheBytesLimitMb">
 > {
   frameSrcResolver?: (framePath: string) => string | null;
 }
 
+interface FrameSourceCacheStats {
+  entries: number;
+  bytes: number;
+}
+
+interface FrameSourceCache {
+  get: (framePath: string) => Promise<string>;
+  /** Exposed for tests; reflects the current cache occupancy. */
+  stats: () => FrameSourceCacheStats;
+}
+
+/**
+ * Two-bound LRU keyed by frame path. Either bound triggers eviction of the
+ * oldest entry — entry count protects against pathological many-tiny-frames
+ * cases, and the byte budget keeps memory bounded when the per-frame data
+ * URI grows (4K PNG frames are ~33 MB once base64-encoded).
+ */
 function createFrameSourceCache(
-  cacheLimit: number,
+  entryLimit: number,
+  bytesLimit: number,
   frameSrcResolver?: (framePath: string) => string | null,
-) {
+): FrameSourceCache {
   const cache = new Map<string, string>();
+  const sizes = new Map<string, number>();
   const inFlight = new Map<string, Promise<string>>();
+  let totalBytes = 0;
+
+  function evictOldest(): void {
+    const oldestKey = cache.keys().next().value;
+    if (!oldestKey) return;
+    const size = sizes.get(oldestKey) ?? 0;
+    cache.delete(oldestKey);
+    sizes.delete(oldestKey);
+    totalBytes = Math.max(0, totalBytes - size);
+  }
 
   function remember(framePath: string, dataUri: string): string {
     if (cache.has(framePath)) {
+      const prev = sizes.get(framePath) ?? 0;
       cache.delete(framePath);
+      sizes.delete(framePath);
+      totalBytes = Math.max(0, totalBytes - prev);
     }
+    const size = dataUri.length;
     cache.set(framePath, dataUri);
-    if (cache.size > cacheLimit) {
-      const oldestKey = cache.keys().next().value;
-      if (oldestKey) {
-        cache.delete(oldestKey);
-      }
+    sizes.set(framePath, size);
+    totalBytes += size;
+    while ((cache.size > entryLimit || totalBytes > bytesLimit) && cache.size > 0) {
+      evictOldest();
     }
     return dataUri;
   }
@@ -70,8 +102,13 @@ function createFrameSourceCache(
     return pending;
   }
 
-  return { get };
+  return {
+    get,
+    stats: () => ({ entries: cache.size, bytes: totalBytes }),
+  };
 }
+
+export const __testing = { createFrameSourceCache };
 
 /**
  * Creates a BeforeCaptureHook that injects pre-extracted video frames
@@ -83,11 +120,16 @@ export function createVideoFrameInjector(
 ): BeforeCaptureHook | null {
   if (!frameLookup) return null;
 
-  const cacheLimit = Math.max(
+  const entryLimit = Math.max(
     32,
     config?.frameDataUriCacheLimit ?? DEFAULT_CONFIG.frameDataUriCacheLimit,
   );
-  const frameCache = createFrameSourceCache(cacheLimit, config?.frameSrcResolver);
+  const bytesLimitMb = Math.max(
+    64,
+    config?.frameDataUriCacheBytesLimitMb ?? DEFAULT_CONFIG.frameDataUriCacheBytesLimitMb,
+  );
+  const bytesLimit = bytesLimitMb * 1024 * 1024;
+  const frameCache = createFrameSourceCache(entryLimit, bytesLimit, config?.frameSrcResolver);
   const lastInjectedFrameByVideo = new Map<string, number>();
 
   return async (page: Page, time: number) => {
