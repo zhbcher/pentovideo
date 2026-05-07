@@ -26,6 +26,19 @@ vi.mock("../telemetry/events.js", () => ({
 
 describe("renderLocal browser GPU config", () => {
   const savedEnv = new Map<string, string | undefined>();
+  // Pre-resolve once. The first dynamic `import("./render.js")` in this file
+  // takes >5 s on Windows runners (cold module load) — long enough to blow
+  // vitest's default 5 s timeout in whichever test happens to be first. When
+  // that test times out, its leaked late `createRenderJob` call lands AFTER
+  // the next test's `beforeEach` clears `producerState.createdJobs`, shifting
+  // index 0 and corrupting unrelated assertions. Importing once in
+  // `beforeAll` keeps every test fast and isolated.
+  let renderLocal: typeof import("./render.js").renderLocal;
+  let resolveBrowserGpuForCli: typeof import("./render.js").resolveBrowserGpuForCli;
+
+  beforeAll(async () => {
+    ({ renderLocal, resolveBrowserGpuForCli } = await import("./render.js"));
+  });
 
   function setEnv(key: string, value: string) {
     savedEnv.set(key, process.env[key]);
@@ -54,7 +67,6 @@ describe("renderLocal browser GPU config", () => {
   it("passes an explicit software override for --no-browser-gpu even when env requests hardware", async () => {
     setEnv("PRODUCER_BROWSER_GPU_MODE", "hardware");
 
-    const { renderLocal } = await import("./render.js");
     await renderLocal("/tmp/project", "/tmp/out.mp4", {
       fps: 30,
       quality: "standard",
@@ -73,7 +85,6 @@ describe("renderLocal browser GPU config", () => {
   });
 
   it("forwards browserGpuMode='auto' into producer config (probe-then-choose)", async () => {
-    const { renderLocal } = await import("./render.js");
     await renderLocal("/tmp/project", "/tmp/out.mp4", {
       fps: 30,
       quality: "standard",
@@ -92,7 +103,6 @@ describe("renderLocal browser GPU config", () => {
   });
 
   it("passes an explicit hardware override for default local browser GPU", async () => {
-    const { renderLocal } = await import("./render.js");
     await renderLocal("/tmp/project", "/tmp/out.mp4", {
       fps: 30,
       quality: "standard",
@@ -110,9 +120,7 @@ describe("renderLocal browser GPU config", () => {
     });
   });
 
-  it("resolves browser GPU from CLI flags, Docker mode, and env fallback", async () => {
-    const { resolveBrowserGpuForCli } = await import("./render.js");
-
+  it("resolves browser GPU from CLI flags, Docker mode, and env fallback", () => {
     // Default (no flag, no env): auto — engine probes and chooses.
     expect(resolveBrowserGpuForCli(false, undefined, undefined)).toBe("auto");
     // Env override
@@ -128,7 +136,6 @@ describe("renderLocal browser GPU config", () => {
   });
 
   it("forwards parsed --variables payload to createRenderJob", async () => {
-    const { renderLocal } = await import("./render.js");
     await renderLocal("/tmp/project", "/tmp/out.mp4", {
       fps: 30,
       quality: "standard",
@@ -144,7 +151,6 @@ describe("renderLocal browser GPU config", () => {
   });
 
   it("forwards format: png-sequence through to createRenderJob", async () => {
-    const { renderLocal } = await import("./render.js");
     await renderLocal("/tmp/project", "/tmp/frames", {
       fps: 30,
       quality: "standard",
@@ -159,7 +165,6 @@ describe("renderLocal browser GPU config", () => {
   });
 
   it("omits variables from createRenderJob when not provided", async () => {
-    const { renderLocal } = await import("./render.js");
     await renderLocal("/tmp/project", "/tmp/out.mp4", {
       fps: 30,
       quality: "standard",
@@ -174,7 +179,6 @@ describe("renderLocal browser GPU config", () => {
   });
 
   it("forwards entryFile to createRenderJob when --composition is set", async () => {
-    const { renderLocal } = await import("./render.js");
     await renderLocal("/tmp/project", "/tmp/out.mp4", {
       fps: 30,
       quality: "standard",
@@ -190,7 +194,6 @@ describe("renderLocal browser GPU config", () => {
   });
 
   it("omits entryFile from createRenderJob when --composition is not set", async () => {
-    const { renderLocal } = await import("./render.js");
     await renderLocal("/tmp/project", "/tmp/out.mp4", {
       fps: 30,
       quality: "standard",
@@ -211,7 +214,6 @@ describe("renderLocal browser GPU config", () => {
       .mockImplementation((code?: string | number | null): never => {
         throw new Error(`process.exit:${code ?? ""}`);
       });
-    const { renderLocal } = await import("./render.js");
 
     await renderLocal("/tmp/project", "/tmp/out.mp4", {
       fps: 30,
