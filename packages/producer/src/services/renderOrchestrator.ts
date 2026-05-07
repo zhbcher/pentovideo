@@ -594,6 +594,7 @@ export function resolveDeviceScaleFactor(input: {
   compositionHeight: number;
   outputResolution: CanvasResolution | undefined;
   hdrRequested: boolean;
+  alphaRequested: boolean;
 }): number {
   if (!input.outputResolution) return 1;
   if (input.hdrRequested) {
@@ -601,6 +602,14 @@ export function resolveDeviceScaleFactor(input: {
       "outputResolution cannot be combined with hdrMode='force-hdr'. " +
         "HDR rendering composites at composition dimensions and does not yet " +
         "support supersampling. Pick one or render in two passes.",
+    );
+  }
+  if (input.alphaRequested) {
+    throw new Error(
+      "outputResolution cannot be combined with alpha output (--format webm|mov|png-sequence). " +
+        "The alpha screenshot path does not yet apply deviceScaleFactor and would silently " +
+        "produce composition-resolution frames. Render alpha at composition resolution and " +
+        "upscale separately, or use --format mp4.",
     );
   }
   const target = CANVAS_DIMENSIONS[input.outputResolution];
@@ -2131,6 +2140,7 @@ export async function executeRenderJob(
       compositionHeight: height,
       outputResolution: job.config.outputResolution,
       hdrRequested: job.config.hdrMode === "force-hdr",
+      alphaRequested: needsAlpha,
     });
     const outputWidth = width * deviceScaleFactor;
     const outputHeight = height * deviceScaleFactor;
