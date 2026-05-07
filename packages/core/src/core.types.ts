@@ -28,6 +28,34 @@ export const CANVAS_DIMENSIONS = {
   "portrait-4k": { width: 2160, height: 3840 },
 } as const;
 
+export const VALID_CANVAS_RESOLUTIONS = Object.keys(
+  CANVAS_DIMENSIONS,
+) as readonly CanvasResolution[];
+
+const RESOLUTION_ALIASES: Record<string, CanvasResolution> = {
+  "1080p": "landscape",
+  hd: "landscape",
+  "1080p-portrait": "portrait",
+  "portrait-1080p": "portrait",
+  "4k": "landscape-4k",
+  uhd: "landscape-4k",
+  "4k-portrait": "portrait-4k",
+};
+
+/**
+ * Map a user-facing resolution string (canonical name or alias) to a
+ * `CanvasResolution`. Returns undefined for unknown values so callers
+ * can produce their own "invalid" UX (CLI exit, route validation, etc.).
+ */
+export function normalizeResolutionFlag(input: string | undefined): CanvasResolution | undefined {
+  if (!input) return undefined;
+  const lowered = input.toLowerCase();
+  if ((VALID_CANVAS_RESOLUTIONS as readonly string[]).includes(lowered)) {
+    return lowered as CanvasResolution;
+  }
+  return RESOLUTION_ALIASES[lowered];
+}
+
 export interface TimelineElementBase {
   id: string;
   type: TimelineElementType;
