@@ -756,6 +756,7 @@ describe("resolveDeviceScaleFactor", () => {
     compositionWidth: 1920,
     compositionHeight: 1080,
     hdrRequested: false,
+    alphaRequested: false,
   } as const;
 
   it("returns 1 when no outputResolution is set (default behavior)", () => {
@@ -780,10 +781,10 @@ describe("resolveDeviceScaleFactor", () => {
   it("returns 1 when the composition already matches the requested resolution", () => {
     expect(
       resolveDeviceScaleFactor({
+        ...defaults,
         compositionWidth: 3840,
         compositionHeight: 2160,
         outputResolution: "landscape-4k",
-        hdrRequested: false,
       }),
     ).toBe(1);
   });
@@ -798,6 +799,16 @@ describe("resolveDeviceScaleFactor", () => {
     ).toThrow(/hdrMode='force-hdr'/);
   });
 
+  it("rejects alpha + outputResolution (the alpha capture path doesn't apply DPR yet)", () => {
+    expect(() =>
+      resolveDeviceScaleFactor({
+        ...defaults,
+        outputResolution: "landscape-4k",
+        alphaRequested: true,
+      }),
+    ).toThrow(/alpha output/);
+  });
+
   it("rejects orientation mismatch (landscape comp → portrait-4k)", () => {
     expect(() =>
       resolveDeviceScaleFactor({ ...defaults, outputResolution: "portrait-4k" }),
@@ -807,24 +818,24 @@ describe("resolveDeviceScaleFactor", () => {
   it("rejects downsampling (4K composition → 1080p output)", () => {
     expect(() =>
       resolveDeviceScaleFactor({
+        ...defaults,
         compositionWidth: 3840,
         compositionHeight: 2160,
         outputResolution: "landscape",
-        hdrRequested: false,
       }),
     ).toThrow(/Downsampling/);
   });
 
   it("rejects non-integer scale factors", () => {
-    // 1280×720 → 3840×2160 would be 3×, but width 1280 → 3840 is also 3× — that's actually integer.
-    // Use 1280×720 → 2160×3840 (mismatched orientation triggers aspect first), so use a real
-    // non-integer: 1500×844 → 3840×2160 = 2.56×.
+    // 1500×844 → 3840×2160 has slightly different ratios in width vs height.
+    // The aspect-ratio guard fires first; pinning the rejection message
+    // covers both error paths since either is an acceptable failure here.
     expect(() =>
       resolveDeviceScaleFactor({
+        ...defaults,
         compositionWidth: 1500,
         compositionHeight: 844,
         outputResolution: "landscape-4k",
-        hdrRequested: false,
       }),
     ).toThrow(/aspect ratio|non-integer/);
   });
