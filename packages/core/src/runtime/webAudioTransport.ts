@@ -91,10 +91,16 @@ export class WebAudioTransport {
       sourceNode.connect(gainNode);
       gainNode.connect(this._masterGain);
 
-      const offset = Math.max(0, compositionTime - compositionStart + mediaStart);
+      const elapsed = compositionTime - compositionStart;
       const scheduledAt = this._ctx.currentTime;
       this._scheduleOffset = scheduledAt - compositionTime;
-      sourceNode.start(0, offset);
+
+      if (elapsed >= 0) {
+        sourceNode.start(0, elapsed + mediaStart);
+      } else {
+        const delay = -elapsed;
+        sourceNode.start(scheduledAt + delay, mediaStart);
+      }
 
       const priorMuted = el.muted;
       el.muted = true;

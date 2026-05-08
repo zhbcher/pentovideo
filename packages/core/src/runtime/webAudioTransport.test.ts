@@ -80,4 +80,85 @@ describe("WebAudioTransport", () => {
     expect(transport.context).toBeNull();
     expect(transport.isActive()).toBe(false);
   });
+
+  describe("schedulePlayback timing", () => {
+    function createMockAudioContext(currentTime = 100) {
+      const startFn = vi.fn();
+      const sourceNode = {
+        buffer: null as AudioBuffer | null,
+        start: startFn,
+        connect: vi.fn(),
+      };
+      const gainNode = {
+        gain: { value: 1 },
+        connect: vi.fn(),
+      };
+      const masterGain = {
+        gain: { value: 1 },
+        connect: vi.fn(),
+      };
+      const ctx = {
+        currentTime,
+        state: "running",
+        resume: vi.fn(),
+        createBufferSource: vi.fn(() => sourceNode),
+        createGain: vi.fn(() => gainNode),
+        destination: {},
+        close: vi.fn(),
+      };
+      return { ctx, sourceNode, gainNode, masterGain, startFn };
+    }
+
+    function setupTransport(currentTime = 100) {
+      const transport = new WebAudioTransport();
+      const mock = createMockAudioContext(currentTime);
+      (transport as unknown as { _ctx: unknown })._ctx = mock.ctx;
+      (transport as unknown as { _masterGain: unknown })._masterGain = mock.masterGain;
+      const gen = transport.startGeneration();
+      return { transport, mock, gen };
+    }
+
+    const mockBuffer = {} as AudioBuffer;
+    const mockEl = { muted: false } as HTMLMediaElement;
+
+    it("starts in-progress clips immediately with correct buffer offset", async () => {
+      const { transport, mock, gen } = setupTransport(100);
+
+      await transport.schedulePlayback(mockEl, mockBuffer, 5, 0, 8, 1, gen);
+
+      expect(mock.startFn).toHaveBeenCalledWith(0, 3);
+    });
+
+    it("starts in-progress clips with mediaStart offset", async () => {
+      const { transport, mock, gen } = setupTransport(100);
+
+      await transport.schedulePlayback(mockEl, mockBuffer, 5, 2, 8, 1, gen);
+
+      expect(mock.startFn).toHaveBeenCalledWith(0, 5);
+    });
+
+    it("schedules future clips with delay instead of playing immediately", async () => {
+      const { transport, mock, gen } = setupTransport(100);
+
+      await transport.schedulePlayback(mockEl, mockBuffer, 10, 0, 2, 1, gen);
+
+      expect(mock.startFn).toHaveBeenCalledWith(108, 0);
+    });
+
+    it("schedules future clips with correct mediaStart", async () => {
+      const { transport, mock, gen } = setupTransport(100);
+
+      await transport.schedulePlayback(mockEl, mockBuffer, 10, 1.5, 2, 1, gen);
+
+      expect(mock.startFn).toHaveBeenCalledWith(108, 1.5);
+    });
+
+    it("starts clips at exact composition start time immediately", async () => {
+      const { transport, mock, gen } = setupTransport(100);
+
+      await transport.schedulePlayback(mockEl, mockBuffer, 5, 0, 5, 1, gen);
+
+      expect(mock.startFn).toHaveBeenCalledWith(0, 0);
+    });
+  });
 });
