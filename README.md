@@ -17,7 +17,7 @@
 <p align="center"><b>Write HTML. Render video. Built for agents.</b></p>
 
 <p align="center">
-  <img src="https://static.heygen.ai/hyperframes-oss/docs/images/readme-demo.gif" alt="HyperFrames demo — HTML code on the left transforms into a rendered video on the right" width="800">
+  <video src="https://github.com/user-attachments/assets/c56cdc28-d2f7-4bca-9c03-58389a87d99c" alt="HyperFrames demo — HTML code on the left transforms into a rendered video on the right" autoplay loop muted playsinline width="800"></video>
 </p>
 
 Hyperframes is an open-source video rendering framework that lets you create, preview, and render HTML-based video compositions — with first-class support for AI agents.
