@@ -91,7 +91,7 @@ Use a 2-3 letter prefix. ALL element IDs must use this prefix to avoid collision
   "files": [
     {
       "path": "{component-name}.html",
-      "target": "compositions/components/{component-name}/{component-name}.html",
+      "target": "compositions/components/{component-name}.html",
       "type": "hyperframes:snippet"
     }
   ]
@@ -152,39 +152,49 @@ hyperframes validate --no-contrast  # 0 console errors required
 # Render preview video
 hyperframes render -o preview.mp4
 
-# Upload thumbnail to S3 (required for catalog card)
-aws s3 cp preview.mp4 s3://static.heygen.ai/hyperframes-oss/catalog/{block-name}/preview.mp4
-
 # Snapshot for visual QA
 hyperframes snapshot --at "1.0,3.0,5.0,7.0"
+
+# Publish to hyperframes.dev for review
+npx hyperframes publish
 ```
+
+**Catalog preview image** — The catalog card uses a PNG at `docs/images/catalog/{kind}/{name}.png` (where `{kind}` is `blocks` or `components`). Generate it from a snapshot, then:
+
+- **HeyGen internal contributors:** run `scripts/upload-docs-images.sh` (requires AWS profile `engineering-767398024897`)
+- **External contributors:** attach the preview MP4 to your PR description. A maintainer will generate and upload the catalog image before merging.
 
 ### Step 6: Ship
 
 **All steps are required. Missing any one produces a broken catalog entry.**
 
+`{kind}` is `blocks` or `components` depending on what you built in Step 1.
+
 ```bash
 # 1. Create branch
-git checkout -b feat/registry-{block-name}
+git checkout -b feat/registry-{name}
 
 # 2. Format HTML
-npx oxfmt registry/blocks/{block-name}/*.html
+npx oxfmt registry/{kind}/{name}/*.html
 
 # 3. Update registry/registry.json — add entry to the "items" array:
-#    { "name": "{block-name}", "type": "hyperframes:block" }
+#    { "name": "{name}", "type": "hyperframes:block" }  (or "hyperframes:component")
 
 # 4. Generate catalog docs page
 npx tsx scripts/generate-catalog-pages.ts
 
-# 5. Stage everything
-git add registry/blocks/{block-name}/ registry/registry.json docs/catalog/
+# 5. Publish to hyperframes.dev so reviewers can preview
+npx hyperframes publish
 
-# 6. Commit
-git commit -m "feat(registry): add {block-name} — {one sentence}"
+# 6. Stage everything
+git add registry/{kind}/{name}/ registry/registry.json docs/catalog/
 
-# 7. Push and open PR with preview linked
-git push origin feat/registry-{block-name}
-gh pr create --title "feat(registry): {block-name}" --body "preview: {s3-url}"
+# 7. Commit
+git commit -m "feat(registry): add {name} — {one sentence}"
+
+# 8. Push and open PR with hyperframes.dev link
+git push origin feat/registry-{name}
+gh pr create --title "feat(registry): {name}" --body "preview: {hyperframes.dev-url}"
 ```
 
 **If you don't have a GitHub account:** you need one to open a PR. Sign up at https://github.com/signup, then run `gh auth login`.
@@ -196,5 +206,6 @@ gh pr create --title "feat(registry): {block-name}" --body "preview: {s3-url}"
 - [ ] `npx oxfmt --check` passes
 - [ ] `registry/registry.json` updated with new entry
 - [ ] `scripts/generate-catalog-pages.ts` run (docs page generated)
-- [ ] Preview video uploaded to S3
+- [ ] `npx hyperframes publish` run (claim your project URL)
+- [ ] Preview MP4 attached to PR (external) or catalog PNG uploaded (internal)
 - [ ] All IDs unique and prefixed

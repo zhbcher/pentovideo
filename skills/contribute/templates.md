@@ -313,7 +313,9 @@ Copy-paste starter templates for each component type. These embed the proven pat
 
 ---
 
-## registry-item.json Template
+## registry-item.json Templates
+
+**For blocks:**
 
 ```json
 {
@@ -322,7 +324,6 @@ Copy-paste starter templates for each component type. These embed the proven pat
   "type": "hyperframes:block",
   "title": "Human-Readable Title",
   "description": "One sentence: what it does and who uses it",
-  "stability": "experimental",
   "dimensions": { "width": 1920, "height": 1080 },
   "duration": 10,
   "tags": ["category", "subcategory"],
@@ -336,9 +337,81 @@ Copy-paste starter templates for each component type. These embed the proven pat
 }
 ```
 
+**For components** (no `dimensions` or `duration`):
+
+```json
+{
+  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "name": "COMPONENTNAME",
+  "type": "hyperframes:component",
+  "title": "Human-Readable Title",
+  "description": "One sentence: what it does",
+  "tags": ["category"],
+  "files": [
+    {
+      "path": "COMPONENTNAME.html",
+      "target": "compositions/components/COMPONENTNAME.html",
+      "type": "hyperframes:snippet"
+    }
+  ]
+}
+```
+
 Tags by category:
 
 - Captions: `captions`, `viral`, `professional`, `karaoke`, `minimal`
 - VFX: `three-js`, `particles`, `shader`, `gpu`
 - Transitions: `transition`, `shader`, `wipe`, `dissolve`
 - Blocks: `lower-third`, `social`, `title-card`, `data-viz`
+- Components: `effect`, `overlay`, `text-treatment`
+
+---
+
+## Component Template
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: transparent;
+        overflow: hidden;
+      }
+      .COMPNAME-wrap {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="COMPNAME-wrap">
+      <!-- Your reusable effect/overlay here -->
+    </div>
+    <script>
+      (function () {
+        // Component snippet — no data-composition-id, no __timelines.
+        // The parent composition controls timing.
+        // Keep all class names and IDs prefixed with COMPNAME.
+      })();
+    </script>
+  </body>
+</html>
+```
+
+**Replace checklist:**
+
+- `COMPNAME` → your component name (e.g., `shimmer-sweep`)
+- Background should be `transparent` so it overlays cleanly
+- No `data-composition-id` or `window.__timelines` — the parent owns timing
