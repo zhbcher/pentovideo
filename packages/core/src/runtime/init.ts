@@ -1955,6 +1955,9 @@ export function initSandboxRuntimeModular(): void {
     for (const key of delegated) {
       Object.defineProperty(playerApi, key, {
         get: () => player[key],
+        set: (v: unknown) => {
+          (player as Record<string, unknown>)[key] = v;
+        },
         configurable: true,
       });
     }

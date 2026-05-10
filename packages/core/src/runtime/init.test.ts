@@ -282,4 +282,33 @@ describe("initSandboxRuntimeModular", () => {
     expect(video.paused).toBe(true);
     expect(video.currentTime).toBe(0);
   });
+
+  it("allows external code to reassign delegated __player methods", () => {
+    const root = document.createElement("div");
+    root.setAttribute("data-composition-id", "main");
+    root.setAttribute("data-root", "true");
+    root.setAttribute("data-start", "0");
+    root.setAttribute("data-width", "1920");
+    root.setAttribute("data-height", "1080");
+    document.body.appendChild(root);
+
+    (window as Window & { __timelines?: Record<string, RuntimeTimelineLike> }).__timelines = {
+      main: createMockTimeline(10),
+    };
+
+    initSandboxRuntimeModular();
+
+    const player = (
+      window as Window & {
+        __player?: { renderSeek: (timeSeconds: number) => void };
+      }
+    ).__player;
+    expect(player).toBeDefined();
+    if (!player) return;
+
+    const original = player.renderSeek;
+    expect(() => {
+      player.renderSeek = (t: number) => original(t);
+    }).not.toThrow();
+  });
 });
