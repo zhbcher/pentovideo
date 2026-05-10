@@ -590,6 +590,12 @@ export default defineCommand({
       description: "Path to a video file (MP4, WebM, MOV)",
       alias: "v",
     },
+    "video-legacy": {
+      type: "string",
+      description: "[renamed] Use --video (or -v) instead of -V.",
+      alias: "V",
+      hidden: true,
+    },
     audio: {
       type: "string",
       description: "Path to an audio file (MP3, WAV, M4A)",
@@ -634,6 +640,14 @@ export default defineCommand({
       console.error(
         c.error(
           `The --template flag was renamed to --example. Example:\n  npx hyperframes init ${args.name ?? "my-video"} --example "${args.template}"`,
+        ),
+      );
+      process.exit(1);
+    }
+    if (args["video-legacy"] !== undefined) {
+      console.error(
+        c.error(
+          `The -V short flag no longer maps to --video. Use --video (or -v). Example:\n  npx hyperframes init ${args.name ?? "my-video"} --video "${args["video-legacy"]}"`,
         ),
       );
       process.exit(1);
