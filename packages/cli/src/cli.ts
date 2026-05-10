@@ -5,7 +5,14 @@
 // `hyperframes --version` near-instant (~10ms vs ~80ms).
 import { VERSION } from "./version.js";
 
-if (process.argv.includes("--version") || process.argv.includes("-V")) {
+const argv = process.argv.slice(2);
+const commandArg = argv[0];
+const rootVersionRequested =
+  commandArg === "--version" ||
+  commandArg === "-V" ||
+  (commandArg === undefined && (argv.includes("--version") || argv.includes("-V")));
+
+if (rootVersionRequested) {
   console.log(VERSION);
   process.exit(0);
 }
@@ -64,8 +71,8 @@ const main = defineCommand({
 // Telemetry — lazy-loaded, captured references for exit handlers
 // ---------------------------------------------------------------------------
 
-const commandArg = process.argv[2];
-const command = commandArg && commandArg in subCommands ? commandArg : "unknown";
+const cliCommandArg = process.argv[2];
+const command = cliCommandArg && cliCommandArg in subCommands ? cliCommandArg : "unknown";
 const hasJsonFlag = process.argv.includes("--json");
 
 // Captured references — populated when the lazy imports resolve.
