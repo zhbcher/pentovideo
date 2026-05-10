@@ -158,13 +158,13 @@ This is suppressed in CI environments, non-TTY shells, and when `HYPERFRAMES_NO_
     # Include Tailwind CSS browser-runtime support
     npx hyperframes init my-video --example blank --tailwind
 
-    # Human mode — interactive prompts
-    npx hyperframes init --human-friendly
+    # Human mode — interactive prompts on TTY by default
+    npx hyperframes init my-video
     ```
 
     | Flag | Description |
     |------|-------------|
-    | `--example, -e` | Example to scaffold (required in default mode, interactive in `--human-friendly`) |
+    | `--example, -e` | Example to scaffold (required in non-interactive mode, prompted on TTY by default) |
     | `--resolution` | Canvas preset: `landscape` (1920×1080), `portrait` (1080×1920), `landscape-4k` (3840×2160), `portrait-4k` (2160×3840). Aliases: `1080p`, `4k`, `uhd`. Default: keep template dimensions. |
     | `--video, -V` | Path to a video file (MP4, WebM, MOV) |
     | `--audio, -a` | Path to an audio file (MP3, WAV, M4A) |
@@ -173,7 +173,6 @@ This is suppressed in CI environments, non-TTY shells, and when `HYPERFRAMES_NO_
     | `--skip-transcribe` | Skip automatic whisper transcription |
     | `--model` | Whisper model for transcription (e.g. `small.en`, `medium.en`, `large-v3`) |
     | `--language` | Language code for transcription (e.g. `en`, `es`, `ja`). Filters non-target speech. |
-    | `--human-friendly` | Enable interactive terminal UI with prompts |
 
     | Example | Description |
     |----------|-------------|
@@ -183,7 +182,7 @@ This is suppressed in CI environments, non-TTY shells, and when `HYPERFRAMES_NO_
     | `swiss-grid` | Structured grid layout |
     | `vignelli` | Bold typography with red accents |
 
-    In default (agent) mode, `--example` is required — the CLI errors with a usage example if missing. In `--human-friendly` mode, you choose interactively. When `--video` or `--audio` is provided, the CLI automatically transcribes the audio with Whisper and patches captions into the composition (use `--skip-transcribe` to disable).
+    In non-interactive mode, `--example` is required — the CLI errors with a usage example if missing. In interactive mode (default on TTY), you choose the example interactively. Pass `--non-interactive` to require `--example` via flag. When `--video` or `--audio` is provided, the CLI automatically transcribes the audio with Whisper and patches captions into the composition (use `--skip-transcribe` to disable).
 
     `--tailwind` injects the pinned Tailwind v4 browser runtime into scaffolded HTML and exposes a `window.__tailwindReady` promise that renders wait on before capturing frame 0. Use the `/tailwind` skill when editing these projects so agents follow v4 CSS-first patterns instead of v3 `tailwind.config.js` and `@tailwind` directive patterns. The browser runtime is still intended for scaffolded projects and quick iteration; for fully offline or locked-down production renders, compile Tailwind to CSS and include the stylesheet directly.
 
