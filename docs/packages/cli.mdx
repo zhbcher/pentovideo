@@ -35,14 +35,15 @@ npx hyperframes <command>
 
 ## Agent-Friendly by Default
 
-The CLI is **non-interactive by default** — designed so AI agents (Claude Code, Gemini CLI, Codex, Cursor) can drive every command without prompts or interactive UI.
+The CLI is **agent-friendly by default**: commands support explicit flags and parseable output so automation can run reliably.
 
-- All inputs are passed via flags (e.g., `--example`, `--video`, `--output`)
+- Inputs can be passed via flags (for example, `--example`, `--video`, `--output`)
 - Missing required flags fail fast with a clear error and usage example
 - Output is plain text suitable for parsing
-- No interactive prompts, spinners, or selection menus
 
-Add `--human-friendly` to any command to enable the interactive terminal UI with prompts, spinners, and selection menus.
+Interactivity is command-specific. For example, `init` uses prompts on TTY by default; pass `--non-interactive` to force non-interactive mode.
+
+`--human-friendly` is also command-specific (for example, `catalog`). It is not a global flag on every command.
 
 <Tabs>
   <Tab title="Agent mode (default)">
@@ -55,9 +56,11 @@ Add `--human-friendly` to any command to enable the interactive terminal UI with
   </Tab>
   <Tab title="Human mode">
     ```bash
-    # Interactive prompts, spinners, and selection menus
-    npx hyperframes init --human-friendly
-    npx hyperframes upgrade
+    # Command-specific interactive flow
+    npx hyperframes init my-video
+
+    # Interactive picker supported by catalog
+    npx hyperframes catalog --human-friendly
     ```
   </Tab>
 </Tabs>
