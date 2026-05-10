@@ -588,7 +588,7 @@ export default defineCommand({
     video: {
       type: "string",
       description: "Path to a video file (MP4, WebM, MOV)",
-      alias: "V",
+      alias: "v",
     },
     audio: {
       type: "string",

@@ -132,6 +132,18 @@ describe("hyperframes init flag rename", () => {
     expect(injected).not.toContain("setTimeout");
   });
 
+  it("-v works as the short alias for --video", () => {
+    const dir = mkdtempSync(join(tmpdir(), "hf-init-test-"));
+    const target = join(dir, "proj");
+    try {
+      const res = runInit([target, "--example", "blank", "--non-interactive", "--skip-skills", "-v", "missing.mp4"]);
+      expect(res.status).toBe(1);
+      expect(res.stderr).toContain("Video file not found: missing.mp4");
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
   it("--template prints a rename hint and exits non-zero", () => {
     const dir = mkdtempSync(join(tmpdir(), "hf-init-test-"));
     const target = join(dir, "proj");
