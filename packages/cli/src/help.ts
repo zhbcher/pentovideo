@@ -1,5 +1,5 @@
 /**
- * Custom help renderer for the hyperframes CLI.
+ * Custom help renderer for the pentovideo CLI.
  *
  * Root-level: grouped command categories + examples.
  * Subcommands: citty's standard USAGE/ARGUMENTS/OPTIONS + appended examples.
@@ -54,7 +54,7 @@ const GROUPS: Group[] = [
   {
     title: "AI & Integrations",
     commands: [
-      ["skills", "Install HyperFrames and GSAP skills for AI coding tools"],
+      ["skills", "Install PentoVideo and GSAP skills for AI coding tools"],
       [
         "transcribe",
         "Transcribe audio/video to word-level timestamps, or import an existing transcript",
@@ -73,14 +73,14 @@ const GROUPS: Group[] = [
 import type { Example } from "./commands/_examples.js";
 
 const ROOT_EXAMPLES: Example[] = [
-  ["Create a new project", "hyperframes init my-video"],
-  ["Start the live preview studio", "hyperframes preview"],
-  ["Publish to hyperframes.dev", "hyperframes publish"],
-  ["Render to MP4", "hyperframes render -o out.mp4"],
-  ["Transparent WebM overlay", "hyperframes render --format webm -o out.webm"],
-  ["Validate your composition", "hyperframes lint"],
-  ["Inspect visual layout", "hyperframes inspect"],
-  ["Check system dependencies", "hyperframes doctor"],
+  ["Create a new project", "pentovideo init my-video"],
+  ["Start the live preview studio", "pentovideo preview"],
+  ["Publish to pentovideo.dev", "pentovideo publish"],
+  ["Render to MP4", "pentovideo render -o out.mp4"],
+  ["Transparent WebM overlay", "pentovideo render --format webm -o out.webm"],
+  ["Validate your composition", "pentovideo lint"],
+  ["Inspect visual layout", "pentovideo inspect"],
+  ["Check system dependencies", "pentovideo doctor"],
 ];
 
 // ── Per-command examples loaded from command files ────────────────────────
@@ -97,7 +97,7 @@ async function loadExamples(name: string): Promise<Example[] | undefined> {
 
 // Commands without their own file (e.g. listed in help but not yet a real command)
 const STATIC_EXAMPLES: Record<string, Example[]> = {
-  skills: [["Install all skills to all supported AI tools", "hyperframes skills"]],
+  skills: [["Install all skills to all supported AI tools", "pentovideo skills"]],
 };
 
 // ── Render root help ───────────────────────────────────────────────────────
@@ -107,10 +107,10 @@ function renderRootHelp(): string {
   const lines: string[] = [];
 
   lines.push(
-    `${c.bold("hyperframes")} ${c.dim(`v${VERSION}`)} — Create and render HTML video compositions`,
+    `${c.bold("pentovideo")} ${c.dim(`v${VERSION}`)} — Create and render HTML video compositions`,
   );
   lines.push("");
-  lines.push(`${c.bold("Usage:")}  hyperframes ${c.cyan("<command>")} [options]`);
+  lines.push(`${c.bold("Usage:")}  pentovideo ${c.cyan("<command>")} [options]`);
   lines.push("");
 
   for (const group of GROUPS) {
@@ -127,7 +127,7 @@ function renderRootHelp(): string {
   }
   lines.push("");
 
-  lines.push(`Run ${c.cyan("hyperframes <command> --help")} for more information about a command.`);
+  lines.push(`Run ${c.cyan("pentovideo <command> --help")} for more information about a command.`);
 
   return lines.join("\n");
 }

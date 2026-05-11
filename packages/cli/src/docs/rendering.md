@@ -1,6 +1,6 @@
 # Rendering
 
-Render compositions to MP4 with `npx hyperframes render`.
+Render compositions to MP4 with `npx pentovideo render`.
 
 ## Local Mode (default)
 
@@ -28,5 +28,5 @@ Requires: Docker installed and running.
 - Use `draft` quality for fast previews during development
 - Local renders auto-detect GPU on first launch; use `--browser-gpu` to force hardware (errors if no GPU) or `--no-browser-gpu` to force SwiftShader
 - Use `--gpu` when a local render also benefits from hardware FFmpeg encoding
-- Use `npx hyperframes benchmark` to find optimal settings
+- Use `npx pentovideo benchmark` to find optimal settings
 - 4 workers is usually the sweet spot for most compositions

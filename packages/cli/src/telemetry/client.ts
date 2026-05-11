@@ -30,12 +30,12 @@ let telemetryEnabled: boolean | null = null;
 
 /**
  * Check if telemetry should be active.
- * Disabled when: dev mode, user opted out, CI environment, or HYPERFRAMES_NO_TELEMETRY set.
+ * Disabled when: dev mode, user opted out, CI environment, or PENTOVIDEO_NO_TELEMETRY set.
  */
 export function shouldTrack(): boolean {
   if (telemetryEnabled !== null) return telemetryEnabled;
 
-  if (process.env["HYPERFRAMES_NO_TELEMETRY"] === "1" || process.env["DO_NOT_TRACK"] === "1") {
+  if (process.env["PENTOVIDEO_NO_TELEMETRY"] === "1" || process.env["DO_NOT_TRACK"] === "1") {
     telemetryEnabled = false;
     return false;
   }
@@ -183,10 +183,10 @@ export function showTelemetryNotice(): boolean {
   writeConfig(config);
 
   console.log();
-  console.log(`  ${c.dim("Hyperframes collects anonymous usage data to improve the tool.")}`);
+  console.log(`  ${c.dim("Pentovideo collects anonymous usage data to improve the tool.")}`);
   console.log(`  ${c.dim("No personal info, file paths, or content is collected.")}`);
   console.log();
-  console.log(`  ${c.dim("Disable anytime:")} ${c.accent("hyperframes telemetry disable")}`);
+  console.log(`  ${c.dim("Disable anytime:")} ${c.accent("pentovideo telemetry disable")}`);
   console.log();
 
   return true;

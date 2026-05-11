@@ -37,7 +37,7 @@ type TestMetadata = {
     /** Force HDR in the harness; omitted/false preserves historical SDR-only test behavior. */
     hdr?: boolean;
     /**
-     * Render-time variable overrides, equivalent to `hyperframes render
+     * Render-time variable overrides, equivalent to `pentovideo render
      * --variables '<json>'`. Injected as `window.__hfVariables` before any
      * page script runs so the runtime helper `getVariables()` returns the
      * merged result of declared defaults (`data-composition-variables`)
@@ -503,8 +503,8 @@ async function runTestSuite(
     keepTemp: boolean;
   },
 ): Promise<TestResult> {
-  // Use predictable temp location: /tmp/hyperframes-tests/{test-id}/
-  const testsRoot = join(tmpdir(), "hyperframes-tests");
+  // Use predictable temp location: /tmp/pentovideo-tests/{test-id}/
+  const testsRoot = join(tmpdir(), "pentovideo-tests");
   if (!existsSync(testsRoot)) {
     mkdirSync(testsRoot, { recursive: true });
   }

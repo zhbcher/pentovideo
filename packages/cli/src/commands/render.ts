@@ -3,30 +3,30 @@ import type { Example } from "./_examples.js";
 import { mkdirSync, readdirSync, readFileSync, statSync, writeFileSync, rmSync } from "node:fs";
 
 export const examples: Example[] = [
-  ["Render to MP4", "hyperframes render --output output.mp4"],
-  ["Render a specific composition", "hyperframes render -c compositions/intro.html -o intro.mp4"],
+  ["Render to MP4", "pentovideo render --output output.mp4"],
+  ["Render a specific composition", "pentovideo render -c compositions/intro.html -o intro.mp4"],
   [
     "Upsample any composition to 4K (supersamples via Chrome DPR)",
-    "hyperframes render --resolution 4k --output 4k.mp4",
+    "pentovideo render --resolution 4k --output 4k.mp4",
   ],
-  ["Render transparent overlay (ProRes)", "hyperframes render --format mov --output overlay.mov"],
-  ["Render transparent WebM overlay", "hyperframes render --format webm --output overlay.webm"],
+  ["Render transparent overlay (ProRes)", "pentovideo render --format mov --output overlay.mov"],
+  ["Render transparent WebM overlay", "pentovideo render --format webm --output overlay.webm"],
   [
     "Render PNG sequence (RGBA frames for AE/Nuke/Fusion)",
-    "hyperframes render --format png-sequence --output frames/",
+    "pentovideo render --format png-sequence --output frames/",
   ],
-  ["High quality at 60fps", "hyperframes render --fps 60 --quality high --output hd.mp4"],
-  ["Deterministic render via Docker", "hyperframes render --docker --output deterministic.mp4"],
-  ["Parallel rendering with 6 workers", "hyperframes render --workers 6 --output fast.mp4"],
-  ["Opt out of browser GPU render", "hyperframes render --no-browser-gpu --output cpu.mp4"],
-  ["HDR output (auto-detected)", "hyperframes render --output hdr-output.mp4"],
+  ["High quality at 60fps", "pentovideo render --fps 60 --quality high --output hd.mp4"],
+  ["Deterministic render via Docker", "pentovideo render --docker --output deterministic.mp4"],
+  ["Parallel rendering with 6 workers", "pentovideo render --workers 6 --output fast.mp4"],
+  ["Opt out of browser GPU render", "pentovideo render --no-browser-gpu --output cpu.mp4"],
+  ["HDR output (auto-detected)", "pentovideo render --output hdr-output.mp4"],
   [
     "Override composition variables (parametrized render)",
-    'hyperframes render --variables \'{"title":"Q4 Report","theme":"dark"}\' --output q4.mp4',
+    'pentovideo render --variables \'{"title":"Q4 Report","theme":"dark"}\' --output q4.mp4',
   ],
   [
     "Variables from a JSON file",
-    "hyperframes render --variables-file ./vars.json --output out.mp4",
+    "pentovideo render --variables-file ./vars.json --output out.mp4",
   ],
 ];
 import { cpus, freemem, tmpdir } from "node:os";
@@ -45,7 +45,7 @@ import { VERSION } from "../version.js";
 import { isDevMode } from "../utils/env.js";
 import { buildDockerRunArgs } from "../utils/dockerRunArgs.js";
 import { ensureDOMParser } from "../utils/dom.js";
-import type { RenderJob } from "@hyperframes/producer";
+import type { RenderJob } from "@pentovideo/producer";
 import {
   extractCompositionMetadata,
   validateVariables,
@@ -53,7 +53,7 @@ import {
   normalizeResolutionFlag,
   type VariableValidationIssue,
   type CanvasResolution,
-} from "@hyperframes/core";
+} from "@pentovideo/core";
 
 const VALID_FPS = new Set([24, 30, 60]);
 const VALID_QUALITY = new Set(["draft", "standard", "high"]);
@@ -170,7 +170,7 @@ export default defineCommand({
     variables: {
       type: "string",
       description:
-        'JSON object of variable values, merged over the composition\'s data-composition-variables defaults. Example: --variables \'{"title":"Hello"}\'. Read inside the composition via window.__hyperframes.getVariables().',
+        'JSON object of variable values, merged over the composition\'s data-composition-variables defaults. Example: --variables \'{"title":"Hello"}\'. Read inside the composition via window.__pentovideo.getVariables().',
     },
     "variables-file": {
       type: "string",
@@ -413,7 +413,7 @@ export default defineCommand({
         errorBox(
           "Chrome not found",
           err instanceof Error ? err.message : String(err),
-          "Run: npx hyperframes browser ensure",
+          "Run: npx pentovideo browser ensure",
         );
         process.exit(1);
       }
@@ -675,7 +675,7 @@ export function validateVariablesAgainstProject(
   }
   // extractCompositionMetadata uses DOMParser, which Node doesn't ship.
   // Same pattern as `compositions.ts` and other CLI commands that touch
-  // @hyperframes/core's HTML parsers.
+  // @pentovideo/core's HTML parsers.
   ensureDOMParser();
   const meta = extractCompositionMetadata(html);
   if (meta.variables.length === 0) return [];
@@ -711,7 +711,7 @@ export function resolveBrowserGpuForCli(
   return "auto";
 }
 
-const DOCKER_IMAGE_PREFIX = "hyperframes-renderer";
+const DOCKER_IMAGE_PREFIX = "pentovideo-renderer";
 
 function dockerImageTag(version: string): string {
   return `${DOCKER_IMAGE_PREFIX}:${version}`;
@@ -755,7 +755,7 @@ function ensureDockerImage(version: string, quiet: boolean): string {
   const dockerfilePath = resolveDockerfilePath();
 
   // Copy Dockerfile to a temp build context so docker build has a clean context
-  const tmpDir = join(tmpdir(), `hyperframes-docker-${Date.now()}`);
+  const tmpDir = join(tmpdir(), `pentovideo-docker-${Date.now()}`);
   mkdirSync(tmpDir, { recursive: true });
   writeFileSync(join(tmpDir, "Dockerfile"), readFileSync(dockerfilePath));
 
@@ -768,7 +768,7 @@ function ensureDockerImage(version: string, quiet: boolean): string {
         "--platform",
         "linux/amd64",
         "--build-arg",
-        `HYPERFRAMES_VERSION=${version}`,
+        `PENTOVIDEO_VERSION=${version}`,
         "-t",
         tag,
         tmpDir,
@@ -796,7 +796,7 @@ async function renderDocker(
   // Dev mode (tsx/ts-node) uses "latest" since the local version isn't on npm
   const dockerVersion = isDevMode() ? "latest" : VERSION;
   if (!options.quiet && isDevMode()) {
-    console.log(c.dim("  Dev mode: using hyperframes@latest in Docker image"));
+    console.log(c.dim("  Dev mode: using pentovideo@latest in Docker image"));
   }
 
   let imageTag: string;

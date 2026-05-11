@@ -3,15 +3,15 @@ import { resolve } from "node:path";
 import type { Example } from "./_examples.js";
 
 export const examples: Example[] = [
-  ["Capture a website", "hyperframes capture https://stripe.com"],
-  ["Capture to a specific directory", "hyperframes capture https://linear.app -o linear-video"],
-  ["JSON output for AI agents", "hyperframes capture https://example.com --json"],
+  ["Capture a website", "pentovideo capture https://stripe.com"],
+  ["Capture to a specific directory", "pentovideo capture https://linear.app -o linear-video"],
+  ["JSON output for AI agents", "pentovideo capture https://example.com --json"],
 ];
 
 export default defineCommand({
   meta: {
     name: "capture",
-    description: "Capture a website as editable HyperFrames components",
+    description: "Capture a website as editable PentoVideo components",
   },
   args: {
     url: {

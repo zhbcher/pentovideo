@@ -47,7 +47,7 @@ export async function saveLottieAnimations(
         // Download the file
         const res = await fetch(lottieItem.url, {
           signal: AbortSignal.timeout(10000),
-          headers: { "User-Agent": "HyperFrames/1.0" },
+          headers: { "User-Agent": "PentoVideo/1.0" },
         });
         if (!res.ok) continue;
         const buf = Buffer.from(await res.arrayBuffer());

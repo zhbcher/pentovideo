@@ -246,7 +246,7 @@ export function resolveBrowserGpuMode(
  * production. Goes to stderr to stay out of stdout pipelines.
  */
 function logResolvedBrowserGpuMode(resolved: "hardware" | "software", reason: string): void {
-  console.error(`[hyperframes] browserGpuMode auto → ${resolved} (${reason})`);
+  console.error(`[pentovideo] browserGpuMode auto → ${resolved} (${reason})`);
 }
 
 export async function acquireBrowser(

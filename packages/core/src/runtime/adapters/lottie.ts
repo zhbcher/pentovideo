@@ -3,7 +3,7 @@ import { swallow } from "../diagnostics";
 export { isLottieAnimationLoaded } from "./lottieReadiness";
 
 /**
- * Lottie adapter for HyperFrames
+ * Lottie adapter for PentoVideo
  *
  * Supports lottie-web and @lottiefiles/dotlottie-web.
  *

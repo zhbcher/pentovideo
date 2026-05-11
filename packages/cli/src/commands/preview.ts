@@ -3,12 +3,12 @@ import type { Example } from "./_examples.js";
 import { spawn } from "node:child_process";
 
 export const examples: Example[] = [
-  ["Preview the current project", "hyperframes preview"],
-  ["Preview a specific project directory", "hyperframes preview ./my-video"],
-  ["Use a custom port", "hyperframes preview --port 8080"],
-  ["Force a new server even if one is already running", "hyperframes preview --force-new"],
-  ["List all active preview servers", "hyperframes preview --list"],
-  ["Kill all active preview servers", "hyperframes preview --kill-all"],
+  ["Preview the current project", "pentovideo preview"],
+  ["Preview a specific project directory", "pentovideo preview ./my-video"],
+  ["Use a custom port", "pentovideo preview --port 8080"],
+  ["Force a new server even if one is already running", "pentovideo preview --force-new"],
+  ["List all active preview servers", "pentovideo preview --list"],
+  ["Kill all active preview servers", "pentovideo preview --kill-all"],
 ];
 import { existsSync, lstatSync, symlinkSync, unlinkSync, readlinkSync, mkdirSync } from "node:fs";
 import { resolve, dirname, basename, join } from "node:path";
@@ -83,7 +83,7 @@ export default defineCommand({
     const rawArg = args.dir;
     const dir = resolve(rawArg ?? ".");
 
-    // Compute display name: preserve symlink/CWD name when user runs "hyperframes preview ."
+    // Compute display name: preserve symlink/CWD name when user runs "pentovideo preview ."
     const isImplicitCwd = !rawArg || rawArg === "." || rawArg === "./";
     const projectName = isImplicitCwd ? basename(process.env.PWD ?? dir) : basename(dir);
 
@@ -104,7 +104,7 @@ export default defineCommand({
       return runDevMode(dir, projectName);
     }
 
-    // If @hyperframes/studio is installed locally, use Vite for full HMR
+    // If @pentovideo/studio is installed locally, use Vite for full HMR
     if (hasLocalStudio(dir)) {
       return runLocalStudioMode(dir, projectName);
     }
@@ -152,7 +152,7 @@ async function runDevMode(dir: string, projectName?: string): Promise<void> {
     }
   }
 
-  clack.intro(c.bold("hyperframes preview"));
+  clack.intro(c.bold("pentovideo preview"));
 
   const s = clack.spinner();
   s.start("Starting studio...");
@@ -216,12 +216,12 @@ async function runDevMode(dir: string, projectName?: string): Promise<void> {
 }
 
 /**
- * Check if @hyperframes/studio is installed locally in the project's node_modules.
+ * Check if @pentovideo/studio is installed locally in the project's node_modules.
  */
 function hasLocalStudio(dir: string): boolean {
   try {
     const req = createRequire(join(dir, "package.json"));
-    req.resolve("@hyperframes/studio/package.json");
+    req.resolve("@pentovideo/studio/package.json");
     return true;
   } catch {
     return false;
@@ -229,12 +229,12 @@ function hasLocalStudio(dir: string): boolean {
 }
 
 /**
- * Local studio mode: spawn Vite using a locally installed @hyperframes/studio.
+ * Local studio mode: spawn Vite using a locally installed @pentovideo/studio.
  * Provides full Vite HMR and the complete studio experience.
  */
 async function runLocalStudioMode(dir: string, projectName?: string): Promise<void> {
   const req = createRequire(join(dir, "package.json"));
-  const studioPkgPath = dirname(req.resolve("@hyperframes/studio/package.json"));
+  const studioPkgPath = dirname(req.resolve("@pentovideo/studio/package.json"));
   const pName = projectName ?? basename(dir);
 
   // Symlink project into studio's data directory
@@ -255,7 +255,7 @@ async function runLocalStudioMode(dir: string, projectName?: string): Promise<vo
     }
   }
 
-  clack.intro(c.bold("hyperframes preview") + c.dim(" (local studio)"));
+  clack.intro(c.bold("pentovideo preview") + c.dim(" (local studio)"));
   const s = clack.spinner();
   s.start("Starting studio...");
 
@@ -309,7 +309,7 @@ async function runLocalStudioMode(dir: string, projectName?: string): Promise<vo
  * Embedded mode: serve the pre-built studio SPA with a standalone Hono server.
  * Works without any additional dependencies — the studio is bundled in dist/.
  *
- * If an existing HyperFrames server for the same project is detected,
+ * If an existing PentoVideo server for the same project is detected,
  * reuses it instead of starting a new one (unless --force-new is set).
  */
 async function runEmbeddedMode(
@@ -323,7 +323,7 @@ async function runEmbeddedMode(
   const pName = projectName ?? basename(dir);
   const studioBundle = resolveStudioBundle();
 
-  clack.intro(c.bold("hyperframes preview"));
+  clack.intro(c.bold("pentovideo preview"));
   const s = clack.spinner();
   s.start("Starting studio...");
 
@@ -380,7 +380,7 @@ async function runEmbeddedMode(
   console.log(`  ${c.dim("Project")}   ${c.accent(pName)}`);
   console.log(`  ${c.dim("Studio")}    ${c.accent(url)}`);
   console.log();
-  console.log(`  ${c.dim("Edit with your AI agent — it has HyperFrames skills installed.")}`);
+  console.log(`  ${c.dim("Edit with your AI agent — it has PentoVideo skills installed.")}`);
   console.log(`  ${c.dim("Changes reload automatically in the studio.")}`);
   console.log();
   console.log(`  ${c.dim("Press Ctrl+C to stop")}`);

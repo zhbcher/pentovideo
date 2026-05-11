@@ -35,12 +35,12 @@ function runSkillsAdd(repo: string): Promise<void> {
   });
 }
 
-const SOURCES = [{ name: "HyperFrames", repo: "heygen-com/hyperframes" }];
+const SOURCES = [{ name: "PentoVideo", repo: "heygen-com/pentovideo" }];
 
 export default defineCommand({
   meta: {
     name: "skills",
-    description: "Install HyperFrames skills for AI coding tools",
+    description: "Install PentoVideo skills for AI coding tools",
   },
   args: {},
   async run() {

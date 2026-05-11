@@ -1,11 +1,11 @@
-# @hyperframes/producer
+# @pentovideo/producer
 
 Full HTML-to-video rendering pipeline: capture frames with Chrome's BeginFrame API, encode with FFmpeg, mix audio — all in one call.
 
 ## Install
 
 ```bash
-npm install @hyperframes/producer
+npm install @pentovideo/producer
 ```
 
 **Requirements:** Node.js >= 22, Chrome/Chromium (auto-downloaded), FFmpeg
@@ -15,7 +15,7 @@ npm install @hyperframes/producer
 ### Render a video
 
 ```typescript
-import { createRenderJob, executeRenderJob } from "@hyperframes/producer";
+import { createRenderJob, executeRenderJob } from "@pentovideo/producer";
 
 const job = createRenderJob({
   inputPath: "./my-composition.html",
@@ -37,7 +37,7 @@ console.log(result.outputPath); // ./output.mp4
 The producer can also run as a render server, accepting render requests over HTTP:
 
 ```typescript
-import { startServer } from "@hyperframes/producer";
+import { startServer } from "@pentovideo/producer";
 
 await startServer({ port: 8080 });
 // POST /render with a RenderConfig body
@@ -71,7 +71,7 @@ The producer can render HTML compositions to formats that carry a **true alpha c
 ### Example
 
 ```typescript
-import { createRenderJob, executeRenderJob } from "@hyperframes/producer";
+import { createRenderJob, executeRenderJob } from "@pentovideo/producer";
 
 const job = createRenderJob({
   inputPath: "./my-composition.html",
@@ -116,10 +116,10 @@ Don't paint a fullscreen background in your HTML. The default body background is
 
 ## Documentation
 
-Full documentation: [hyperframes.heygen.com/packages/producer](https://hyperframes.heygen.com/packages/producer)
+Full documentation: [pentovideo.heygen.com/packages/producer](https://pentovideo.heygen.com/packages/producer)
 
 ## Related packages
 
-- [`@hyperframes/core`](../core) — types, parsers, frame adapters
-- [`@hyperframes/engine`](../engine) — lower-level capture and encode primitives
-- [`hyperframes`](../cli) — CLI
+- [`@pentovideo/core`](../core) — types, parsers, frame adapters
+- [`@pentovideo/engine`](../engine) — lower-level capture and encode primitives
+- [`pentovideo`](../cli) — CLI

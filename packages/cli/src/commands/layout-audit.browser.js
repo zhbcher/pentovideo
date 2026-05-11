@@ -398,7 +398,7 @@
     return issues;
   }
 
-  window.__hyperframesLayoutAudit = function auditLayout(options) {
+  window.__pentovideoLayoutAudit = function auditLayout(options) {
     const time = options && typeof options.time === "number" ? options.time : 0;
     const tolerance =
       options && typeof options.tolerance === "number" ? Math.max(0, options.tolerance) : 2;

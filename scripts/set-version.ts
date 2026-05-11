@@ -89,7 +89,7 @@ function main() {
   if (isPrerelease) {
     const distTag = version.replace(/^.*-([a-zA-Z]+).*$/, "$1");
     console.log(`\nThis is a pre-release — npm dist-tag will be "${distTag}" (not "latest").`);
-    console.log(`Consumers install with: npm install @hyperframes/core@${distTag}`);
+    console.log(`Consumers install with: npm install @pentovideo/core@${distTag}`);
     console.log(`\nRun 'git push origin v${version}' to trigger the publish workflow.`);
   } else {
     console.log(`Run 'git push origin main --tags' to trigger the publish workflow.`);

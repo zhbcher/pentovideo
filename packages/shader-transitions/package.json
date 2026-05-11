@@ -1,10 +1,10 @@
 {
-  "name": "@hyperframes/shader-transitions",
+  "name": "@pentovideo/shader-transitions",
   "version": "0.5.7",
-  "description": "WebGL shader transitions for HyperFrames compositions",
+  "description": "WebGL shader transitions for PentoVideo compositions",
   "repository": {
     "type": "git",
-    "url": "https://github.com/heygen-com/hyperframes",
+    "url": "https://github.com/pentovideo/pentovideo",
     "directory": "packages/shader-transitions"
   },
   "files": [

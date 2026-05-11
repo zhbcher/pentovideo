@@ -1,8 +1,8 @@
-export type HyperframeLintSeverity = "error" | "warning" | "info";
+export type PentovideoLintSeverity = "error" | "warning" | "info";
 
-export type HyperframeLintFinding = {
+export type PentovideoLintFinding = {
   code: string;
-  severity: HyperframeLintSeverity;
+  severity: PentovideoLintSeverity;
   message: string;
   file?: string;
   selector?: string;
@@ -11,15 +11,15 @@ export type HyperframeLintFinding = {
   snippet?: string;
 };
 
-export type HyperframeLintResult = {
+export type PentovideoLintResult = {
   ok: boolean;
   errorCount: number;
   warningCount: number;
   infoCount: number;
-  findings: HyperframeLintFinding[];
+  findings: PentovideoLintFinding[];
 };
 
-export type HyperframeLinterOptions = {
+export type PentovideoLinterOptions = {
   filePath?: string;
   isSubComposition?: boolean;
   externalStyles?: Array<{ href: string; content: string }>;
@@ -27,4 +27,4 @@ export type HyperframeLinterOptions = {
 
 // A rule is a pure function: receives parsed context, returns zero or more findings.
 // Rule modules should receive a LintContext (defined in ./context) as the type parameter.
-export type LintRule<TContext> = (ctx: TContext) => HyperframeLintFinding[];
+export type LintRule<TContext> = (ctx: TContext) => PentovideoLintFinding[];

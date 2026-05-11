@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { lintHyperframeHtml } from "../hyperframeLinter.js";
+import { lintPentovideoHtml } from "../pentovideoLinter.js";
 
 describe("caption rules", () => {
   it("warns when caption exit has no hard kill tl.set", () => {
@@ -20,7 +20,7 @@ describe("caption rules", () => {
     </script>
   </div>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "caption_exit_missing_hard_kill");
     expect(finding).toBeDefined();
     expect(finding?.severity).toBe("warning");
@@ -45,7 +45,7 @@ describe("caption rules", () => {
     </script>
   </div>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "caption_exit_missing_hard_kill");
     expect(finding).toBeUndefined();
   });
@@ -68,7 +68,7 @@ describe("caption rules", () => {
     </script>
   </div>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "caption_text_overflow_risk");
     expect(finding).toBeDefined();
     expect(finding?.severity).toBe("warning");
@@ -93,7 +93,7 @@ describe("caption rules", () => {
     </script>
   </div>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find(
       (f) => f.code === "caption_text_overflow_risk" && f.severity === "warning",
     );
@@ -116,7 +116,7 @@ describe("caption rules", () => {
     </script>
   </div>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "caption_container_relative_position");
     expect(finding).toBeDefined();
     expect(finding?.severity).toBe("warning");

@@ -1,6 +1,6 @@
 name: Windows render verification
 
-# Manually triggered smoke test that renders a HyperFrames composition on a
+# Manually triggered smoke test that renders a PentoVideo composition on a
 # real Windows runner. Proves the PR #336 `where ffmpeg` fix actually works
 # end-to-end: FFmpeg is discovered natively on Windows, Chrome is installed
 # and launched, frames are captured, and an MP4 is produced — without Docker
@@ -150,10 +150,10 @@ jobs:
         run: bun run build
 
       # -----------------------------------------------------------------
-      # Prove the PR #336 fix: hyperframes doctor exercises findFFmpeg()
+      # Prove the PR #336 fix: pentovideo doctor exercises findFFmpeg()
       # and whichBinary() — both must pass on Windows without workarounds.
       # -----------------------------------------------------------------
-      - name: hyperframes doctor (verifies `where ffmpeg` fix)
+      - name: pentovideo doctor (verifies `where ffmpeg` fix)
         shell: pwsh
         run: node packages/cli/dist/cli.js doctor
 
@@ -368,8 +368,8 @@ jobs:
 
       - name: Run tests (all packages except producer)
         shell: pwsh
-        run: bun run --filter "!@hyperframes/producer" test
+        run: bun run --filter "!@pentovideo/producer" test
 
       - name: Run runtime contract test
         shell: pwsh
-        run: bun run --filter "@hyperframes/core" test:hyperframe-runtime-ci
+        run: bun run --filter "@pentovideo/core" test:hyperframe-runtime-ci

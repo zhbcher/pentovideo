@@ -7,7 +7,7 @@ import { getMimeType } from "../helpers/mime.js";
 import { buildSubCompositionHtml } from "../helpers/subComposition.js";
 import { createProjectSignature } from "../helpers/projectSignature.js";
 
-const PROJECT_SIGNATURE_META = "hyperframes-project-signature";
+const PROJECT_SIGNATURE_META = "pentovideo-project-signature";
 
 function resolveProjectSignature(adapter: StudioApiAdapter, projectDir: string): string {
   return adapter.getProjectSignature?.(projectDir) ?? createProjectSignature(projectDir);
@@ -41,8 +41,8 @@ export function registerPreviewRoutes(api: Hono, adapter: StudioApiAdapter): voi
 
       // Inject runtime if not already present (check URL pattern and bundler attribute)
       if (
-        !bundled.includes("hyperframe.runtime") &&
-        !bundled.includes("hyperframes-preview-runtime")
+        !bundled.includes("pentovideo.runtime") &&
+        !bundled.includes("pentovideo-preview-runtime")
       ) {
         const runtimeTag = `<script src="${adapter.runtimeUrl}"></script>`;
         bundled = bundled.includes("</body>")

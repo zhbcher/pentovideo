@@ -4,9 +4,9 @@ import * as clack from "@clack/prompts";
 import { c } from "../ui/colors.js";
 
 export const examples: Example[] = [
-  ["Find or download Chrome for rendering", "hyperframes browser ensure"],
-  ["Print the Chrome executable path", "hyperframes browser path"],
-  ["Remove cached Chrome download", "hyperframes browser clear"],
+  ["Find or download Chrome for rendering", "pentovideo browser ensure"],
+  ["Print the Chrome executable path", "pentovideo browser path"],
+  ["Remove cached Chrome download", "pentovideo browser clear"],
 ];
 import { formatBytes } from "../ui/format.js";
 import {
@@ -19,7 +19,7 @@ import {
 import { trackBrowserInstall } from "../telemetry/events.js";
 
 async function runEnsure(): Promise<void> {
-  clack.intro(c.bold("hyperframes browser ensure"));
+  clack.intro(c.bold("pentovideo browser ensure"));
 
   const s = clack.spinner();
   s.start("Looking for an existing browser...");
@@ -82,7 +82,7 @@ async function runPath(): Promise<void> {
 }
 
 function runClear(): void {
-  clack.intro(c.bold("hyperframes browser clear"));
+  clack.intro(c.bold("pentovideo browser clear"));
 
   const removed = clearBrowser();
   if (removed) {
@@ -107,7 +107,7 @@ export default defineCommand({
 
     if (!subcommand || subcommand === "") {
       console.log(`
-${c.bold("hyperframes browser")} ${c.dim("<subcommand>")}
+${c.bold("pentovideo browser")} ${c.dim("<subcommand>")}
 
 Manage the Chrome browser used for rendering.
 
@@ -117,9 +117,9 @@ ${c.bold("SUBCOMMANDS:")}
   ${c.accent("clear")}    ${c.dim("Remove cached Chrome download")}
 
 ${c.bold("EXAMPLES:")}
-  ${c.accent("npx hyperframes browser ensure")}   ${c.dim("Download Chrome if needed")}
-  ${c.accent("npx hyperframes browser path")}     ${c.dim("Print path for scripts")}
-  ${c.accent("npx hyperframes browser clear")}    ${c.dim("Remove cached browser")}
+  ${c.accent("npx pentovideo browser ensure")}   ${c.dim("Download Chrome if needed")}
+  ${c.accent("npx pentovideo browser path")}     ${c.dim("Print path for scripts")}
+  ${c.accent("npx pentovideo browser clear")}    ${c.dim("Remove cached browser")}
 `);
       return;
     }
@@ -133,7 +133,7 @@ ${c.bold("EXAMPLES:")}
         return runClear();
       default:
         console.error(
-          `${c.error("Unknown subcommand:")} ${subcommand}\n\nRun ${c.accent("hyperframes browser --help")} for usage.`,
+          `${c.error("Unknown subcommand:")} ${subcommand}\n\nRun ${c.accent("pentovideo browser --help")} for usage.`,
         );
         process.exit(1);
     }

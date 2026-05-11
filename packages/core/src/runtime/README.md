@@ -1,14 +1,14 @@
-# Hyperframe Runtime Engine
+# Pentovideo Runtime Engine
 
 This folder owns the runtime that powers preview and producer parity.
 
 ## Current Direction
 
-- Runtime source of truth is converging on `hyperframe.ts`.
+- Runtime source of truth is converging on `pentovideo.ts`.
 - Build produces:
-  - `dist/hyperframe.runtime.iife.js` (browser bootstrap)
-  - `dist/hyperframe.runtime.mjs` (tooling/tests)
-  - `dist/hyperframe.manifest.json` (version + sha256 + artifact map)
+  - `dist/pentovideo.runtime.iife.js` (browser bootstrap)
+  - `dist/pentovideo.runtime.mjs` (tooling/tests)
+  - `dist/pentovideo.manifest.json` (version + sha256 + artifact map)
 - FE owns iframe runtime injection.
 - BE persists raw generated HTML without injecting runtime scripts.
 - Producer validates pinned runtime checksum from manifest before render.
@@ -41,7 +41,7 @@ Determinism baseline:
 ## Build
 
 ```bash
-bun run --filter @hyperframes/core build:hyperframes-runtime
+bun run --filter @pentovideo/core build:pentovideo-runtime
 ```
 
 ## Security Expectations

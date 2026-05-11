@@ -244,7 +244,7 @@ function getDocumentStyleSignature(doc: Document): string {
 
 function getDocumentScriptSignature(doc: Document): string {
   const projectSignature = Array.from(
-    doc.querySelectorAll<HTMLMetaElement>('meta[name="hyperframes-project-signature"]'),
+    doc.querySelectorAll<HTMLMetaElement>('meta[name="pentovideo-project-signature"]'),
   )
     .map((meta) => meta.getAttribute("content") || "")
     .join("\n");
@@ -255,7 +255,7 @@ function getDocumentScriptSignature(doc: Document): string {
         script.src,
         script.getAttribute("integrity") || "",
         script.getAttribute("crossorigin") || "",
-        script.getAttribute("data-hyperframes-runtime") || "",
+        script.getAttribute("data-pentovideo-runtime") || "",
       ].join(":");
       return `${attrs}\n${script.src ? "" : script.textContent || ""}`;
     })
@@ -522,8 +522,8 @@ function createSnapshotLoadingOverlay(
 
   const overlay = doc.createElement("div");
   overlay.setAttribute("data-hyper-shader-loading", "");
-  overlay.setAttribute("data-hyperframes-ignore", "");
-  overlay.setAttribute("data-hyperframes-picker-block", "");
+  overlay.setAttribute("data-pentovideo-ignore", "");
+  overlay.setAttribute("data-pentovideo-picker-block", "");
   overlay.setAttribute("data-hf-ignore", "");
   overlay.setAttribute("data-no-capture", "");
   overlay.setAttribute("data-no-inspect", "");
@@ -817,8 +817,8 @@ export function init(config: HyperShaderConfig): GsapTimeline {
     }
   }
 
-  // Locally redeclared (not imported) because @hyperframes/shader-transitions
-  // ships as a standalone CDN bundle and must not depend on @hyperframes/engine.
+  // Locally redeclared (not imported) because @pentovideo/shader-transitions
+  // ships as a standalone CDN bundle and must not depend on @pentovideo/engine.
   // Keep this in sync with HfTransitionMeta in packages/engine/src/types.ts.
   interface HfTransitionMeta {
     time: number;
@@ -854,7 +854,7 @@ export function init(config: HyperShaderConfig): GsapTimeline {
   const compWidth = Number.isFinite(rawW) && rawW > 0 ? rawW : DEFAULT_WIDTH;
   const compHeight = Number.isFinite(rawH) && rawH > 0 ? rawH : DEFAULT_HEIGHT;
 
-  // The Hyperframes engine injects a virtual-time shim (window.__HF_VIRTUAL_TIME__)
+  // The Pentovideo engine injects a virtual-time shim (window.__HF_VIRTUAL_TIME__)
   // during render mode and composites every transition itself from the
   // window.__hf.transitions metadata above. Doing GL work or html2canvas captures
   // here would (a) waste cycles and (b) leave .scene elements stuck at opacity:0

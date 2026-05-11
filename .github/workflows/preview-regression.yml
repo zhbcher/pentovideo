@@ -61,7 +61,7 @@ jobs:
           bun run --cwd packages/core test -- src/studio-api/routes/thumbnail.test.ts
 
       - name: Build preview runtime
-        run: bun run --cwd packages/core build:hyperframes-runtime
+        run: bun run --cwd packages/core build:pentovideo-runtime
 
       - name: Prepare parity fixtures
         run: bun run --cwd packages/producer parity:fixtures:ci

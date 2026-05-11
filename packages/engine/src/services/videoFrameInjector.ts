@@ -2,7 +2,7 @@
  * Video Frame Injector
  *
  * Creates a BeforeCaptureHook that replaces native <video> elements with
- * pre-extracted frame images during rendering. This is the Hyperframes-specific
+ * pre-extracted frame images during rendering. This is the Pentovideo-specific
  * video handling strategy — OSS users with different video pipelines can
  * provide their own hook or skip video injection entirely.
  */

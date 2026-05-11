@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { lintHyperframeHtml } from "../hyperframeLinter.js";
+import { lintPentovideoHtml } from "../pentovideoLinter.js";
 
 describe("GSAP rules", () => {
   it("does NOT error when GSAP animates opacity on a clip element (by id)", () => {
@@ -17,7 +17,7 @@ describe("GSAP rules", () => {
     window.__timelines["c1"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "gsap_animates_clip_element");
     expect(finding).toBeUndefined();
   });
@@ -37,7 +37,7 @@ describe("GSAP rules", () => {
     window.__timelines["c1"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "gsap_animates_clip_element");
     expect(finding).toBeUndefined();
   });
@@ -57,7 +57,7 @@ describe("GSAP rules", () => {
     window.__timelines["c1"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "gsap_animates_clip_element");
     expect(finding).toBeUndefined();
   });
@@ -77,7 +77,7 @@ describe("GSAP rules", () => {
     window.__timelines["c1"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "gsap_animates_clip_element");
     expect(finding).toBeUndefined();
   });
@@ -97,7 +97,7 @@ describe("GSAP rules", () => {
     window.__timelines["c1"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "gsap_animates_clip_element");
     expect(finding).toBeUndefined();
   });
@@ -117,7 +117,7 @@ describe("GSAP rules", () => {
     window.__timelines["c1"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "gsap_animates_clip_element");
     expect(finding).toBeUndefined();
   });
@@ -137,7 +137,7 @@ describe("GSAP rules", () => {
     window.__timelines["c1"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "gsap_animates_clip_element");
     expect(finding).toBeUndefined();
   });
@@ -155,7 +155,7 @@ describe("GSAP rules", () => {
   </div>
 </template>`;
 
-    const result = lintHyperframeHtml(html, { isSubComposition: true });
+    const result = lintPentovideoHtml(html, { isSubComposition: true });
     const finding = result.findings.find((f) => f.code === "missing_gsap_script");
     expect(finding).toBeUndefined();
   });
@@ -173,7 +173,7 @@ describe("GSAP rules", () => {
   </div>
 </template>`;
 
-    const result = lintHyperframeHtml(html, { filePath: "compositions/intro.html" });
+    const result = lintPentovideoHtml(html, { filePath: "compositions/intro.html" });
     const finding = result.findings.find((f) => f.code === "missing_gsap_script");
     expect(finding).toBeUndefined();
   });
@@ -193,7 +193,7 @@ describe("GSAP rules", () => {
     window.__timelines["c1"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "gsap_animates_clip_element");
     expect(finding).toBeDefined();
     expect(finding?.severity).toBe("error");
@@ -216,7 +216,7 @@ describe("GSAP rules", () => {
     window.__timelines["c1"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "gsap_animates_clip_element");
     expect(finding).toBeDefined();
     expect(finding?.severity).toBe("error");
@@ -239,7 +239,7 @@ describe("GSAP rules", () => {
     window.__timelines["c1"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "gsap_animates_clip_element");
     expect(finding).toBeDefined();
     expect(finding?.severity).toBe("error");
@@ -262,7 +262,7 @@ describe("GSAP rules", () => {
     window.__timelines["c1"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "gsap_css_transform_conflict");
     expect(finding).toBeDefined();
     expect(finding?.severity).toBe("warning");
@@ -287,7 +287,7 @@ describe("GSAP rules", () => {
     window.__timelines["c1"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "gsap_css_transform_conflict");
     expect(finding).toBeDefined();
     expect(finding?.severity).toBe("warning");
@@ -310,7 +310,7 @@ describe("GSAP rules", () => {
     window.__timelines["c1"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const conflict = result.findings.find((f) => f.code === "gsap_css_transform_conflict");
     expect(conflict).toBeUndefined();
   });
@@ -331,7 +331,7 @@ describe("GSAP rules", () => {
     window.__timelines["c1"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const conflict = result.findings.find((f) => f.code === "gsap_css_transform_conflict");
     expect(conflict).toBeUndefined();
   });
@@ -352,7 +352,7 @@ describe("GSAP rules", () => {
     window.__timelines["c1"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const conflicts = result.findings.filter((f) => f.code === "gsap_css_transform_conflict");
     expect(conflicts).toHaveLength(1);
     expect(conflicts[0]?.message).toMatch(/x\/scale|scale\/x/);
@@ -373,7 +373,7 @@ describe("GSAP rules", () => {
     window.__timelines["c1"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "gsap_css_transform_conflict");
     expect(finding).toBeDefined();
     expect(finding?.selector).toBe("#centered");
@@ -392,7 +392,7 @@ describe("GSAP rules", () => {
     window.__timelines["c1"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "gsap_css_transform_conflict");
     expect(finding).toBeDefined();
     expect(finding?.selector).toBe("#box");
@@ -411,7 +411,7 @@ describe("GSAP rules", () => {
     window.__timelines["c1"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     // rotation doesn't conflict with rotate() — GSAP handles rotation separately
     const finding = result.findings.find((f) => f.code === "gsap_css_transform_conflict");
     expect(finding).toBeUndefined();
@@ -430,7 +430,7 @@ describe("GSAP rules", () => {
     window.__timelines["c1"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "gsap_css_transform_conflict");
     expect(finding).toBeDefined();
   });
@@ -451,7 +451,7 @@ describe("GSAP rules", () => {
     window.__timelines["c1"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const conflicts = result.findings.filter((f) => f.code === "gsap_css_transform_conflict");
     expect(conflicts.length).toBeGreaterThanOrEqual(1);
   });
@@ -467,7 +467,7 @@ describe("GSAP rules", () => {
     window.__timelines["main"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "missing_gsap_script");
     expect(finding).toBeDefined();
     expect(finding?.severity).toBe("error");
@@ -486,7 +486,7 @@ describe("GSAP rules", () => {
     window.__timelines["main"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "missing_gsap_script");
     expect(finding).toBeUndefined();
   });
@@ -505,7 +505,7 @@ describe("GSAP rules", () => {
     window.__timelines["main"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "missing_gsap_script");
     expect(finding).toBeUndefined();
   });
@@ -524,7 +524,7 @@ describe("GSAP rules", () => {
     window.__timelines["main"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "missing_gsap_script");
     expect(finding).toBeUndefined();
   });
@@ -540,7 +540,7 @@ describe("GSAP rules", () => {
     window.__timelines["main"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "missing_gsap_script");
     expect(finding).toBeDefined();
     expect(finding?.severity).toBe("error");
@@ -558,7 +558,7 @@ describe("GSAP rules", () => {
     window.__timelines["main"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "gsap_infinite_repeat");
     expect(finding).toBeDefined();
     expect(finding?.severity).toBe("error");
@@ -577,7 +577,7 @@ describe("GSAP rules", () => {
     window.__timelines["main"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "gsap_infinite_repeat");
     expect(finding).toBeUndefined();
   });
@@ -598,7 +598,7 @@ describe("GSAP rules", () => {
     window.__timelines["main"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "gsap_infinite_repeat");
     expect(finding).toBeUndefined();
   });
@@ -624,7 +624,7 @@ describe("GSAP rules", () => {
     window.__timelines["c1"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "overlapping_gsap_tweens");
     expect(finding).toBeUndefined();
   });
@@ -648,7 +648,7 @@ describe("GSAP rules", () => {
     window.__timelines["c1"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "gsap_exit_missing_hard_kill");
     expect(finding).toBeDefined();
     expect(finding?.severity).toBe("warning");
@@ -676,7 +676,7 @@ describe("GSAP rules", () => {
     window.__timelines["c1"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "gsap_exit_missing_hard_kill");
     expect(finding).toBeUndefined();
   });
@@ -701,7 +701,7 @@ describe("GSAP rules", () => {
     window.__timelines["sub"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "gsap_exit_missing_hard_kill");
     expect(finding).toBeUndefined();
   });
@@ -725,7 +725,7 @@ describe("GSAP rules", () => {
     window.__timelines["c1"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "gsap_exit_missing_hard_kill");
     expect(finding?.fixHint).toContain("{ autoAlpha: 0 }");
   });
@@ -742,7 +742,7 @@ describe("GSAP rules", () => {
     window.__timelines["main"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "gsap_infinite_repeat");
     expect(finding).toBeUndefined();
   });

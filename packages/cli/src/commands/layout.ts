@@ -23,10 +23,10 @@ const SEEK_SETTLE_MS = 120;
 const INSPECT_SCHEMA_VERSION = 1;
 
 export const examples: Example[] = [
-  ["Inspect visual layout across the current composition", "hyperframes layout"],
-  ["Inspect a specific project", "hyperframes layout ./my-video"],
-  ["Output agent-readable JSON", "hyperframes layout --json"],
-  ["Use explicit hero-frame timestamps", "hyperframes layout --at 1.5,4.0,7.25"],
+  ["Inspect visual layout across the current composition", "pentovideo layout"],
+  ["Inspect a specific project", "pentovideo layout ./my-video"],
+  ["Output agent-readable JSON", "pentovideo layout --json"],
+  ["Use explicit hero-frame timestamps", "pentovideo layout --at 1.5,4.0,7.25"],
 ];
 
 interface LayoutAuditResult {
@@ -109,7 +109,7 @@ async function seekTo(page: import("puppeteer-core").Page, time: number): Promis
 async function bundleProjectHtml(projectDir: string): Promise<string> {
   // `bundleToSingleHtml` now inlines the runtime IIFE by default, so the
   // previous post-bundle runtime substitution is no longer needed.
-  const { bundleToSingleHtml } = await import("@hyperframes/core/compiler");
+  const { bundleToSingleHtml } = await import("@pentovideo/core/compiler");
   return bundleToSingleHtml(projectDir);
 }
 
@@ -193,9 +193,9 @@ async function runLayoutAudit(
       const sampleIssues = await page.evaluate(
         (auditOptions: { time: number; tolerance: number }) => {
           const win = window as unknown as {
-            __hyperframesLayoutAudit?: (options: { time: number; tolerance: number }) => unknown[];
+            __pentovideoLayoutAudit?: (options: { time: number; tolerance: number }) => unknown[];
           };
-          return win.__hyperframesLayoutAudit?.(auditOptions) ?? [];
+          return win.__pentovideoLayoutAudit?.(auditOptions) ?? [];
         },
         { time, tolerance: opts.tolerance },
       );

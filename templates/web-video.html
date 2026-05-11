@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head><meta charset="UTF-8"><title>PentoVideo Web Demo</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a15;color:#fff;font-family:-apple-system,"PingFang SC",sans-serif;overflow:hidden}
+#app{width:100vw;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.scene{display:none;flex-direction:column;align-items:center;text-align:center;padding:40px;max-width:900px}
+.scene.active{display:flex}
+.scene h1{font-size:64px;margin-bottom:24px;line-height:1.2}
+.scene p{font-size:24px;opacity:0.8;line-height:1.6}
+#progress{position:fixed;bottom:0;left:0;height:4px;background:linear-gradient(90deg,#4da6ff,#7dbfff);transition:width 0.3s;opacity:0}
+#progress:hover,#progress.show{opacity:1}
+#counter{position:fixed;bottom:16px;right:24px;font-size:14px;opacity:0.4}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="scene active" id="scene-0"><h1>标题</h1><p>内容</p></div>
+</div>
+<div id="progress"></div>
+<div id="counter">1 / 1</div>
+<script>
+let current=0;
+const scenes=document.querySelectorAll(".scene");
+const total=scenes.length;
+function update(){scenes.forEach((s,i)=>{s.classList.toggle("active",i===current)});
+  document.getElementById("progress").style.width=((current+1)/total*100)+"%";
+  document.getElementById("counter").textContent=(current+1)+" / "+total;}
+document.addEventListener("click",()=>{current=(current+1)%total;update();});
+document.addEventListener("keydown",e=>{if(e.key==="ArrowRight"){current=Math.min(current+1,total-1);update();}
+  if(e.key==="ArrowLeft"){current=Math.max(current-1,0);update();}});
+update();
+</script>
+</body>
+</html>

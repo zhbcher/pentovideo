@@ -6,7 +6,7 @@
 
 import { type Page } from "puppeteer-core";
 import { type CaptureOptions } from "../types.js";
-import { MEDIA_VISUAL_STYLE_PROPERTIES } from "@hyperframes/core";
+import { MEDIA_VISUAL_STYLE_PROPERTIES } from "@pentovideo/core";
 
 export const cdpSessionCache = new WeakMap<Page, import("puppeteer-core").CDPSession>();
 

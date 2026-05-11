@@ -189,7 +189,7 @@ export const PLAYER_STYLES = /* css */ `
   /* ── Theming via CSS custom properties ──
    *
    * Override from outside the shadow DOM:
-   *   hyperframes-player {
+   *   pentovideo-player {
    *     --hfp-controls-bg: linear-gradient(transparent, rgba(0,0,0,0.9));
    *     --hfp-accent: #ff6b6b;
    *     --hfp-font: "Inter", sans-serif;

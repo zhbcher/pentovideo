@@ -1,5 +1,5 @@
 /**
- * Re-exported from @hyperframes/engine.
+ * Re-exported from @pentovideo/engine.
  * @see engine/src/services/screenshotService.ts for implementation.
  */
 export {
@@ -10,4 +10,4 @@ export {
   syncVideoFrameVisibility,
   cdpSessionCache,
   type BeginFrameResult,
-} from "@hyperframes/engine";
+} from "@pentovideo/engine";

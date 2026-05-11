@@ -1,9 +1,9 @@
 /**
- * Read and write `hyperframes.json` — the per-project config that tells
- * `hyperframes add` which registry to pull items from and where to drop them
+ * Read and write `pentovideo.json` — the per-project config that tells
+ * `pentovideo add` which registry to pull items from and where to drop them
  * in the user's project tree.
  *
- * The file is created by `hyperframes init` and optionally edited by users to
+ * The file is created by `pentovideo init` and optionally edited by users to
  * point at custom registries or reshape their project layout.
  */
 
@@ -11,13 +11,13 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { DEFAULT_REGISTRY_URL } from "../registry/index.js";
 
-export const PROJECT_CONFIG_FILENAME = "hyperframes.json";
-export const PROJECT_CONFIG_SCHEMA_URL = "https://hyperframes.heygen.com/schema/hyperframes.json";
+export const PROJECT_CONFIG_FILENAME = "pentovideo.json";
+export const PROJECT_CONFIG_SCHEMA_URL = "https://pentovideo.heygen.com/schema/pentovideo.json";
 
 export interface ProjectConfigPaths {
-  /** Where `hyperframes:block` items land, relative to project root. */
+  /** Where `pentovideo:block` items land, relative to project root. */
   blocks: string;
-  /** Where `hyperframes:component` items land, relative to project root. */
+  /** Where `pentovideo:component` items land, relative to project root. */
   components: string;
   /** Where asset files (images, fonts, videos) land, relative to project root. */
   assets: string;
@@ -46,7 +46,7 @@ export function projectConfigPath(projectDir: string): string {
   return join(resolve(projectDir), PROJECT_CONFIG_FILENAME);
 }
 
-/** Read `hyperframes.json` from a project directory. */
+/** Read `pentovideo.json` from a project directory. */
 export function readProjectConfig(projectDir: string): ProjectConfig | undefined {
   const path = projectConfigPath(projectDir);
   try {
@@ -75,7 +75,7 @@ export function normalizeConfig(partial: Partial<ProjectConfig>): ProjectConfig 
   };
 }
 
-/** Write `hyperframes.json` to a project directory. Overwrites if present. */
+/** Write `pentovideo.json` to a project directory. Overwrites if present. */
 export function writeProjectConfig(
   projectDir: string,
   config: ProjectConfig = DEFAULT_PROJECT_CONFIG,

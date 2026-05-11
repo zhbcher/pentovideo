@@ -26,7 +26,7 @@ function runInit(args: string[]): { status: number; stdout: string; stderr: stri
   };
 }
 
-describe("hyperframes init flag rename", () => {
+describe("pentovideo init flag rename", () => {
   it("--example blank scaffolds a bundled project with npm scripts", () => {
     const dir = mkdtempSync(join(tmpdir(), "hf-init-test-"));
     const target = join(dir, "proj");
@@ -46,11 +46,11 @@ describe("hyperframes init flag rename", () => {
       expect(pkg.private).toBe(true);
       expect(pkg.type).toBe("module");
       expect(pkg.scripts).toMatchObject({
-        dev: "npx --yes hyperframes preview",
+        dev: "npx --yes pentovideo preview",
         check:
-          "npx --yes hyperframes lint && npx --yes hyperframes validate && npx --yes hyperframes inspect",
-        render: "npx --yes hyperframes render",
-        publish: "npx --yes hyperframes publish",
+          "npx --yes pentovideo lint && npx --yes pentovideo validate && npx --yes pentovideo inspect",
+        render: "npx --yes pentovideo render",
+        publish: "npx --yes pentovideo publish",
       });
       expect(Object.keys(pkg.scripts ?? {}).sort()).toEqual(["check", "dev", "publish", "render"]);
     } finally {
@@ -80,11 +80,11 @@ describe("hyperframes init flag rename", () => {
         scripts?: Record<string, string>;
       };
       expect(pkg.scripts).toMatchObject({
-        dev: "npx --yes hyperframes preview",
+        dev: "npx --yes pentovideo preview",
         check:
-          "npx --yes hyperframes lint && npx --yes hyperframes validate && npx --yes hyperframes inspect",
-        render: "npx --yes hyperframes render",
-        publish: "npx --yes hyperframes publish",
+          "npx --yes pentovideo lint && npx --yes pentovideo validate && npx --yes pentovideo inspect",
+        render: "npx --yes pentovideo render",
+        publish: "npx --yes pentovideo publish",
       });
       expect(Object.keys(pkg.scripts ?? {}).sort()).toEqual(["check", "dev", "publish", "render"]);
     } finally {

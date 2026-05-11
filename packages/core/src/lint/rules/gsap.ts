@@ -1,5 +1,5 @@
 import { parseGsapScript } from "../../parsers/gsapParser";
-import type { LintContext, HyperframeLintFinding } from "../context";
+import type { LintContext, PentovideoLintFinding } from "../context";
 import type { OpenTag } from "../utils";
 import { readAttr, truncateSnippet, WINDOW_TIMELINE_ASSIGN_PATTERN } from "../utils";
 
@@ -433,10 +433,10 @@ function cssTransformToGsapProps(cssTransform: string): string | null {
 
 // ── GSAP rules ─────────────────────────────────────────────────────────────
 
-export const gsapRules: Array<(ctx: LintContext) => HyperframeLintFinding[]> = [
+export const gsapRules: Array<(ctx: LintContext) => PentovideoLintFinding[]> = [
   // overlapping_gsap_tweens + gsap_animates_clip_element + unscoped_gsap_selector
   ({ source, tags, scripts, rootCompositionId }) => {
-    const findings: HyperframeLintFinding[] = [];
+    const findings: PentovideoLintFinding[] = [];
 
     // Build clip element selector map
     type ClipInfo = { tag: string; id: string; classes: string };
@@ -565,7 +565,7 @@ export const gsapRules: Array<(ctx: LintContext) => HyperframeLintFinding[]> = [
 
   // gsap_css_transform_conflict
   ({ styles, scripts, tags }) => {
-    const findings: HyperframeLintFinding[] = [];
+    const findings: PentovideoLintFinding[] = [];
     const cssTranslateSelectors = new Map<string, string>();
     const cssScaleSelectors = new Map<string, string>();
 
@@ -702,7 +702,7 @@ export const gsapRules: Array<(ctx: LintContext) => HyperframeLintFinding[]> = [
 
   // audio_reactive_single_tween_per_group
   ({ scripts, styles }) => {
-    const findings: HyperframeLintFinding[] = [];
+    const findings: PentovideoLintFinding[] = [];
     const isCaptionFile = styles.some((s) => /\.caption[-_]?(?:group|word)/i.test(s.content));
     if (!isCaptionFile) return findings;
 
@@ -747,7 +747,7 @@ export const gsapRules: Array<(ctx: LintContext) => HyperframeLintFinding[]> = [
 
   // gsap_infinite_repeat
   ({ scripts }) => {
-    const findings: HyperframeLintFinding[] = [];
+    const findings: PentovideoLintFinding[] = [];
     for (const script of scripts) {
       const content = stripJsComments(script.content);
       // Match repeat: -1 in GSAP tweens or timeline configs
@@ -776,7 +776,7 @@ export const gsapRules: Array<(ctx: LintContext) => HyperframeLintFinding[]> = [
 
   // gsap_repeat_ceil_overshoot
   ({ scripts }) => {
-    const findings: HyperframeLintFinding[] = [];
+    const findings: PentovideoLintFinding[] = [];
     for (const script of scripts) {
       const content = script.content;
       // Match patterns like: repeat: Math.ceil(duration / X) - 1
@@ -806,7 +806,7 @@ export const gsapRules: Array<(ctx: LintContext) => HyperframeLintFinding[]> = [
 
   // scene_layer_missing_visibility_kill
   ({ scripts, tags }) => {
-    const findings: HyperframeLintFinding[] = [];
+    const findings: PentovideoLintFinding[] = [];
 
     // Detect multi-scene compositions: multiple elements with "scene" in their id
     const sceneElements = tags.filter((t) => {

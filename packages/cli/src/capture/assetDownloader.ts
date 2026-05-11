@@ -280,7 +280,7 @@ async function fetchBuffer(url: string): Promise<Buffer | null> {
     if (isPrivateUrl(url)) return null;
     const res = await fetch(url, {
       signal: AbortSignal.timeout(10000),
-      headers: { "User-Agent": "HyperFrames/1.0" },
+      headers: { "User-Agent": "PentoVideo/1.0" },
       redirect: "follow",
     });
     if (!res.ok) return null;

@@ -59,10 +59,10 @@ export function buildSubCompositionHtml(
 
   // Ensure runtime is present (might differ from the one in index.html)
   if (
-    !headContent.includes("hyperframe.runtime") &&
-    !headContent.includes("hyperframes-preview-runtime")
+    !headContent.includes("pentovideo.runtime") &&
+    !headContent.includes("pentovideo-preview-runtime")
   ) {
-    headContent += `\n<script data-hyperframes-preview-runtime="1" src="${runtimeUrl}"></script>`;
+    headContent += `\n<script data-pentovideo-preview-runtime="1" src="${runtimeUrl}"></script>`;
   }
 
   // Fallback: if no index.html head was found, add minimal deps

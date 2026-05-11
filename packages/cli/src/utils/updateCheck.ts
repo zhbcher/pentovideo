@@ -3,7 +3,7 @@ import { readConfig, writeConfig } from "../telemetry/config.js";
 import { VERSION } from "../version.js";
 import { isDevMode } from "./env.js";
 
-const NPM_REGISTRY_URL = "https://registry.npmjs.org/hyperframes/latest";
+const NPM_REGISTRY_URL = "https://registry.npmjs.org/pentovideo/latest";
 const CHECK_INTERVAL_MS = 24 * 60 * 60 * 1000; // 24 hours
 const FETCH_TIMEOUT_MS = 3000;
 
@@ -104,19 +104,19 @@ export function withMeta<T extends object>(data: T): T & { _meta: UpdateMeta } {
 
 /**
  * Print update notice to stderr if a newer version is available.
- * Skipped in CI, non-TTY, dev mode, or when HYPERFRAMES_NO_UPDATE_CHECK is set.
+ * Skipped in CI, non-TTY, dev mode, or when PENTOVIDEO_NO_UPDATE_CHECK is set.
  */
 export function printUpdateNotice(): void {
   if (isDevMode()) return;
   if (process.env["CI"] === "true" || process.env["CI"] === "1") return;
   if (!process.stderr.isTTY) return;
-  if (process.env["HYPERFRAMES_NO_UPDATE_CHECK"] === "1") return;
+  if (process.env["PENTOVIDEO_NO_UPDATE_CHECK"] === "1") return;
 
   const meta = getUpdateMeta();
   if (!meta.updateAvailable || !meta.latestVersion) return;
 
   process.stderr.write(
     `\n  Update available: ${meta.version} \u2192 ${meta.latestVersion}\n` +
-      `  Run: npx hyperframes@latest\n\n`,
+      `  Run: npx pentovideo@latest\n\n`,
   );
 }

@@ -1,4 +1,4 @@
-import type { LintContext, HyperframeLintFinding } from "../context";
+import type { LintContext, PentovideoLintFinding } from "../context";
 import { readAttr, truncateSnippet, isMediaTag } from "../utils";
 
 function escapeRegExp(value: string): string {
@@ -46,8 +46,8 @@ function selectorTargetsManagedMedia(selector: string, mediaIndex: MediaSelector
   return false;
 }
 
-function findImperativeMediaControlFindings(ctx: LintContext): HyperframeLintFinding[] {
-  const findings: HyperframeLintFinding[] = [];
+function findImperativeMediaControlFindings(ctx: LintContext): PentovideoLintFinding[] {
+  const findings: PentovideoLintFinding[] = [];
   const mediaTags = ctx.tags.filter((tag) => tag.name === "video" || tag.name === "audio");
   const mediaIndex: MediaSelectorIndex = {
     ids: new Set(
@@ -154,7 +154,7 @@ function findImperativeMediaControlFindings(ctx: LintContext): HyperframeLintFin
         findings.push({
           code: "imperative_media_control",
           severity: "error",
-          message: `Inline <script> imperatively controls managed media via ${kind}. HyperFrames must own media play/pause/seek to keep preview, timeline, and renders deterministic.`,
+          message: `Inline <script> imperatively controls managed media via ${kind}. PentoVideo must own media play/pause/seek to keep preview, timeline, and renders deterministic.`,
           elementId: elementId || undefined,
           fixHint:
             "Remove imperative media play/pause/currentTime/muted control. Express timing with data-start/data-duration and media offsets like data-media-start or data-playback-start instead.",
@@ -180,7 +180,7 @@ function findImperativeMediaControlFindings(ctx: LintContext): HyperframeLintFin
           findings.push({
             code: "imperative_media_control",
             severity: "error",
-            message: `Inline <script> imperatively controls managed media via ${kind}. HyperFrames must own media play/pause/seek to keep preview, timeline, and renders deterministic.`,
+            message: `Inline <script> imperatively controls managed media via ${kind}. PentoVideo must own media play/pause/seek to keep preview, timeline, and renders deterministic.`,
             elementId,
             fixHint:
               "Remove imperative media play/pause/currentTime/muted control. Express timing with data-start/data-duration and media offsets like data-media-start or data-playback-start instead.",
@@ -194,10 +194,10 @@ function findImperativeMediaControlFindings(ctx: LintContext): HyperframeLintFin
   return findings;
 }
 
-export const mediaRules: Array<(ctx: LintContext) => HyperframeLintFinding[]> = [
+export const mediaRules: Array<(ctx: LintContext) => PentovideoLintFinding[]> = [
   // duplicate_media_id + duplicate_media_discovery_risk
   ({ tags }) => {
-    const findings: HyperframeLintFinding[] = [];
+    const findings: PentovideoLintFinding[] = [];
     const mediaById = new Map<string, typeof tags>();
     const mediaFingerprintCounts = new Map<string, number>();
 
@@ -249,7 +249,7 @@ export const mediaRules: Array<(ctx: LintContext) => HyperframeLintFinding[]> = 
 
   // video_missing_muted
   ({ tags }) => {
-    const findings: HyperframeLintFinding[] = [];
+    const findings: PentovideoLintFinding[] = [];
     for (const tag of tags) {
       if (tag.name !== "video") continue;
       const hasMuted = hasAttrName(tag.raw, "muted");
@@ -284,7 +284,7 @@ export const mediaRules: Array<(ctx: LintContext) => HyperframeLintFinding[]> = 
 
   // video_nested_in_timed_element
   ({ source, tags }) => {
-    const findings: HyperframeLintFinding[] = [];
+    const findings: PentovideoLintFinding[] = [];
     // HTML5 void elements cannot contain children, so they can never be a
     // parent of a nested <video>. Skipping them avoids false positives where
     // the linter looks for `</img>` and never finds it.
@@ -344,7 +344,7 @@ export const mediaRules: Array<(ctx: LintContext) => HyperframeLintFinding[]> = 
 
   // self_closing_media_tag
   ({ source }) => {
-    const findings: HyperframeLintFinding[] = [];
+    const findings: PentovideoLintFinding[] = [];
     const selfClosingMediaRe = /<(audio|video)\b[^>]*\/>/gi;
     let scMatch: RegExpExecArray | null;
     while ((scMatch = selfClosingMediaRe.exec(source)) !== null) {
@@ -364,7 +364,7 @@ export const mediaRules: Array<(ctx: LintContext) => HyperframeLintFinding[]> = 
 
   // placeholder_media_url
   ({ tags }) => {
-    const findings: HyperframeLintFinding[] = [];
+    const findings: PentovideoLintFinding[] = [];
     const PLACEHOLDER_DOMAINS =
       /\b(placehold\.co|placeholder\.com|placekitten\.com|picsum\.photos|example\.com|via\.placeholder\.com|dummyimage\.com)\b/i;
     for (const tag of tags) {
@@ -388,7 +388,7 @@ export const mediaRules: Array<(ctx: LintContext) => HyperframeLintFinding[]> = 
 
   // base64_media_prohibited
   ({ source }) => {
-    const findings: HyperframeLintFinding[] = [];
+    const findings: PentovideoLintFinding[] = [];
     const base64MediaRe =
       /src\s*=\s*["'](data:(?:audio|video)\/[^;]+;base64,([A-Za-z0-9+/=]{20,}))["']/gi;
     let b64Match: RegExpExecArray | null;
@@ -411,7 +411,7 @@ export const mediaRules: Array<(ctx: LintContext) => HyperframeLintFinding[]> = 
 
   // media_missing_data_start + media_missing_id + media_missing_src + media_preload_none
   ({ tags }) => {
-    const findings: HyperframeLintFinding[] = [];
+    const findings: PentovideoLintFinding[] = [];
     for (const tag of tags) {
       if (tag.name !== "video" && tag.name !== "audio") continue;
       const hasDataStart = readAttr(tag.raw, "data-start");
@@ -421,7 +421,7 @@ export const mediaRules: Array<(ctx: LintContext) => HyperframeLintFinding[]> = 
         findings.push({
           code: "media_missing_data_start",
           severity: "error",
-          message: `<${tag.name}${hasId ? ` id="${hasId}"` : ""}> has src but no data-start. HyperFrames cannot own playback for untimed media, so preview and render behavior can diverge.`,
+          message: `<${tag.name}${hasId ? ` id="${hasId}"` : ""}> has src but no data-start. PentoVideo cannot own playback for untimed media, so preview and render behavior can diverge.`,
           elementId: hasId || undefined,
           fixHint: `Add data-start="0" (or the intended start time) and data-duration if the clip should stop before the source ends.`,
           snippet: truncateSnippet(tag.raw),
@@ -463,7 +463,7 @@ export const mediaRules: Array<(ctx: LintContext) => HyperframeLintFinding[]> = 
   // video_audio_double_source — catches audible <video> paired with a separate
   // <audio> pointing to the same file, which causes double playback at runtime
   ({ tags }) => {
-    const findings: HyperframeLintFinding[] = [];
+    const findings: PentovideoLintFinding[] = [];
     const videoSources = new Map<string, { id?: string; raw: string }>();
     const audioSources = new Map<string, { id?: string; raw: string }>();
 

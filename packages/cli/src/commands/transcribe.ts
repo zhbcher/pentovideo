@@ -3,12 +3,12 @@ import type { Example } from "./_examples.js";
 import { existsSync, writeFileSync } from "node:fs";
 
 export const examples: Example[] = [
-  ["Transcribe an audio file", "hyperframes transcribe audio.mp3"],
-  ["Transcribe a video file", "hyperframes transcribe video.mp4"],
-  ["Use a larger model for better accuracy", "hyperframes transcribe audio.mp3 --model medium.en"],
-  ["Set language to filter non-target speech", "hyperframes transcribe audio.mp3 --language en"],
-  ["Import an existing SRT file", "hyperframes transcribe subtitles.srt"],
-  ["Import an OpenAI Whisper JSON response", "hyperframes transcribe response.json"],
+  ["Transcribe an audio file", "pentovideo transcribe audio.mp3"],
+  ["Transcribe a video file", "pentovideo transcribe video.mp4"],
+  ["Use a larger model for better accuracy", "pentovideo transcribe audio.mp3 --model medium.en"],
+  ["Set language to filter non-target speech", "pentovideo transcribe audio.mp3 --language en"],
+  ["Import an existing SRT file", "pentovideo transcribe subtitles.srt"],
+  ["Import an OpenAI Whisper JSON response", "pentovideo transcribe response.json"],
 ];
 import { resolve, join, extname } from "node:path";
 import * as clack from "@clack/prompts";

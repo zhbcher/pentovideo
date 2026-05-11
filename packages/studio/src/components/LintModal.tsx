@@ -29,7 +29,7 @@ export function LintModal({
       if (f.fixHint) line += `\n  Fix: ${f.fixHint}`;
       return line;
     });
-    const text = `Fix these HyperFrames lint issues for project "${projectId}":\n\nProject path: ${window.location.href}\n\n${lines.join("\n\n")}`;
+    const text = `Fix these PentoVideo lint issues for project "${projectId}":\n\nProject path: ${window.location.href}\n\n${lines.join("\n\n")}`;
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);

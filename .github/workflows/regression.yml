@@ -89,7 +89,7 @@ jobs:
           context: .
           file: Dockerfile.test
           load: true
-          tags: hyperframes-producer:test
+          tags: pentovideo-producer:test
           cache-from: type=gha,scope=regression-test-image
           cache-to: type=gha,mode=min,scope=regression-test-image
 
@@ -101,7 +101,7 @@ jobs:
             --security-opt seccomp=unconfined \
             --shm-size=4g \
             -v ${{ github.workspace }}/packages/producer/tests:/app/packages/producer/tests \
-            hyperframes-producer:test \
+            pentovideo-producer:test \
             ${{ matrix.args }}
 
       - name: Upload failure artifacts

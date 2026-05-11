@@ -1,10 +1,10 @@
 {
-  "name": "@hyperframes/engine",
+  "name": "@pentovideo/engine",
   "version": "0.5.7",
   "description": "Seekable web page to video rendering engine (Puppeteer + FFmpeg)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/heygen-com/hyperframes",
+    "url": "https://github.com/pentovideo/pentovideo",
     "directory": "packages/engine"
   },
   "type": "module",
@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.13.0",
-    "@hyperframes/core": "workspace:^",
+    "@pentovideo/core": "workspace:^",
     "hono": "^4.6.0",
     "linkedom": "^0.18.12",
     "puppeteer": "^24.0.0",

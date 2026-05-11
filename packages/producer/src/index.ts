@@ -1,5 +1,5 @@
 /**
- * @hyperframes/producer
+ * @pentovideo/producer
  *
  * Generic HTML-to-video rendering engine using Chrome's BeginFrame API.
  * Framework-agnostic: works with GSAP, Lottie, Three.js, CSS animations,
@@ -42,7 +42,7 @@ export {
   type FileServerHandle,
 } from "./services/fileServer.js";
 
-// ── Video frame injection (Hyperframes-specific hook) ───────────────────────
+// ── Video frame injection (Pentovideo-specific hook) ───────────────────────
 export { createVideoFrameInjector } from "./services/videoFrameInjector.js";
 
 // ── Configuration ───────────────────────────────────────────────────────────
@@ -71,7 +71,7 @@ export { quantizeTimeToFrame } from "./utils/parityContract.js";
 export { resolveRenderPaths, type RenderPaths } from "./utils/paths.js";
 
 export {
-  prepareHyperframeLintBody,
-  runHyperframeLint,
-  type PreparedHyperframeLintInput,
-} from "./services/hyperframeLint.js";
+  preparePentovideoLintBody,
+  runPentovideoLint,
+  type PreparedPentovideoLintInput,
+} from "./services/pentovideoLint.js";

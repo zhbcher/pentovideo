@@ -1,7 +1,7 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://pentovideo.heygen.com/schema/registry-item.json",
   "name": "transitions-destruction",
-  "type": "hyperframes:block",
+  "type": "pentovideo:block",
   "title": "Destruction Transitions",
   "description": "Showcase of destructive break-apart transitions",
   "tags": ["transition", "showcase"],
@@ -14,7 +14,7 @@
     {
       "path": "transitions-destruction.html",
       "target": "compositions/transitions-destruction.html",
-      "type": "hyperframes:composition"
+      "type": "pentovideo:composition"
     }
   ]
 }

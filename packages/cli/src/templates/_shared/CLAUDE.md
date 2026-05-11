@@ -1,4 +1,4 @@
-# HyperFrames Composition Project
+# PentoVideo Composition Project
 
 ## Skills — USE THESE FIRST
 
@@ -6,21 +6,21 @@
 
 | Skill                      | Command                   | When to use                                                                                       |
 | -------------------------- | ------------------------- | ------------------------------------------------------------------------------------------------- |
-| **hyperframes**            | `/hyperframes`            | Creating or editing HTML compositions, captions, TTS, audio-reactive animation, marker highlights |
-| **hyperframes-cli**        | `/hyperframes-cli`        | Dev-loop CLI: init, lint, inspect, preview, render, doctor                                        |
-| **hyperframes-media**      | `/hyperframes-media`      | Asset preprocessing: tts (Kokoro), transcribe (Whisper), remove-background (u2net)                |
-| **hyperframes-registry**   | `/hyperframes-registry`   | Installing blocks and components via `hyperframes add`                                            |
-| **website-to-hyperframes** | `/website-to-hyperframes` | Capturing a URL and turning it into a video — full website-to-video pipeline                      |
-| **tailwind**               | `/tailwind`               | Tailwind v4 browser-runtime styles for projects created with `hyperframes init --tailwind`        |
-| **gsap**                   | `/gsap`                   | GSAP animations for HyperFrames — tweens, timelines, easing, performance                          |
+| **pentovideo**            | `/pentovideo`            | Creating or editing HTML compositions, captions, TTS, audio-reactive animation, marker highlights |
+| **pentovideo-cli**        | `/pentovideo-cli`        | Dev-loop CLI: init, lint, inspect, preview, render, doctor                                        |
+| **pentovideo-media**      | `/pentovideo-media`      | Asset preprocessing: tts (Kokoro), transcribe (Whisper), remove-background (u2net)                |
+| **pentovideo-registry**   | `/pentovideo-registry`   | Installing blocks and components via `pentovideo add`                                            |
+| **website-to-pentovideo** | `/website-to-pentovideo` | Capturing a URL and turning it into a video — full website-to-video pipeline                      |
+| **tailwind**               | `/tailwind`               | Tailwind v4 browser-runtime styles for projects created with `pentovideo init --tailwind`        |
+| **gsap**                   | `/gsap`                   | GSAP animations for PentoVideo — tweens, timelines, easing, performance                          |
 | **animejs**                | `/animejs`                | Anime.js animations registered on `window.__hfAnime`                                              |
-| **css-animations**         | `/css-animations`         | CSS keyframes that HyperFrames can pause and seek                                                 |
+| **css-animations**         | `/css-animations`         | CSS keyframes that PentoVideo can pause and seek                                                 |
 | **lottie**                 | `/lottie`                 | `lottie-web` and dotLottie players registered on `window.__hfLottie`                              |
-| **three**                  | `/three`                  | Three.js scenes rendered from HyperFrames `hf-seek` events                                        |
+| **three**                  | `/three`                  | Three.js scenes rendered from PentoVideo `hf-seek` events                                        |
 | **waapi**                  | `/waapi`                  | Web Animations API motion driven through `document.getAnimations()`                               |
 
-> **Skills not available?** Ask the user to run `npx hyperframes skills` and restart their
-> agent session, or install manually: `npx skills add heygen-com/hyperframes`.
+> **Skills not available?** Ask the user to run `npx pentovideo skills` and restart their
+> agent session, or install manually: `npx skills add heygen-com/pentovideo`.
 
 ## Commands
 
@@ -29,9 +29,9 @@ npm run dev          # preview in browser (studio editor)
 npm run check        # lint + validate + inspect
 npm run render       # render to MP4
 npm run publish      # publish and get a shareable link
-npx hyperframes lint --verbose  # include info-level findings
-npx hyperframes lint --json     # machine-readable output for CI
-npx hyperframes docs <topic> # reference docs in terminal
+npx pentovideo lint --verbose  # include info-level findings
+npx pentovideo lint --json     # machine-readable output for CI
+npx pentovideo docs <topic> # reference docs in terminal
 ```
 
 ## Documentation
@@ -39,7 +39,7 @@ npx hyperframes docs <topic> # reference docs in terminal
 **For quick reference**, use the local CLI docs command (no network required):
 
 ```bash
-npx hyperframes docs <topic>
+npx pentovideo docs <topic>
 ```
 
 Topics: `data-attributes`, `gsap`, `compositions`, `rendering`, `examples`, `troubleshooting`
@@ -47,7 +47,7 @@ Topics: `data-attributes`, `gsap`, `compositions`, `rendering`, `examples`, `tro
 **For full documentation**, discover pages via the machine-readable index — do NOT guess URLs:
 
 ```
-https://hyperframes.heygen.com/llms.txt
+https://pentovideo.heygen.com/llms.txt
 ```
 
 ## Project Structure

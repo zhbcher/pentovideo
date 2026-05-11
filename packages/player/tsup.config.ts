@@ -1,9 +1,9 @@
 import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: ["src/hyperframes-player.ts"],
+  entry: ["src/pentovideo-player.ts"],
   format: ["esm", "cjs", "iife"],
-  globalName: "HyperframesPlayer",
+  globalName: "PentovideoPlayer",
   dts: true,
   clean: true,
   minify: true,

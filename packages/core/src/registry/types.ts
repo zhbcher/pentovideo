@@ -2,15 +2,15 @@
 // `ITEM_TYPES` / `FILE_TYPES` below — `types.test.ts` is the drift guard.
 
 /** Top-level classification for a registry item. */
-export type ItemType = "hyperframes:example" | "hyperframes:block" | "hyperframes:component";
+export type ItemType = "pentovideo:example" | "pentovideo:block" | "pentovideo:component";
 
 /** File-level classification, drives installer behavior. */
 export type FileType =
-  | "hyperframes:composition"
-  | "hyperframes:asset"
-  | "hyperframes:snippet"
-  | "hyperframes:style"
-  | "hyperframes:timeline";
+  | "pentovideo:composition"
+  | "pentovideo:asset"
+  | "pentovideo:snippet"
+  | "pentovideo:style"
+  | "pentovideo:timeline";
 
 /** A single file to install as part of a registry item. */
 export interface FileTarget {
@@ -36,7 +36,7 @@ export interface RegistryItemPreview {
 
 /** Fields common to every registry item, regardless of type. */
 interface RegistryItemBase {
-  /** JSON Schema URL — `https://hyperframes.heygen.com/schema/registry-item.json`. */
+  /** JSON Schema URL — `https://pentovideo.heygen.com/schema/registry-item.json`. */
   $schema?: string;
   /** Item name in kebab-case, unique within a registry. */
   name: string;
@@ -54,7 +54,7 @@ interface RegistryItemBase {
   sourcePrompt?: string;
   /** SPDX license identifier. */
   license?: string;
-  /** Minimum `hyperframes` CLI version required to install this item (semver). */
+  /** Minimum `pentovideo` CLI version required to install this item (semver). */
   minCliVersion?: string;
   /** If set, the item is deprecated; the value is the reason or migration note. */
   deprecated?: string;
@@ -64,22 +64,22 @@ interface RegistryItemBase {
   files: FileTarget[];
   /** Optional preview media. */
   preview?: RegistryItemPreview;
-  /** Related skill slug (e.g. `hyperframes-captions`) — shown in docs. */
+  /** Related skill slug (e.g. `pentovideo-captions`) — shown in docs. */
   relatedSkill?: string;
 }
 
-/** Full-project example — scaffolded by `hyperframes init --example <name>`. */
+/** Full-project example — scaffolded by `pentovideo init --example <name>`. */
 export interface ExampleItem extends RegistryItemBase {
-  type: "hyperframes:example";
+  type: "pentovideo:example";
   /** Canvas dimensions (required for examples). */
   dimensions: RegistryItemDimensions;
   /** Duration in seconds (required for examples). */
   duration: number;
 }
 
-/** Sub-composition block — installed by `hyperframes add <name>`. */
+/** Sub-composition block — installed by `pentovideo add <name>`. */
 export interface BlockItem extends RegistryItemBase {
-  type: "hyperframes:block";
+  type: "pentovideo:block";
   /** Canvas dimensions (required for blocks — they are standalone compositions). */
   dimensions: RegistryItemDimensions;
   /** Duration in seconds (required for blocks). */
@@ -88,7 +88,7 @@ export interface BlockItem extends RegistryItemBase {
 
 /** Effect / snippet — merged into an existing composition. */
 export interface ComponentItem extends RegistryItemBase {
-  type: "hyperframes:component";
+  type: "pentovideo:component";
   /** Components have no intrinsic dimensions — they inherit from the host composition. */
   dimensions?: never;
   /** Components have no intrinsic duration — they inherit from the host composition. */
@@ -109,9 +109,9 @@ export interface RegistryManifestEntry {
 
 /** The top-level `registry.json` manifest. */
 export interface RegistryManifest {
-  /** JSON Schema URL — `https://hyperframes.heygen.com/schema/registry.json`. */
+  /** JSON Schema URL — `https://pentovideo.heygen.com/schema/registry.json`. */
   $schema?: string;
-  /** Registry name (e.g. `hyperframes`). */
+  /** Registry name (e.g. `pentovideo`). */
   name: string;
   /** Registry homepage URL. */
   homepage: string;
@@ -122,17 +122,17 @@ export interface RegistryManifest {
 // ── Constants (kept in sync with JSON Schema enums) ─────────────────────────
 
 export const ITEM_TYPES = [
-  "hyperframes:example",
-  "hyperframes:block",
-  "hyperframes:component",
+  "pentovideo:example",
+  "pentovideo:block",
+  "pentovideo:component",
 ] as const satisfies readonly ItemType[];
 
 export const FILE_TYPES = [
-  "hyperframes:composition",
-  "hyperframes:asset",
-  "hyperframes:snippet",
-  "hyperframes:style",
-  "hyperframes:timeline",
+  "pentovideo:composition",
+  "pentovideo:asset",
+  "pentovideo:snippet",
+  "pentovideo:style",
+  "pentovideo:timeline",
 ] as const satisfies readonly FileType[];
 
 /**
@@ -142,9 +142,9 @@ export const FILE_TYPES = [
  * tooling, and codegen scripts all agree.
  */
 export const ITEM_TYPE_DIRS = {
-  "hyperframes:example": "examples",
-  "hyperframes:block": "blocks",
-  "hyperframes:component": "components",
+  "pentovideo:example": "examples",
+  "pentovideo:block": "blocks",
+  "pentovideo:component": "components",
 } as const satisfies Record<ItemType, string>;
 
 // Compile-time exhaustiveness: every member of the TS union appears in the constant.
@@ -162,13 +162,13 @@ void _fileTypesExhaustive;
 // ── Type guards ─────────────────────────────────────────────────────────────
 
 export function isExampleItem(item: RegistryItem): item is ExampleItem {
-  return item.type === "hyperframes:example";
+  return item.type === "pentovideo:example";
 }
 
 export function isBlockItem(item: RegistryItem): item is BlockItem {
-  return item.type === "hyperframes:block";
+  return item.type === "pentovideo:block";
 }
 
 export function isComponentItem(item: RegistryItem): item is ComponentItem {
-  return item.type === "hyperframes:component";
+  return item.type === "pentovideo:component";
 }

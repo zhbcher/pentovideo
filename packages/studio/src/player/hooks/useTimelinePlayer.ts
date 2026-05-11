@@ -621,7 +621,7 @@ function unmutePreviewMedia(iframe: HTMLIFrameElement | null): void {
 /**
  * Resolve the underlying iframe from any host element. Supports:
  * - Direct `<iframe>` element (most common — studio's own `Player.tsx`)
- * - Custom elements (e.g. `<hyperframes-player>`) whose shadow DOM contains an iframe
+ * - Custom elements (e.g. `<pentovideo-player>`) whose shadow DOM contains an iframe
  * - Wrapper elements whose light DOM contains a descendant iframe
  *
  * Exported so web-component consumers can pre-resolve the iframe before
@@ -631,7 +631,7 @@ function unmutePreviewMedia(iframe: HTMLIFrameElement | null): void {
  * @example
  * ```tsx
  * const { iframeRef } = useTimelinePlayer();
- * const playerElRef = useRef<HyperframesPlayer>(null);
+ * const playerElRef = useRef<PentovideoPlayer>(null);
  *
  * useEffect(() => {
  *   iframeRef.current = resolveIframe(playerElRef.current);

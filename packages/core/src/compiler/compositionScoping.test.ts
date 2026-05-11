@@ -51,7 +51,7 @@ body { margin: 0; }
     expect(scoped).not.toContain('[data-start="0"]');
   });
 
-  it("exposes a scoped __hyperframes.getVariables that reads __hfVariablesByComp[compId]", () => {
+  it("exposes a scoped __pentovideo.getVariables that reads __hfVariablesByComp[compId]", () => {
     const { document } = parseHTML(`<div data-composition-id="card-1"></div>`);
     const fakeWindow: Record<string, unknown> = {
       document,
@@ -60,13 +60,13 @@ body { margin: 0; }
         "card-1": { title: "Pro", price: "$29" },
         "card-2": { title: "Enterprise", price: "Custom" },
       },
-      __hyperframes: {
+      __pentovideo: {
         getVariables: () => ({ title: "TOP-LEVEL-LEAK" }),
         fitTextFontSize: () => undefined,
       },
     };
     const wrapped = wrapScopedCompositionScript(
-      `window.__captured = __hyperframes.getVariables();`,
+      `window.__captured = __pentovideo.getVariables();`,
       "card-1",
     );
 
@@ -80,13 +80,13 @@ body { margin: 0; }
     const fakeWindow: Record<string, unknown> = {
       document,
       __timelines: {},
-      __hyperframes: {
+      __pentovideo: {
         getVariables: () => ({ title: "TOP-LEVEL-LEAK" }),
         fitTextFontSize: () => undefined,
       },
     };
     const wrapped = wrapScopedCompositionScript(
-      `window.__captured = __hyperframes.getVariables();`,
+      `window.__captured = __pentovideo.getVariables();`,
       "missing",
     );
 
@@ -104,13 +104,13 @@ body { margin: 0; }
       document,
       __timelines: {},
       __hfVariablesByComp: variablesByComp,
-      __hyperframes: {
+      __pentovideo: {
         getVariables: () => ({}),
         fitTextFontSize: () => undefined,
       },
     };
     const wrapped = wrapScopedCompositionScript(
-      `var v = __hyperframes.getVariables(); v.title = "MUTATED"; v.added = "extra";`,
+      `var v = __pentovideo.getVariables(); v.title = "MUTATED"; v.added = "extra";`,
       "card-1",
     );
 
@@ -335,7 +335,7 @@ window.__timelines.scene = "updated";
 window.__afterTimeline = window.__timelines.scene;
 `,
       "scene",
-      "[HyperFrames] composition script error:",
+      "[PentoVideo] composition script error:",
       undefined,
       "host",
     );

@@ -2,7 +2,7 @@
 
 // ── Fast-path exits ─────────────────────────────────────────────────────────
 // Check --version before importing anything heavy. This makes
-// `hyperframes --version` near-instant (~10ms vs ~80ms).
+// `pentovideo --version` near-instant (~10ms vs ~80ms).
 import { VERSION } from "./version.js";
 
 const argv = process.argv.slice(2);
@@ -60,7 +60,7 @@ const subCommands = {
 
 const main = defineCommand({
   meta: {
-    name: "hyperframes",
+    name: "pentovideo",
     version: VERSION,
     description: "Create and render HTML video compositions",
   },

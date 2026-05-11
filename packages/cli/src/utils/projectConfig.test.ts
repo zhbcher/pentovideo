@@ -111,7 +111,7 @@ describe("projectConfig", () => {
   });
 
   describe("writeProjectConfig", () => {
-    it("writes to hyperframes.json at the project root", () => {
+    it("writes to pentovideo.json at the project root", () => {
       const dir = tmp();
       try {
         writeProjectConfig(dir);

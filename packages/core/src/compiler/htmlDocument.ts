@@ -1,18 +1,18 @@
 import { parseHTML } from "linkedom";
 
-export const RUNTIME_BOOTSTRAP_ATTR = "data-hyperframes-preview-runtime";
+export const RUNTIME_BOOTSTRAP_ATTR = "data-pentovideo-preview-runtime";
 
 const RUNTIME_SRC_MARKERS = [
-  "hyperframe.runtime.iife.js",
-  "hyperframes-runtime.modular.inline.js",
-  "hyperframe-runtime.modular-runtime.inline.js",
+  "pentovideo.runtime.iife.js",
+  "pentovideo-runtime.modular.inline.js",
+  "pentovideo-runtime.modular-runtime.inline.js",
   RUNTIME_BOOTSTRAP_ATTR,
 ];
 
 const RUNTIME_INLINE_MARKERS = [
-  "__hyperframeRuntimeBootstrapped",
-  "__hyperframeRuntime",
-  "__hyperframeRuntimeTeardown",
+  "__pentovideoRuntimeBootstrapped",
+  "__pentovideoRuntime",
+  "__pentovideoRuntimeTeardown",
   "window.__player =",
   "window.__playerReady",
   "window.__renderReady",

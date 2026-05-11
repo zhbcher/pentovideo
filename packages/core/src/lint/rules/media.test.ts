@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { lintHyperframeHtml } from "../hyperframeLinter.js";
+import { lintPentovideoHtml } from "../pentovideoLinter.js";
 
 describe("media rules", () => {
   it("reports error for duplicate media ids", () => {
@@ -11,7 +11,7 @@ describe("media rules", () => {
   </div>
   <script>window.__timelines = {};</script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "duplicate_media_id");
     expect(finding).toBeDefined();
     expect(finding?.severity).toBe("error");
@@ -26,7 +26,7 @@ describe("media rules", () => {
   </div>
   <script>window.__timelines = window.__timelines || {}; window.__timelines["c1"] = gsap.timeline({ paused: true });</script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "media_missing_id");
     expect(finding).toBeDefined();
     expect(finding?.severity).toBe("error");
@@ -41,7 +41,7 @@ describe("media rules", () => {
   </div>
   <script>window.__timelines = window.__timelines || {}; window.__timelines["c1"] = gsap.timeline({ paused: true });</script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "media_missing_id");
     expect(finding).toBeDefined();
     expect(finding?.severity).toBe("error");
@@ -57,7 +57,7 @@ describe("media rules", () => {
   </div>
   <script>window.__timelines = window.__timelines || {}; window.__timelines["c1"] = gsap.timeline({ paused: true });</script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "media_missing_id");
     expect(finding).toBeUndefined();
   });
@@ -70,7 +70,7 @@ describe("media rules", () => {
   </div>
   <script>window.__timelines = window.__timelines || {}; window.__timelines["c1"] = gsap.timeline({ paused: true });</script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "media_preload_none");
     expect(finding).toBeDefined();
     expect(finding?.severity).toBe("warning");
@@ -84,7 +84,7 @@ describe("media rules", () => {
   </div>
   <script>window.__timelines = window.__timelines || {}; window.__timelines["c1"] = gsap.timeline({ paused: true });</script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "media_missing_src");
     expect(finding).toBeDefined();
     expect(finding?.severity).toBe("error");
@@ -98,7 +98,7 @@ describe("media rules", () => {
   </div>
   <script>window.__timelines = window.__timelines || {}; window.__timelines["c1"] = gsap.timeline({ paused: true });</script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "media_missing_data_start");
     expect(finding).toBeDefined();
     expect(finding?.severity).toBe("error");
@@ -113,7 +113,7 @@ describe("media rules", () => {
   </div>
   <script>window.__timelines = window.__timelines || {}; window.__timelines["c1"] = gsap.timeline({ paused: true });</script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     expect(result.findings.find((f) => f.code === "video_missing_muted")).toBeUndefined();
     expect(
       result.findings.find((f) => f.code === "video_muted_with_declared_audio"),
@@ -128,7 +128,7 @@ describe("media rules", () => {
   </div>
   <script>window.__timelines = window.__timelines || {}; window.__timelines["c1"] = gsap.timeline({ paused: true });</script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "video_muted_with_declared_audio");
     expect(finding).toBeDefined();
     expect(finding?.severity).toBe("error");
@@ -147,7 +147,7 @@ describe("media rules", () => {
   </div>
   <script>window.__timelines = window.__timelines || {}; window.__timelines["c1"] = gsap.timeline({ paused: true });</script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "video_nested_in_timed_element");
     expect(finding).toBeUndefined();
   });
@@ -163,7 +163,7 @@ describe("media rules", () => {
     video.play();
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "imperative_media_control");
     expect(finding).toBeDefined();
     expect(finding?.severity).toBe("error");
@@ -181,7 +181,7 @@ describe("media rules", () => {
     demo.currentTime = 1.5;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "imperative_media_control");
     expect(finding).toBeDefined();
     expect(finding?.severity).toBe("error");
@@ -198,7 +198,7 @@ describe("media rules", () => {
     </script>
   </div>
 </template>`;
-    const result = lintHyperframeHtml(html, { filePath: "compositions/scene.html" });
+    const result = lintPentovideoHtml(html, { filePath: "compositions/scene.html" });
     const imperativeFindings = result.findings.filter((f) => f.code === "imperative_media_control");
     expect(imperativeFindings.length).toBe(2);
     expect(imperativeFindings.some((f) => f.snippet === "vid.muted =")).toBe(true);
@@ -216,7 +216,7 @@ describe("media rules", () => {
     panel.play?.();
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "imperative_media_control");
     expect(finding).toBeUndefined();
   });

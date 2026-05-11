@@ -10,9 +10,9 @@ import { c } from "../ui/colors.js";
 import type { Example } from "./_examples.js";
 
 /** Maximum time a single-frame FFmpeg extract is allowed to run. Mirrors the
- * default applied by `@hyperframes/engine`'s `runFfmpeg` so a pathological
+ * default applied by `@pentovideo/engine`'s `runFfmpeg` so a pathological
  * clip (corrupt media, stalled network mount, codec edge case) cannot wedge
- * `hyperframes snapshot` indefinitely. */
+ * `pentovideo snapshot` indefinitely. */
 const FFMPEG_EXTRACT_TIMEOUT_MS = 30_000;
 
 /**
@@ -92,7 +92,7 @@ async function captureSnapshots(
   projectDir: string,
   opts: { frames?: number; timeout?: number; at?: number[] },
 ): Promise<string[]> {
-  const { bundleToSingleHtml } = await import("@hyperframes/core/compiler");
+  const { bundleToSingleHtml } = await import("@pentovideo/core/compiler");
   const { ensureBrowser } = await import("../browser/manager.js");
 
   const numFrames = opts.frames ?? 5;
@@ -208,7 +208,7 @@ async function captureSnapshots(
       let syncVideoFrameVisibility: SyncVisibilityFn | null = null;
       let extractMediaMetadata: ExtractMediaMetadataFn | null = null;
       try {
-        const engine = (await import("@hyperframes/engine")) as {
+        const engine = (await import("@pentovideo/engine")) as {
           injectVideoFramesBatch: InjectFn;
           syncVideoFrameVisibility: SyncVisibilityFn;
           extractMediaMetadata: ExtractMediaMetadataFn;

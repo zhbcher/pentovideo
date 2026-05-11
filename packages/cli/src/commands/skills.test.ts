@@ -25,7 +25,7 @@ vi.mock("node:child_process", () => ({
   ),
 }));
 
-describe("hyperframes skills", () => {
+describe("pentovideo skills", () => {
   beforeEach(() => {
     state.calls = [];
     vi.resetModules();

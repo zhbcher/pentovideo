@@ -1,6 +1,6 @@
 import { AUDIO_EXT, IMAGE_EXT, VIDEO_EXT } from "./mediaTypes";
 
-export const TIMELINE_ASSET_MIME = "application/x-hyperframes-asset";
+export const TIMELINE_ASSET_MIME = "application/x-pentovideo-asset";
 const FALLBACK_TIMELINE_FILE_DROP_DURATION = 5;
 
 export type TimelineAssetKind = "image" | "video" | "audio";

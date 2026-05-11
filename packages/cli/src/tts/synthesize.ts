@@ -99,7 +99,7 @@ print(json.dumps({
 // Cache the script to avoid rewriting it on every invocation.
 // The filename carries a version suffix so older installs automatically
 // upgrade when the script body changes (e.g., adding the `lang` kwarg).
-const SCRIPT_DIR = join(homedir(), ".cache", "hyperframes", "tts");
+const SCRIPT_DIR = join(homedir(), ".cache", "pentovideo", "tts");
 const SCRIPT_PATH = join(SCRIPT_DIR, "synth-v2.py");
 
 function ensureSynthScript(): string {

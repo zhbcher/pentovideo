@@ -18,7 +18,7 @@ describe("layout-audit.browser", () => {
   afterEach(() => {
     vi.restoreAllMocks();
     document.body.innerHTML = "";
-    delete (window as unknown as { __hyperframesLayoutAudit?: unknown }).__hyperframesLayoutAudit;
+    delete (window as unknown as { __pentovideoLayoutAudit?: unknown }).__pentovideoLayoutAudit;
   });
 
   it("uses authored canvas dimensions when the root bounding rect is degenerate", () => {
@@ -112,14 +112,14 @@ function runAudit(): Array<{
 }> {
   const audit = (
     window as unknown as {
-      __hyperframesLayoutAudit: (options: { time: number; tolerance: number }) => Array<{
+      __pentovideoLayoutAudit: (options: { time: number; tolerance: number }) => Array<{
         code: string;
         selector: string;
         containerSelector?: string;
         overflow?: Record<string, number>;
       }>;
     }
-  ).__hyperframesLayoutAudit;
+  ).__pentovideoLayoutAudit;
   return audit({ time: 1, tolerance: 2 });
 }
 

@@ -5,9 +5,9 @@ import { execSync } from "node:child_process";
 import { c } from "../ui/colors.js";
 
 export const examples: Example[] = [
-  ["Check for updates interactively", "hyperframes upgrade"],
-  ["Check for updates without prompting", "hyperframes upgrade --check"],
-  ["Upgrade non-interactively", "hyperframes upgrade --yes"],
+  ["Check for updates interactively", "pentovideo upgrade"],
+  ["Check for updates without prompting", "pentovideo upgrade --check"],
+  ["Upgrade non-interactively", "pentovideo upgrade --yes"],
 ];
 import { VERSION } from "../version.js";
 import { checkForUpdate, withMeta } from "../utils/updateCheck.js";
@@ -31,7 +31,7 @@ export default defineCommand({
     }
 
     const autoYes = args.yes === true;
-    clack.intro(c.bold("hyperframes upgrade"));
+    clack.intro(c.bold("pentovideo upgrade"));
 
     const s = clack.spinner();
     s.start("Checking for updates...");
@@ -67,7 +67,7 @@ export default defineCommand({
       }
     }
 
-    const installCmd = `npm install -g hyperframes@${result.latest}`;
+    const installCmd = `npm install -g pentovideo@${result.latest}`;
     if (autoYes) {
       console.log();
       console.log(`   ${c.dim("Running:")} ${c.accent(installCmd)}`);
@@ -84,7 +84,7 @@ export default defineCommand({
       console.log();
       console.log(`   ${c.accent(installCmd)}`);
       console.log(`   ${c.dim("or")}`);
-      console.log(`   ${c.accent("npx hyperframes@" + result.latest + " --version")}`);
+      console.log(`   ${c.accent("npx pentovideo@" + result.latest + " --version")}`);
       console.log();
       clack.outro(c.success("Run one of the commands above to upgrade."));
     }

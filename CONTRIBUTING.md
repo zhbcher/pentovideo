@@ -1,11 +1,11 @@
-# Contributing to Hyperframes
+# Contributing to Pentovideo
 
-Thanks for your interest in contributing to Hyperframes! This guide will help you get started.
+Thanks for your interest in contributing to Pentovideo! This guide will help you get started.
 
 ## Getting Started
 
 1. Fork the repository
-2. Clone your fork: `git clone https://github.com/YOUR_USERNAME/hyperframes.git`
+2. Clone your fork: `git clone https://github.com/YOUR_USERNAME/pentovideo.git`
 3. Install dependencies: `bun install`
 4. Create a branch: `git checkout -b my-feature`
 
@@ -23,9 +23,9 @@ bun run format:check   # Check formatting
 ### Running Tests
 
 ```bash
-bun run --filter @hyperframes/core test          # Core unit tests (vitest)
-bun run --filter @hyperframes/engine test        # Engine unit tests (vitest)
-bun run --filter @hyperframes/core test:hyperframe-runtime-ci  # Runtime contract tests
+bun run --filter @pentovideo/core test          # Core unit tests (vitest)
+bun run --filter @pentovideo/engine test        # Engine unit tests (vitest)
+bun run --filter @pentovideo/core test:pentovideo-runtime-ci  # Runtime contract tests
 ```
 
 ### Linting & Formatting
@@ -63,7 +63,7 @@ const event = data as unknown as RuntimeEvent;
 
 ## Adding Registry Items (Blocks & Components)
 
-The registry at `registry/` contains reusable items installable via `hyperframes add <name>`. Each item lives in its own directory under `registry/blocks/` or `registry/components/`.
+The registry at `registry/` contains reusable items installable via `pentovideo add <name>`. Each item lives in its own directory under `registry/blocks/` or `registry/components/`.
 
 ### Directory structure
 
@@ -94,8 +94,8 @@ Blocks don't need `demo.html` — they are already standalone compositions.
 1. Create `registry/<blocks|components>/<name>/registry-item.json` following the [schema](packages/core/schemas/registry-item.json)
 2. Add the item to `registry/registry.json`
 3. For components: include a `demo.html`
-4. Run `npx hyperframes lint` and `npx hyperframes validate` on your HTML
-5. Test the install flow: `hyperframes add <name> --dir /tmp/test-project`
+4. Run `npx pentovideo lint` and `npx pentovideo validate` on your HTML
+5. Test the install flow: `pentovideo add <name> --dir /tmp/test-project`
 
 ### Auto-generated docs
 
@@ -126,11 +126,11 @@ The script wipes `docs/catalog/` before regenerating, so deleted items are autom
 
 | Package                 | Description                                 |
 | ----------------------- | ------------------------------------------- |
-| `@hyperframes/core`     | Types, HTML generation, runtime, linter     |
-| `@hyperframes/engine`   | Seekable page-to-video capture engine       |
-| `@hyperframes/producer` | Full rendering pipeline (capture + encode)  |
-| `@hyperframes/studio`   | Composition editor UI                       |
-| `hyperframes`           | CLI for creating, previewing, and rendering |
+| `@pentovideo/core`     | Types, HTML generation, runtime, linter     |
+| `@pentovideo/engine`   | Seekable page-to-video capture engine       |
+| `@pentovideo/producer` | Full rendering pipeline (capture + encode)  |
+| `@pentovideo/studio`   | Composition editor UI                       |
+| `pentovideo`           | CLI for creating, previewing, and rendering |
 
 ## Releasing (Maintainers)
 
@@ -159,7 +159,7 @@ bun run set-version 0.2.0-rc.1       # release candidate (--tag rc)
 bun run set-version 0.2.0            # final stable release (--tag latest)
 ```
 
-Consumers install pre-releases with `npm install @hyperframes/core@alpha` (or `@beta`, `@rc`). The `latest` tag is never touched by pre-releases, so `npm install @hyperframes/core` always gets the last stable version.
+Consumers install pre-releases with `npm install @pentovideo/core@alpha` (or `@beta`, `@rc`). The `latest` tag is never touched by pre-releases, so `npm install @pentovideo/core` always gets the last stable version.
 
 Pre-releases also create GitHub Releases marked as **pre-release**.
 
@@ -173,7 +173,7 @@ bun run set-version 0.2.0 --no-tag   # updates package.json files only
 
 ## Reporting Issues
 
-- Use [GitHub Issues](https://github.com/heygen-com/hyperframes/issues) for bug reports and feature requests
+- Use [GitHub Issues](https://github.com/heygen-com/pentovideo/issues) for bug reports and feature requests
 - Search existing issues before creating a new one
 - Include reproduction steps for bugs
 
@@ -187,7 +187,7 @@ We welcome contributions that use AI tools (GitHub Copilot, Claude, ChatGPT, etc
 
 ## Governance
 
-Hyperframes uses a **BDFL (Benevolent Dictator for Life)** governance model. The core maintainers at HeyGen have final say on the project's direction, API design, and what gets merged. This keeps the project focused and moving fast.
+Pentovideo uses a **BDFL (Benevolent Dictator for Life)** governance model. The core maintainers at HeyGen have final say on the project's direction, API design, and what gets merged. This keeps the project focused and moving fast.
 
 Community input is valued and encouraged — open issues, propose RFCs, and discuss in PRs. But final decisions rest with the maintainers.
 

@@ -2,7 +2,7 @@
 /**
  * Generate Template Preview Images + Videos
  *
- * Uses @hyperframes/producer to render PNG thumbnails and short MP4 preview
+ * Uses @pentovideo/producer to render PNG thumbnails and short MP4 preview
  * videos of each built-in template.
  *
  * Output: docs/images/templates/<id>.png + <id>.mp4
@@ -36,7 +36,7 @@ import {
   closeCaptureSession,
   createRenderJob,
   executeRenderJob,
-} from "@hyperframes/producer";
+} from "@pentovideo/producer";
 
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(scriptDir, "..");
@@ -44,10 +44,10 @@ const bundledTemplatesDir = resolve(repoRoot, "packages/cli/src/templates");
 const remoteTemplatesDir = resolve(repoRoot, "registry/examples");
 const outputDir = resolve(repoRoot, "docs/images/templates");
 
-if (!process.env.PRODUCER_HYPERFRAME_MANIFEST_PATH) {
-  process.env.PRODUCER_HYPERFRAME_MANIFEST_PATH = resolve(
+if (!process.env.PRODUCER_PENTOVIDEO_MANIFEST_PATH) {
+  process.env.PRODUCER_PENTOVIDEO_MANIFEST_PATH = resolve(
     repoRoot,
-    "packages/core/dist/hyperframe.manifest.json",
+    "packages/core/dist/pentovideo.manifest.json",
   );
 }
 

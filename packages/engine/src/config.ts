@@ -97,9 +97,9 @@ export interface EngineConfig {
   renderReadyTimeout: number;
 
   // ── Runtime ──────────────────────────────────────────────────────────
-  /** Verify Hyperframe runtime SHA256 checksums. */
+  /** Verify Pentovideo runtime SHA256 checksums. */
   verifyRuntime: boolean;
-  /** Custom manifest path for Hyperframe runtime. */
+  /** Custom manifest path for Pentovideo runtime. */
   runtimeManifestPath?: string;
 
   // ── Cache ────────────────────────────────────────────────────────────
@@ -122,7 +122,7 @@ export interface EngineConfig {
    * produce spurious cache hits if a source file is overwritten within the
    * same mtime tick. Local filesystems are the intended deployment target.
    *
-   * Env fallback: `HYPERFRAMES_EXTRACT_CACHE_DIR`.
+   * Env fallback: `PENTOVIDEO_EXTRACT_CACHE_DIR`.
    */
   extractCacheDir?: string;
 
@@ -130,7 +130,7 @@ export interface EngineConfig {
   debug: boolean;
 }
 
-/** Default configuration — sensible for Hyperframes compositions. */
+/** Default configuration — sensible for Pentovideo compositions. */
 export const DEFAULT_CONFIG: EngineConfig = {
   fps: 30,
   quality: "standard",
@@ -278,10 +278,10 @@ export function resolveConfig(overrides?: Partial<EngineConfig>): EngineConfig {
       DEFAULT_CONFIG.renderReadyTimeout,
     ),
 
-    verifyRuntime: env("PRODUCER_VERIFY_HYPERFRAME_RUNTIME") !== "false",
-    runtimeManifestPath: env("PRODUCER_HYPERFRAME_MANIFEST_PATH"),
+    verifyRuntime: env("PRODUCER_VERIFY_PENTOVIDEO_RUNTIME") !== "false",
+    runtimeManifestPath: env("PRODUCER_PENTOVIDEO_MANIFEST_PATH"),
 
-    extractCacheDir: env("HYPERFRAMES_EXTRACT_CACHE_DIR"),
+    extractCacheDir: env("PENTOVIDEO_EXTRACT_CACHE_DIR"),
   };
 
   // Remove undefined values so they don't override defaults

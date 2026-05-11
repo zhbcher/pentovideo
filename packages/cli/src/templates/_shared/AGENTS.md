@@ -1,11 +1,11 @@
-# HyperFrames Composition Project
+# PentoVideo Composition Project
 
 ## Skills
 
 This project uses AI agent skills for framework-specific patterns. Install them if not already present:
 
 ```bash
-npx skills add heygen-com/hyperframes
+npx skills add heygen-com/pentovideo
 ```
 
 Skills encode patterns like `window.__timelines` registration, `data-*` attribute semantics, Tailwind v4 browser-runtime styling for `--tailwind` projects, and shader-compatible CSS rules that are not in generic web docs. Using them produces correct compositions from the start.
@@ -17,7 +17,7 @@ npm run dev          # preview in browser (studio editor)
 npm run check        # lint + validate + inspect
 npm run render       # render to MP4
 npm run publish      # publish and get a shareable link
-npx hyperframes docs <topic> # reference docs in terminal
+npx pentovideo docs <topic> # reference docs in terminal
 ```
 
 ## Project Structure
@@ -53,6 +53,6 @@ Fix all errors before presenting the result.
 
 ## Documentation
 
-Full docs: https://hyperframes.heygen.com/introduction
+Full docs: https://pentovideo.heygen.com/introduction
 
-Machine-readable index for AI tools: https://hyperframes.heygen.com/llms.txt
+Machine-readable index for AI tools: https://pentovideo.heygen.com/llms.txt

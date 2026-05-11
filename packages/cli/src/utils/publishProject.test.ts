@@ -54,7 +54,7 @@ describe("uploadTimeoutMs", () => {
 
 describe("publishProjectArchive", () => {
   beforeEach(() => {
-    vi.stubEnv("HYPERFRAMES_PUBLISHED_PROJECTS_API_URL", "");
+    vi.stubEnv("PENTOVIDEO_PUBLISHED_PROJECTS_API_URL", "");
     vi.stubEnv("HEYGEN_API_URL", "");
   });
 
@@ -73,7 +73,7 @@ describe("publishProjectArchive", () => {
             data: {
               upload_url:
                 "https://s3.example.com/upload?X-Amz-SignedHeaders=content-length;content-type;host;x-amz-server-side-encryption",
-              upload_key: "ephemeral_store/hyperframes/project_uploads/upload-1/demo.zip",
+              upload_key: "ephemeral_store/pentovideo/project_uploads/upload-1/demo.zip",
               upload_headers: {
                 "content-type": "application/zip",
                 "x-amz-server-side-encryption": "AES256",
@@ -92,7 +92,7 @@ describe("publishProjectArchive", () => {
               project_id: "hfp_123",
               title: "demo",
               file_count: 2,
-              url: "https://hyperframes.dev/p/hfp_123",
+              url: "https://pentovideo.dev/p/hfp_123",
               claim_token: "claim-token",
             },
           }),
@@ -110,12 +110,12 @@ describe("publishProjectArchive", () => {
       expect(getPublishApiBaseUrl()).toBe("https://api2.heygen.com");
       expect(result).toMatchObject({
         projectId: "hfp_123",
-        url: "https://hyperframes.dev/p/hfp_123",
+        url: "https://pentovideo.dev/p/hfp_123",
       });
       expect(fetchMock).toHaveBeenCalledTimes(3);
       expect(fetchMock).toHaveBeenNthCalledWith(
         1,
-        "https://api2.heygen.com/v1/hyperframes/projects/publish/upload",
+        "https://api2.heygen.com/v1/pentovideo/projects/publish/upload",
         expect.objectContaining({
           method: "POST",
           headers: { "content-type": "application/json", heygen_route: "canary" },
@@ -137,7 +137,7 @@ describe("publishProjectArchive", () => {
       );
       expect(fetchMock).toHaveBeenNthCalledWith(
         3,
-        "https://api2.heygen.com/v1/hyperframes/projects/publish/complete",
+        "https://api2.heygen.com/v1/pentovideo/projects/publish/complete",
         expect.objectContaining({
           method: "POST",
           headers: { "content-type": "application/json", heygen_route: "canary" },
@@ -161,7 +161,7 @@ describe("publishProjectArchive", () => {
               project_id: "hfp_123",
               title: "demo",
               file_count: 2,
-              url: "https://hyperframes.dev/p/hfp_123",
+              url: "https://pentovideo.dev/p/hfp_123",
               claim_token: "claim-token",
             },
           }),
@@ -179,7 +179,7 @@ describe("publishProjectArchive", () => {
       expect(fetchMock).toHaveBeenCalledTimes(2);
       expect(fetchMock).toHaveBeenNthCalledWith(
         2,
-        "https://api2.heygen.com/v1/hyperframes/projects/publish",
+        "https://api2.heygen.com/v1/pentovideo/projects/publish",
         expect.objectContaining({
           method: "POST",
           headers: { heygen_route: "canary" },
@@ -200,7 +200,7 @@ describe("publishProjectArchive", () => {
           JSON.stringify({
             data: {
               upload_url: "https://s3.example.com/upload",
-              upload_key: "ephemeral_store/hyperframes/project_uploads/upload-1/demo.zip",
+              upload_key: "ephemeral_store/pentovideo/project_uploads/upload-1/demo.zip",
               upload_headers: {
                 "content-type": "application/zip",
                 "x-amz-server-side-encryption": "AES256",

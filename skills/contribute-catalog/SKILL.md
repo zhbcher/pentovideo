@@ -1,9 +1,9 @@
 ---
 name: contribute-catalog
-description: Author a new HyperFrames registry block (caption style, VFX block, transition, lower third) or component (text effect, overlay, snippet) and ship it as an upstream PR to the hyperframes repo. Use ONLY when the user wants to CONTRIBUTE to the public catalog — for in-project caption/transition authoring use the `hyperframes` skill, for installing existing registry items use the `hyperframes-registry` skill.
+description: Author a new PentoVideo registry block (caption style, VFX block, transition, lower third) or component (text effect, overlay, snippet) and ship it as an upstream PR to the pentovideo repo. Use ONLY when the user wants to CONTRIBUTE to the public catalog — for in-project caption/transition authoring use the `pentovideo` skill, for installing existing registry items use the `pentovideo-registry` skill.
 ---
 
-# Contribute to HyperFrames Registry
+# Contribute to PentoVideo Registry
 
 Guide the user from idea to merged PR for a new registry block or component.
 
@@ -17,8 +17,8 @@ Guide the user from idea to merged PR for a new registry block or component.
 
 Ask what they're building. The registry has two item types:
 
-- **Block** (`registry/blocks/`, type `hyperframes:block`) — a full standalone composition with fixed dimensions and duration. Caption styles, VFX effects, title cards, lower thirds.
-- **Component** (`registry/components/`, type `hyperframes:component`) — a reusable snippet with no fixed dimensions or duration. CSS effects, text treatments, overlays that adapt to any composition size.
+- **Block** (`registry/blocks/`, type `pentovideo:block`) — a full standalone composition with fixed dimensions and duration. Caption styles, VFX effects, title cards, lower thirds.
+- **Component** (`registry/components/`, type `pentovideo:component`) — a reusable snippet with no fixed dimensions or duration. CSS effects, text treatments, overlays that adapt to any composition size.
 
 Then ask:
 
@@ -60,9 +60,9 @@ Use a 2-3 letter prefix. ALL element IDs must use this prefix to avoid collision
 
 ```json
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://pentovideo.heygen.com/schema/registry-item.json",
   "name": "{block-name}",
-  "type": "hyperframes:block",
+  "type": "pentovideo:block",
   "title": "{Human Title}",
   "description": "{one sentence}",
   "dimensions": { "width": 1920, "height": 1080 }, // adjust: 1080x1920 for portrait/social
@@ -72,7 +72,7 @@ Use a 2-3 letter prefix. ALL element IDs must use this prefix to avoid collision
     {
       "path": "{block-name}.html",
       "target": "compositions/{block-name}.html",
-      "type": "hyperframes:composition"
+      "type": "pentovideo:composition"
     }
   ]
 }
@@ -82,9 +82,9 @@ Use a 2-3 letter prefix. ALL element IDs must use this prefix to avoid collision
 
 ```json
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://pentovideo.heygen.com/schema/registry-item.json",
   "name": "{component-name}",
-  "type": "hyperframes:component",
+  "type": "pentovideo:component",
   "title": "{Human Title}",
   "description": "{one sentence}",
   "tags": ["{category}"],
@@ -92,7 +92,7 @@ Use a 2-3 letter prefix. ALL element IDs must use this prefix to avoid collision
     {
       "path": "{component-name}.html",
       "target": "compositions/components/{component-name}.html",
-      "type": "hyperframes:snippet"
+      "type": "pentovideo:snippet"
     }
   ]
 }
@@ -108,7 +108,7 @@ Apply the correct template based on type. See [templates.md](templates.md) for c
 
 - Font: **96px minimum** for proportional fonts. **64-72px acceptable for monospace** (wider characters need less size).
 - Readability: `-webkit-text-stroke: 2-3px` OR multi-layer `text-shadow`
-- Overflow: call `window.__hyperframes.fitTextFontSize()` on every group
+- Overflow: call `window.__pentovideo.fitTextFontSize()` on every group
 - Karaoke: highlight active word via `tl.to(wordEl, { color/scale }, WORDS[wi].start)`
 - Hard kill: `tl.set(groupEl, { opacity: 0, visibility: "hidden" }, g.end)` on EVERY group
 - **Never use `tl.from(el, { opacity: 0 })` at the same position as `tl.set(el, { opacity: 1 })`** — the from clobbers the set. Use `tl.to` instead.
@@ -142,21 +142,21 @@ Apply the correct template based on type. See [templates.md](templates.md) for c
 ### Step 4: Validate
 
 ```bash
-hyperframes lint                    # 0 errors required
-hyperframes validate --no-contrast  # 0 console errors required
+pentovideo lint                    # 0 errors required
+pentovideo validate --no-contrast  # 0 console errors required
 ```
 
 ### Step 5: Preview
 
 ```bash
 # Render preview video
-hyperframes render -o preview.mp4
+pentovideo render -o preview.mp4
 
 # Snapshot for visual QA
-hyperframes snapshot --at "1.0,3.0,5.0,7.0"
+pentovideo snapshot --at "1.0,3.0,5.0,7.0"
 
-# Publish to hyperframes.dev for review
-npx hyperframes publish
+# Publish to pentovideo.dev for review
+npx pentovideo publish
 ```
 
 **Catalog preview image** — The catalog card uses a PNG at `docs/images/catalog/{kind}/{name}.png` (where `{kind}` is `blocks` or `components`). Generate it from a snapshot, then:
@@ -178,13 +178,13 @@ git checkout -b feat/registry-{name}
 npx oxfmt registry/{kind}/{name}/*.html
 
 # 3. Update registry/registry.json — add entry to the "items" array:
-#    { "name": "{name}", "type": "hyperframes:block" }  (or "hyperframes:component")
+#    { "name": "{name}", "type": "pentovideo:block" }  (or "pentovideo:component")
 
 # 4. Generate catalog docs page
 npx tsx scripts/generate-catalog-pages.ts
 
-# 5. Publish to hyperframes.dev so reviewers can preview
-npx hyperframes publish
+# 5. Publish to pentovideo.dev so reviewers can preview
+npx pentovideo publish
 
 # 6. Stage everything
 git add registry/{kind}/{name}/ registry/registry.json docs/catalog/
@@ -192,20 +192,20 @@ git add registry/{kind}/{name}/ registry/registry.json docs/catalog/
 # 7. Commit
 git commit -m "feat(registry): add {name} — {one sentence}"
 
-# 8. Push and open PR with hyperframes.dev link
+# 8. Push and open PR with pentovideo.dev link
 git push origin feat/registry-{name}
-gh pr create --title "feat(registry): {name}" --body "preview: {hyperframes.dev-url}"
+gh pr create --title "feat(registry): {name}" --body "preview: {pentovideo.dev-url}"
 ```
 
 **If you don't have a GitHub account:** you need one to open a PR. Sign up at https://github.com/signup, then run `gh auth login`.
 
 ## Quality Gate
 
-- [ ] `hyperframes lint` → 0 errors
-- [ ] `hyperframes validate` → 0 console errors
+- [ ] `pentovideo lint` → 0 errors
+- [ ] `pentovideo validate` → 0 console errors
 - [ ] `npx oxfmt --check` passes
 - [ ] `registry/registry.json` updated with new entry
 - [ ] `scripts/generate-catalog-pages.ts` run (docs page generated)
-- [ ] `npx hyperframes publish` run (claim your project URL)
+- [ ] `npx pentovideo publish` run (claim your project URL)
 - [ ] Preview MP4 attached to PR (external) or catalog PNG uploaded (internal)
 - [ ] All IDs unique and prefixed

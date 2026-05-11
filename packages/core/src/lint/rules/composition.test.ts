@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { lintHyperframeHtml } from "../hyperframeLinter.js";
+import { lintPentovideoHtml } from "../pentovideoLinter.js";
 
 describe("composition rules", () => {
   describe("subcomposition guidance", () => {
@@ -8,7 +8,7 @@ describe("composition rules", () => {
         i === 0 ? "<html><body>" : `<!-- filler ${i} -->`,
       ).join("\n");
 
-      const result = lintHyperframeHtml(html, { filePath: "/project/compositions/scene.html" });
+      const result = lintPentovideoHtml(html, { filePath: "/project/compositions/scene.html" });
       const finding = result.findings.find((f) => f.code === "composition_file_too_large");
       expect(finding).toBeDefined();
       expect(finding?.severity).toBe("warning");
@@ -19,7 +19,7 @@ describe("composition rules", () => {
         i === 0 ? "<html><body>" : `<!-- filler ${i} -->`,
       ).join("\n");
 
-      const result = lintHyperframeHtml(html, { filePath: "/project/index.html" });
+      const result = lintPentovideoHtml(html, { filePath: "/project/index.html" });
       const finding = result.findings.find((f) => f.code === "composition_file_too_large");
       expect(finding).toBeUndefined();
     });
@@ -30,7 +30,7 @@ describe("composition rules", () => {
           i === 0 ? "<html><body>" : `<!-- filler ${i} -->`,
         ).join("\n") + "\n";
 
-      const result = lintHyperframeHtml(html, { filePath: "/project/index.html" });
+      const result = lintPentovideoHtml(html, { filePath: "/project/index.html" });
       const finding = result.findings.find((f) => f.code === "composition_file_too_large");
       expect(finding).toBeUndefined();
     });
@@ -45,7 +45,7 @@ describe("composition rules", () => {
   </body>
 </html>`;
 
-      const result = lintHyperframeHtml(html, { filePath: "/project/index.html" });
+      const result = lintPentovideoHtml(html, { filePath: "/project/index.html" });
       const finding = result.findings.find((f) => f.code === "composition_file_too_large");
       expect(finding).toBeUndefined();
     });
@@ -55,7 +55,7 @@ describe("composition rules", () => {
         i === 0 ? "<html><body>" : `<!-- filler ${i} -->`,
       ).join("\n");
 
-      const result = lintHyperframeHtml(html, {
+      const result = lintPentovideoHtml(html, {
         filePath: "/project/registry/blocks/data-chart/data-chart.html",
       });
       const finding = result.findings.find((f) => f.code === "composition_file_too_large");
@@ -67,7 +67,7 @@ describe("composition rules", () => {
         i === 0 ? "<html><body>" : `<!-- filler ${i} -->`,
       ).join("\n");
 
-      const result = lintHyperframeHtml(html, {
+      const result = lintPentovideoHtml(html, {
         filePath: "/project/compositions/data-chart.html",
       });
       const finding = result.findings.find((f) => f.code === "composition_file_too_large");
@@ -77,12 +77,12 @@ describe("composition rules", () => {
 
     it("does not warn for large registry-installed block composition files", () => {
       const html =
-        "<!-- hyperframes-registry-item: data-chart -->\n" +
+        "<!-- pentovideo-registry-item: data-chart -->\n" +
         Array.from({ length: 300 }, (_, i) =>
           i === 0 ? "<html><body>" : `<!-- filler ${i} -->`,
         ).join("\n");
 
-      const result = lintHyperframeHtml(html, {
+      const result = lintPentovideoHtml(html, {
         filePath: "/project/compositions/data-chart.html",
       });
       const finding = result.findings.find((f) => f.code === "composition_file_too_large");
@@ -94,7 +94,7 @@ describe("composition rules", () => {
         i === 0 ? "<html><body>" : `<!-- filler ${i} -->`,
       ).join("\n");
 
-      const result = lintHyperframeHtml(html, {
+      const result = lintPentovideoHtml(html, {
         filePath: "/project/compositions/scene.html",
         isSubComposition: true,
       });
@@ -113,7 +113,7 @@ describe("composition rules", () => {
   </div>
 </body></html>`;
 
-      const result = lintHyperframeHtml(html, { filePath: "/project/compositions/scene.html" });
+      const result = lintPentovideoHtml(html, { filePath: "/project/compositions/scene.html" });
       const finding = result.findings.find((f) => f.code === "timeline_track_too_dense");
       expect(finding).toBeDefined();
       expect(finding?.severity).toBe("warning");
@@ -130,7 +130,7 @@ describe("composition rules", () => {
   </div>
 </body></html>`;
 
-      const result = lintHyperframeHtml(html, { filePath: "/project/index.html" });
+      const result = lintPentovideoHtml(html, { filePath: "/project/index.html" });
       const finding = result.findings.find((f) => f.code === "timeline_track_too_dense");
       expect(finding).toBeUndefined();
     });
@@ -146,7 +146,7 @@ describe("composition rules", () => {
   </div>
 </body></html>`;
 
-      const result = lintHyperframeHtml(html, { filePath: "/project/index.html" });
+      const result = lintPentovideoHtml(html, { filePath: "/project/index.html" });
       const finding = result.findings.find((f) => f.code === "timeline_track_too_dense");
       expect(finding).toBeUndefined();
     });
@@ -163,7 +163,7 @@ describe("composition rules", () => {
   </div>
 </body></html>`;
 
-      const result = lintHyperframeHtml(html, { filePath: "/project/index.html" });
+      const result = lintPentovideoHtml(html, { filePath: "/project/index.html" });
       const finding = result.findings.find((f) => f.code === "timeline_track_too_dense");
       expect(finding).toBeUndefined();
     });
@@ -179,7 +179,7 @@ describe("composition rules", () => {
   </div>
 </body></html>`;
 
-      const result = lintHyperframeHtml(html, { filePath: "/project/index.html" });
+      const result = lintPentovideoHtml(html, { filePath: "/project/index.html" });
       const finding = result.findings.find((f) => f.code === "timeline_track_too_dense");
       expect(finding).toBeUndefined();
     });
@@ -197,7 +197,7 @@ describe("composition rules", () => {
     </script>
   </div>
 </template>`;
-    const result = lintHyperframeHtml(html, { filePath: "compositions/rockets.html" });
+    const result = lintPentovideoHtml(html, { filePath: "compositions/rockets.html" });
     const finding = result.findings.find(
       (f) => f.code === "external_script_dependency" && f.message.includes("cdnjs.cloudflare.com"),
     );
@@ -219,7 +219,7 @@ describe("composition rules", () => {
     </script>
   </div>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     expect(result.findings.find((f) => f.code === "external_script_dependency")).toBeUndefined();
   });
 
@@ -237,7 +237,7 @@ describe("composition rules", () => {
     window.__timelines["main"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "template_literal_selector");
     expect(finding).toBeDefined();
     expect(finding?.severity).toBe("error");
@@ -255,7 +255,7 @@ describe("composition rules", () => {
     window.__timelines["main"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "template_literal_selector");
     expect(finding).toBeDefined();
   });
@@ -273,7 +273,7 @@ describe("composition rules", () => {
     window.__timelines["main"] = tl;
   </script>
 </body></html>`;
-    const result = lintHyperframeHtml(html);
+    const result = lintPentovideoHtml(html);
     const finding = result.findings.find((f) => f.code === "template_literal_selector");
     expect(finding).toBeUndefined();
   });
@@ -294,7 +294,7 @@ describe("composition rules", () => {
     </script>
   </div>
 </template>`;
-    const result = lintHyperframeHtml(html, { filePath: "compositions/scene.html" });
+    const result = lintPentovideoHtml(html, { filePath: "compositions/scene.html" });
     const findings = result.findings.filter((f) => f.code === "split_data_attribute_selector");
     expect(findings.length).toBe(1);
     expect(findings[0]?.severity).toBe("error");
@@ -313,7 +313,7 @@ describe("composition rules", () => {
     window.__timelines["c1"] = gsap.timeline({ paused: true });
   </script>
 </body></html>`;
-      const result = lintHyperframeHtml(html);
+      const result = lintPentovideoHtml(html);
       const finding = result.findings.find((f) => f.code === "timed_element_missing_clip_class");
       expect(finding).toBeDefined();
       expect(finding?.severity).toBe("warning");
@@ -330,7 +330,7 @@ describe("composition rules", () => {
     window.__timelines["c1"] = gsap.timeline({ paused: true });
   </script>
 </body></html>`;
-      const result = lintHyperframeHtml(html);
+      const result = lintPentovideoHtml(html);
       const finding = result.findings.find((f) => f.code === "timed_element_missing_clip_class");
       expect(finding).toBeUndefined();
     });
@@ -347,7 +347,7 @@ describe("composition rules", () => {
     window.__timelines["c1"] = gsap.timeline({ paused: true });
   </script>
 </body></html>`;
-      const result = lintHyperframeHtml(html);
+      const result = lintPentovideoHtml(html);
       const finding = result.findings.find((f) => f.code === "timed_element_missing_clip_class");
       expect(finding).toBeUndefined();
     });
@@ -366,7 +366,7 @@ describe("composition rules", () => {
     window.__timelines["c1"] = gsap.timeline({ paused: true });
   </script>
 </body></html>`;
-      const result = lintHyperframeHtml(html);
+      const result = lintPentovideoHtml(html);
       const finding = result.findings.find((f) => f.code === "overlapping_clips_same_track");
       expect(finding).toBeDefined();
       expect(finding?.severity).toBe("error");
@@ -384,7 +384,7 @@ describe("composition rules", () => {
     window.__timelines["c1"] = gsap.timeline({ paused: true });
   </script>
 </body></html>`;
-      const result = lintHyperframeHtml(html);
+      const result = lintPentovideoHtml(html);
       const finding = result.findings.find((f) => f.code === "overlapping_clips_same_track");
       expect(finding).toBeUndefined();
     });
@@ -401,7 +401,7 @@ describe("composition rules", () => {
     window.__timelines["c1"] = gsap.timeline({ paused: true });
   </script>
 </body></html>`;
-      const result = lintHyperframeHtml(html);
+      const result = lintPentovideoHtml(html);
       const finding = result.findings.find((f) => f.code === "overlapping_clips_same_track");
       expect(finding).toBeUndefined();
     });
@@ -434,7 +434,7 @@ describe("composition rules", () => {
     window.__timelines["no-limits"] = tl;
   </script>
 </div>`;
-      const result = lintHyperframeHtml(html, { filePath: "index.html" });
+      const result = lintPentovideoHtml(html, { filePath: "index.html" });
       const finding = result.findings.find(
         (f) => f.code === "root_composition_missing_html_wrapper",
       );
@@ -454,7 +454,7 @@ describe("composition rules", () => {
     window.__timelines["main"] = gsap.timeline({ paused: true });
   </script>
 </body></html>`;
-      const result = lintHyperframeHtml(html);
+      const result = lintPentovideoHtml(html);
       const finding = result.findings.find(
         (f) => f.code === "root_composition_missing_html_wrapper",
       );
@@ -469,7 +469,7 @@ describe("composition rules", () => {
     window.__timelines["main"] = gsap.timeline({ paused: true });
   </script>
 </body></html>`;
-      const result = lintHyperframeHtml(html);
+      const result = lintPentovideoHtml(html);
       const finding = result.findings.find(
         (f) => f.code === "root_composition_missing_html_wrapper",
       );
@@ -483,7 +483,7 @@ describe("composition rules", () => {
     window.__timelines["sub"] = gsap.timeline({ paused: true });
   </script>
 </div>`;
-      const result = lintHyperframeHtml(html, { isSubComposition: true });
+      const result = lintPentovideoHtml(html, { isSubComposition: true });
       const finding = result.findings.find(
         (f) => f.code === "root_composition_missing_html_wrapper",
       );
@@ -492,7 +492,7 @@ describe("composition rules", () => {
 
     it("does not flag HTML without composition attributes", () => {
       const html = `<div id="hello"><p>Not a composition</p></div>`;
-      const result = lintHyperframeHtml(html);
+      const result = lintPentovideoHtml(html);
       const finding = result.findings.find(
         (f) => f.code === "root_composition_missing_html_wrapper",
       );
@@ -506,7 +506,7 @@ describe("composition rules", () => {
     window.__timelines["bare"] = gsap.timeline({ paused: true });
   </script>
 </div>`;
-      const result = lintHyperframeHtml(html);
+      const result = lintPentovideoHtml(html);
       const finding = result.findings.find(
         (f) => f.code === "root_composition_missing_html_wrapper",
       );
@@ -525,7 +525,7 @@ describe("composition rules", () => {
     </script>
   </div>
 </template>`;
-      const result = lintHyperframeHtml(html);
+      const result = lintPentovideoHtml(html);
       const finding = result.findings.find(
         (f) => f.code === "standalone_composition_wrapped_in_template",
       );
@@ -542,7 +542,7 @@ describe("composition rules", () => {
     </script>
   </div>
 </template>`;
-      const result = lintHyperframeHtml(html, { isSubComposition: true });
+      const result = lintPentovideoHtml(html, { isSubComposition: true });
       const finding = result.findings.find(
         (f) => f.code === "standalone_composition_wrapped_in_template",
       );
@@ -561,7 +561,7 @@ describe("composition rules", () => {
     window.__timelines["c1"] = gsap.timeline({ paused: true });
   </script>
 </body></html>`;
-      const result = lintHyperframeHtml(html);
+      const result = lintPentovideoHtml(html);
       const finding = result.findings.find(
         (f) => f.code === "requestanimationframe_in_composition",
       );
@@ -579,7 +579,7 @@ describe("composition rules", () => {
     window.__timelines["c1"] = gsap.timeline({ paused: true });
   </script>
 </body></html>`;
-      const result = lintHyperframeHtml(html);
+      const result = lintPentovideoHtml(html);
       const finding = result.findings.find(
         (f) => f.code === "requestanimationframe_in_composition",
       );
@@ -608,7 +608,7 @@ describe("composition rules", () => {
     window.__timelines["docs"] = gsap.timeline({ paused: true });
   </script>
 </body></html>`;
-      const result = lintHyperframeHtml(html);
+      const result = lintPentovideoHtml(html);
       const finding = result.findings.find(
         (f) => f.code === "root_composition_missing_data_duration",
       );
@@ -632,7 +632,7 @@ describe("composition rules", () => {
     window.__timelines["loopy"] = tl;
   </script>
 </body></html>`;
-      const result = lintHyperframeHtml(html);
+      const result = lintPentovideoHtml(html);
       // The deprecated rule must not fire.
       const removedFinding = result.findings.find(
         (f) => f.code === "root_composition_missing_data_duration",
@@ -654,7 +654,7 @@ describe("composition rules", () => {
     <div class="clip" data-start="0" data-duration="1"></div>
   </div>
 </template>`;
-      const result = lintHyperframeHtml(html, { isSubComposition: true });
+      const result = lintPentovideoHtml(html, { isSubComposition: true });
       const finding = result.findings.find((f) => f.code === "root_composition_missing_data_start");
       expect(finding).toBeUndefined();
     });
@@ -665,7 +665,7 @@ describe("composition rules", () => {
       const html = `<html><body>
 <div data-composition-id="card-1" data-composition-src="card.html" data-variable-values='{not json'></div>
 </body></html>`;
-      const result = lintHyperframeHtml(html);
+      const result = lintPentovideoHtml(html);
       const finding = result.findings.find((f) => f.code === "invalid_variable_values_json");
       expect(finding).toBeDefined();
       expect(finding?.severity).toBe("warning");
@@ -675,7 +675,7 @@ describe("composition rules", () => {
       const html = `<html><body>
 <div data-composition-src="card.html" data-variable-values='[1,2,3]'></div>
 </body></html>`;
-      const result = lintHyperframeHtml(html);
+      const result = lintPentovideoHtml(html);
       const finding = result.findings.find((f) => f.code === "invalid_variable_values_json");
       expect(finding).toBeDefined();
       expect(finding?.message).toMatch(/must be a JSON object/);
@@ -685,7 +685,7 @@ describe("composition rules", () => {
       const html = `<html><body>
 <div data-composition-src="card.html" data-variable-values='"hello"'></div>
 </body></html>`;
-      const result = lintHyperframeHtml(html);
+      const result = lintPentovideoHtml(html);
       const finding = result.findings.find((f) => f.code === "invalid_variable_values_json");
       expect(finding).toBeDefined();
     });
@@ -694,7 +694,7 @@ describe("composition rules", () => {
       const html = `<html><body>
 <div data-composition-src="card.html" data-variable-values='{"title":"Hello","count":3}'></div>
 </body></html>`;
-      const result = lintHyperframeHtml(html);
+      const result = lintPentovideoHtml(html);
       const finding = result.findings.find((f) => f.code === "invalid_variable_values_json");
       expect(finding).toBeUndefined();
     });
@@ -703,7 +703,7 @@ describe("composition rules", () => {
       const html = `<html><body>
 <div data-composition-src="card.html"></div>
 </body></html>`;
-      const result = lintHyperframeHtml(html);
+      const result = lintPentovideoHtml(html);
       const finding = result.findings.find((f) => f.code === "invalid_variable_values_json");
       expect(finding).toBeUndefined();
     });
@@ -712,7 +712,7 @@ describe("composition rules", () => {
   describe("invalid_composition_variables_declaration", () => {
     it("warns when data-composition-variables is unparseable JSON", () => {
       const html = `<html data-composition-variables='[{not json'><body><div data-composition-id="x"></div></body></html>`;
-      const result = lintHyperframeHtml(html);
+      const result = lintPentovideoHtml(html);
       const finding = result.findings.find(
         (f) => f.code === "invalid_composition_variables_declaration",
       );
@@ -721,7 +721,7 @@ describe("composition rules", () => {
 
     it("warns when data-composition-variables is not an array", () => {
       const html = `<html data-composition-variables='{"title":"Hello"}'><body><div data-composition-id="x"></div></body></html>`;
-      const result = lintHyperframeHtml(html);
+      const result = lintPentovideoHtml(html);
       const finding = result.findings.find(
         (f) => f.code === "invalid_composition_variables_declaration",
       );
@@ -731,7 +731,7 @@ describe("composition rules", () => {
 
     it("warns per-entry when an entry is missing required fields", () => {
       const html = `<html data-composition-variables='[{"id":"ok","type":"string","label":"Ok","default":"x"},{"id":"bad"}]'><body><div data-composition-id="x"></div></body></html>`;
-      const result = lintHyperframeHtml(html);
+      const result = lintPentovideoHtml(html);
       const findings = result.findings.filter(
         (f) => f.code === "invalid_composition_variables_declaration",
       );
@@ -742,7 +742,7 @@ describe("composition rules", () => {
 
     it("warns when a declaration uses an unknown type", () => {
       const html = `<html data-composition-variables='[{"id":"x","type":"date","label":"X","default":"y"}]'><body><div data-composition-id="x"></div></body></html>`;
-      const result = lintHyperframeHtml(html);
+      const result = lintPentovideoHtml(html);
       const finding = result.findings.find(
         (f) => f.code === "invalid_composition_variables_declaration",
       );
@@ -756,7 +756,7 @@ describe("composition rules", () => {
         {"id":"count","type":"number","label":"Count","default":3},
         {"id":"theme","type":"enum","label":"Theme","default":"light","options":[{"value":"light","label":"Light"}]}
       ]'><body><div data-composition-id="x"></div></body></html>`;
-      const result = lintHyperframeHtml(html);
+      const result = lintPentovideoHtml(html);
       const finding = result.findings.find(
         (f) => f.code === "invalid_composition_variables_declaration",
       );
@@ -765,7 +765,7 @@ describe("composition rules", () => {
 
     it("does not warn when data-composition-variables is absent", () => {
       const html = `<html><body><div data-composition-id="x"></div></body></html>`;
-      const result = lintHyperframeHtml(html);
+      const result = lintPentovideoHtml(html);
       const finding = result.findings.find(
         (f) => f.code === "invalid_composition_variables_declaration",
       );

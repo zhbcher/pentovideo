@@ -3,9 +3,9 @@ import type { Example } from "./_examples.js";
 import { c } from "../ui/colors.js";
 
 export const examples: Example[] = [
-  ["Check current telemetry status", "hyperframes telemetry status"],
-  ["Disable telemetry", "hyperframes telemetry disable"],
-  ["Enable telemetry", "hyperframes telemetry enable"],
+  ["Check current telemetry status", "pentovideo telemetry status"],
+  ["Disable telemetry", "pentovideo telemetry disable"],
+  ["Enable telemetry", "pentovideo telemetry enable"],
 ];
 import { readConfig, writeConfig, CONFIG_PATH } from "../telemetry/config.js";
 
@@ -31,8 +31,8 @@ function runStatus(): void {
   console.log(`  ${c.dim("Config:")}     ${c.accent(CONFIG_PATH)}`);
   console.log(`  ${c.dim("Commands:")}   ${c.bold(String(config.commandCount))}`);
   console.log();
-  console.log(`  ${c.dim("Disable:")}    ${c.accent("hyperframes telemetry disable")}`);
-  console.log(`  ${c.dim("Env var:")}    ${c.accent("HYPERFRAMES_NO_TELEMETRY=1")}`);
+  console.log(`  ${c.dim("Disable:")}    ${c.accent("pentovideo telemetry disable")}`);
+  console.log(`  ${c.dim("Env var:")}    ${c.accent("PENTOVIDEO_NO_TELEMETRY=1")}`);
   console.log();
 }
 
@@ -50,7 +50,7 @@ export default defineCommand({
 
     if (!subcommand || subcommand === "") {
       console.log(`
-${c.bold("hyperframes telemetry")} ${c.dim("<subcommand>")}
+${c.bold("pentovideo telemetry")} ${c.dim("<subcommand>")}
 
 Manage anonymous usage data collection.
 
@@ -70,7 +70,7 @@ ${c.bold("WHAT WE DON'T COLLECT:")}
   ${c.dim("\u2022")} IP addresses (discarded by our analytics provider)
   ${c.dim("\u2022")} Any personally identifiable information
 
-${c.dim("You can also set")} ${c.accent("HYPERFRAMES_NO_TELEMETRY=1")} ${c.dim("to disable.")}
+${c.dim("You can also set")} ${c.accent("PENTOVIDEO_NO_TELEMETRY=1")} ${c.dim("to disable.")}
 `);
       return;
     }
@@ -84,7 +84,7 @@ ${c.dim("You can also set")} ${c.accent("HYPERFRAMES_NO_TELEMETRY=1")} ${c.dim("
         return runStatus();
       default:
         console.error(
-          `${c.error("Unknown subcommand:")} ${subcommand}\n\nRun ${c.accent("hyperframes telemetry --help")} for usage.`,
+          `${c.error("Unknown subcommand:")} ${subcommand}\n\nRun ${c.accent("pentovideo telemetry --help")} for usage.`,
         );
         process.exit(1);
     }

@@ -49,7 +49,7 @@ export interface StudioApiAdapter {
   /** Lint a single HTML string. */
   lint(html: string, opts?: { filePath?: string }): Promise<LintResult> | LintResult;
 
-  /** URL to the hyperframe runtime JS (injected into preview HTML). */
+  /** URL to the pentovideo runtime JS (injected into preview HTML). */
   runtimeUrl: string;
 
   /** Directory where render output files are stored. */

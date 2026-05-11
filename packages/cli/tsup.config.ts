@@ -39,9 +39,9 @@ var __dirname = __hf_dirname(__filename);`,
     "postcss",
   ],
   noExternal: [
-    "@hyperframes/core",
-    "@hyperframes/producer",
-    "@hyperframes/engine",
+    "@pentovideo/core",
+    "@pentovideo/producer",
+    "@pentovideo/engine",
     "@clack/prompts",
     "@clack/core",
     "picocolors",
@@ -55,7 +55,7 @@ var __dirname = __hf_dirname(__filename);`,
   },
   esbuildOptions(options) {
     options.alias = {
-      "@hyperframes/producer": resolve(__dirname, "../producer/src/index.ts"),
+      "@pentovideo/producer": resolve(__dirname, "../producer/src/index.ts"),
     };
     options.loader = { ...options.loader, ".browser.js": "text" };
   },

@@ -1762,7 +1762,7 @@ export function initSandboxRuntimeModular(): void {
       state.currentTime = t;
       seekTimelineAndAdapters(t);
 
-      // Looping is handled at the player layer (<hyperframes-player>),
+      // Looping is handled at the player layer (<pentovideo-player>),
       // not the runtime. The clock pauses at duration; GSAP's repeat:-1
       // is bypassed because we drive tl.totalTime(t) directly. The
       // parent observes isPlaying=false at end and re-issues seek(0)+play()

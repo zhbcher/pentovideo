@@ -22,8 +22,8 @@ import {
   type UnresolvedElement,
   rewriteAssetPaths,
   rewriteCssAssetUrls,
-} from "@hyperframes/core";
-import { scopeCssToComposition, wrapScopedCompositionScript } from "@hyperframes/core/compiler";
+} from "@pentovideo/core";
+import { scopeCssToComposition, wrapScopedCompositionScript } from "@pentovideo/core/compiler";
 import { extractMediaMetadata, extractAudioMetadata } from "../utils/ffprobe.js";
 import { isPathInside, toExternalAssetKey } from "../utils/paths.js";
 import {
@@ -34,7 +34,7 @@ import {
   parseAudioElements,
   type AudioElement,
   analyzeKeyframeIntervals,
-} from "@hyperframes/engine";
+} from "@pentovideo/engine";
 import { downloadToTemp, isHttpUrl } from "../utils/urlDownloader.js";
 import type { Page } from "puppeteer-core";
 import { injectDeterministicFontFaces } from "./deterministicFonts.js";

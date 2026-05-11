@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, height=1080" />
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0a;  --surface: #1a1a1a;  --border: #2a2a2a;
+      --primary: #3b82f6;  --accent: #f59e0b;
+      --green: #10b981;  --red: #ef4444;  --text: #f3f4f6;
+      --muted: #9ca3af;  --dim: #525252;
+      --font: 'Inter', system-ui, sans-serif;  --mono: 'JetBrains Mono', monospace;
+      --tag-bg: rgba(59,130,246,0.15);  --tag-border: rgba(59,130,246,0.3);
+      --icon-bg: rgba(59,130,246,0.12);  --icon-accent-bg: rgba(245,158,11,0.12);
+      --icon-green-bg: rgba(16,185,129,0.12);  --icon-red-bg: rgba(239,68,68,0.12);
+      --card-bg: #1a1a1a;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html,body { width:1920px; height:1080px; overflow:hidden; font-family:var(--font); background:var(--bg); color:var(--text); }
+    .bg-layer { position:absolute; inset:0; }
+    .grid-layer { position:absolute; inset:0; opacity:0.04; background-image:repeating-linear-gradient(0deg, transparent, transparent 80px, #fff 80px, #fff 81px),repeating-linear-gradient(90deg, transparent, transparent 80px, #fff 80px, #fff 81px); }
+    .glow { position:absolute; width:500px; height:500px; border-radius:50%; filter:blur(120px); pointer-events:none; }
+    .slide { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:80px 140px; visibility:hidden; }
+    .slide-title { font-size:68px; font-weight:800; line-height:1.15; text-align:center; margin-bottom:18px; }
+    .slide-sub { font-size:28px; font-weight:400; color:var(--muted); text-align:center; line-height:1.5; }
+    .subtitle { font-size:26px; color:var(--muted); text-align:center; line-height:1.5; margin-top:8px; }
+    .divider { width:80px; height:3px; border-radius:2px; background:var(--primary); margin:16px auto; }
+    .tag { display:inline-block; padding:6px 14px; border-radius:6px; font-size:14px; font-weight:600; letter-spacing:0.5px; background:var(--tag-bg); color:var(--primary); border:1px solid var(--tag-border); }
+    .bullets { display:flex; flex-direction:column; gap:12px; margin-top:12px; }
+    .bullet { display:flex; align-items:center; gap:16px; font-size:26px; line-height:1.4; }
+    .bullet .x-icon { width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+    .bullet .x-primary { background:var(--icon-bg); color:var(--primary); }
+    .bullet .x-accent { background:var(--icon-accent-bg); color:var(--accent); }
+    .bullet .x-green { background:var(--icon-green-bg); color:var(--green); }
+    .feat-row { display:flex; gap:14px; width:100%; max-width:1200px; margin-top:24px; }
+    .feat-card { flex:1; padding:20px; border-radius:12px; text-align:center; background:var(--card-bg); border:1px solid var(--border); }
+    .feat-card .f-icon { font-size:32px; margin-bottom:8px; }
+    .feat-card h3 { font-size:24px; font-weight:700; margin-bottom:4px; color:var(--text); }
+    .feat-card p { font-size:18px; color:var(--muted); line-height:1.4; }
+    .pipeline { display:flex; gap:8px; width:100%; max-width:1400px; margin-top:20px; }
+    .pip-step { flex:1; padding:12px; border-radius:8px; text-align:center; background:var(--card-bg); border:1px solid var(--border); }
+    .pip-step .pip-num { font-size:18px; font-weight:700; color:var(--primary); font-family:var(--mono); }
+    .pip-step .pip-label { font-size:14px; color:var(--muted); margin-top:4px; }
+    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; width:100%; max-width:1200px; margin-top:16px; }
+    .grid-item { padding:16px 20px; border-radius:10px; background:var(--card-bg); border:1px solid var(--border); font-size:20px; display:flex; align-items:center; gap:12px; }
+    .grid-item .gi-icon { width:32px; height:32px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:16px; background:var(--icon-bg); color:var(--primary); flex-shrink:0; }
+    .cmp-table { width:100%; max-width:1200px; border-collapse:collapse; margin-top:16px; font-size:20px; }
+    .cmp-table th, .cmp-table td { padding:10px 16px; text-align:center; border:1px solid var(--border); }
+    .cmp-table th { background:var(--card-bg); font-weight:600; color:var(--muted); }
+    .cmp-table td { color:var(--text); }
+    .cmp-table .hl { color:var(--primary); font-weight:600; }
+    .phase-item { width:100px; height:80px; border-radius:8px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; background:var(--card-bg); border:1px solid var(--border); font-size:14px; color:var(--muted); }
+    .phase-item .num { font-size:28px; font-weight:800; font-family:var(--mono); color:var(--dim); }
+    .phase-item.active { border-color:var(--primary); background:var(--icon-bg); }
+    .phase-item.active .num { color:var(--primary); }
+    .progress-bar { position:absolute; bottom:0; left:0; height:5px; background:linear-gradient(90deg, var(--primary), var(--accent)); z-index:999; }
+  </style>
+</head>
+<body>
+
+<div id="root" data-composition-id="main" data-start="0" data-duration="0"
+     data-width="1920" data-height="1080"
+     data-transition="fade">
+  <!--
+    data-transition 全局默认值: fade | slide | zoom | flip
+    每页可单独覆盖: add data-transition="zoom" 到 .slide
+  -->
+
+<audio id="narration" src="narration.mp3" data-start="0" data-duration="0" data-track-index="0"></audio>
+<div class="bg-layer"></div>
+<div class="grid-layer"></div>
+<div class="glow g1"></div>
+<div class="glow g2"></div>
+<div class="progress-bar" id="progress" style="width:0%"></div>
+
+<!-- ═══════════════════════════════════════════════
+     SLIDES — 8 种布局示例
+     
+     布局 class: .layout-cover / .layout-list / .layout-grid / 
+                  .layout-hero / .layout-split / .layout-compare / 
+                  .layout-code / 默认.slide
+     
+     每页独立属性:
+       data-transition="fade|slide|zoom|flip"
+       data-anim="rise|zoom|blur|flip|wipe|bounce|fade-l|fade-r"
+       data-scale="1.5"  (impress.js 缩放强调)
+       data-auto="id"     (reveal.js 元素匹配)
+     ═══════════════════════════════════════════════ -->
+
+<!-- ===== LAYOUT 1: COVER (封面) ===== -->
+<div id="s1" class="slide layout-cover" data-transition="zoom" data-scale="1.1">
+  <div class="tag" data-anim="bounce">标签</div>
+  <div class="title" data-anim="rise">大标题</div>
+  <div class="sub" data-anim="rise">副标题</div>
+</div>
+
+<!-- ===== LAYOUT 2: LIST (列表) ===== -->
+<div id="s2" class="slide layout-list" data-transition="slide">
+  <div class="top-bar">
+    <div class="tag" data-anim="zoom">要点</div>
+    <div class="divider"></div>
+  </div>
+  <div class="title" data-anim="rise">核心功能</div>
+  <div class="bullets">
+    <div class="bullet" data-anim="fade-l"><div class="x-icon">→</div><span>第一项功能说明</span></div>
+    <div class="bullet" data-anim="fade-l"><div class="x-icon">→</div><span>第二项功能说明</span></div>
+    <div class="bullet" data-anim="fade-l"><div class="x-icon">→</div><span>第三项功能说明</span></div>
+  </div>
+</div>
+
+<!-- ===== LAYOUT 3: GRID (网格) ===== -->
+<div id="s3" class="slide layout-grid" data-transition="flip">
+  <div class="tag" data-anim="zoom" style="align-self:flex-start">技术栈</div>
+  <div class="title" data-anim="rise">核心技术</div>
+  <div class="grid g4">
+    <div class="grid-item" data-anim="zoom"><div class="gi-icon">⚛️</div><h3>React</h3><p>前端框架</p></div>
+    <div class="grid-item" data-anim="zoom"><div class="gi-icon">📘</div><h3>TypeScript</h3><p>类型安全</p></div>
+    <div class="grid-item" data-anim="zoom"><div class="gi-icon">🎨</div><h3>Tailwind</h3><p>样式系统</p></div>
+    <div class="grid-item" data-anim="zoom"><div class="gi-icon">⚡</div><h3>Vite</h3><p>构建工具</p></div>
+  </div>
+</div>
+
+<!-- ===== LAYOUT 4: HERO (大字报) ===== -->
+<div id="s4" class="slide layout-hero" data-transition="zoom">
+  <div class="tag" data-anim="bounce">核心数字</div>
+  <div class="big" data-anim="blur" style="font-family:var(--mono)">2x</div>
+  <div class="title" data-anim="rise">效率提升</div>
+  <div class="stats-row" data-anim="fade-l">
+    <div class="stat"><div class="num">50%</div><div class="label">时间节省</div></div>
+    <div class="stat"><div class="num">99%</div><div class="label">代码质量</div></div>
+  </div>
+</div>
+
+<!-- ===== LAYOUT 5: SPLIT (左右分割) ===== -->
+<div id="s5" class="slide layout-split" data-transition="slide">
+  <div class="text">
+    <div class="tag" data-anim="zoom">概念</div>
+    <div class="title" data-anim="rise">核心原理</div>
+    <div class="divider"></div>
+    <div class="point" data-anim="fade-l">第一步：输入内容</div>
+    <div class="point" data-anim="fade-l">第二步：AI 处理</div>
+    <div class="point" data-anim="fade-l">第三步：输出结果</div>
+  </div>
+  <div class="vis"><div class="big-icon">⚙️</div></div>
+</div>
+
+<!-- ===== LAYOUT 6: COMPARE (对比) ===== -->
+<div id="s6" class="slide layout-compare" data-transition="zoom">
+  <div class="side" style="background:var(--icon-bg)">
+    <div class="tag" style="border-color:var(--primary);color:var(--primary)">方案 A</div>
+    <div class="title">传统方式</div>
+    <div class="divider"></div>
+    <div class="points">
+      <div class="point">手动操作</div>
+      <div class="point">耗费时间</div>
+      <div class="point">容易出错</div>
+    </div>
+  </div>
+  <div class="side" style="background:var(--icon-accent-bg)">
+    <div class="tag" style="border-color:var(--accent);color:var(--accent)">方案 B</div>
+    <div class="title" style="color:var(--accent)">AI 方式</div>
+    <div class="divider" style="background:var(--accent)"></div>
+    <div class="points">
+      <div class="point">自动完成</div>
+      <div class="point">秒级响应</div>
+      <div class="point">准确可靠</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== LAYOUT 7: CODE (代码) ===== -->
+<div id="s7" class="slide layout-code" data-transition="flip">
+  <div class="tag">快速开始</div>
+  <div class="title">一行命令安装</div>
+  <div class="code-block" data-anim="wipe">
+    <span style="color:var(--green)">$</span> npm install -g mytool<br>
+    <span style="color:var(--green)">$</span> mytool init my-project<br>
+    <span style="color:var(--green)">$</span> mytool start
+  </div>
+</div>
+
+<!-- ===== LAYOUT 8: 默认 CENTER (居中) ===== -->
+<div id="s8" class="slide">
+  <div class="tag" data-anim="zoom">感谢</div>
+  <div class="slide-title" data-anim="rise">谢谢观看</div>
+  <div class="slide-sub" data-anim="rise">有任何问题欢迎交流</div>
+</div>
+</div>
+
+<script>
+window.__timelines = window.__timelines || {};
+const tl = gsap.timeline({ paused: true });
+const pb = document.getElementById('progress');
+const root = document.getElementById('root');
+const defaultTrans = root.getAttribute('data-transition') || 'fade';
+
+/* data-anim 映射 */
+const ANIM_MAP = {
+  rise:   { y:50, scale:0.97, filter:'blur(6px)', opacity:0, duration:0.55, ease:'power2.out' },
+  zoom:   { scale:0.5, opacity:0, duration:0.5, ease:'back.out(1.7)' },
+  blur:   { filter:'blur(16px)', opacity:0, duration:0.55, ease:'power2.out' },
+  flip:   { rotationY:90, opacity:0, duration:0.6, ease:'power2.out' },
+  wipe:   { clipPath:'inset(0 100% 0 0)', opacity:0, duration:0.5, ease:'power2.out' },
+  bounce: { scale:0.3, opacity:0, duration:0.4, ease:'elastic.out(1,0.5)' },
+  'fade-l': { x:-40, opacity:0, duration:0.45, ease:'power2.out' },
+  'fade-r': { x:40, opacity:0, duration:0.45, ease:'power2.out' },
+};
+
+/* 每页独立转场 (nodePPT 风格) */
+function getTrans(name) {
+  switch(name) {
+    case 'slide': return { out:{x:'-100%', opacity:0, duration:0.45, ease:'power2.in'}, in:{x:'100%', opacity:0, duration:0.45, ease:'power2.out'} };
+    case 'zoom':  return { out:{scale:0.85, opacity:0, duration:0.45, ease:'power2.in'}, in:{scale:1.15, opacity:0, duration:0.45, ease:'power2.out'} };
+    case 'flip':  return { out:{rotationX:-15, scale:0.9, opacity:0, duration:0.5, ease:'power2.in'}, in:{rotationX:15, scale:0.9, opacity:0, duration:0.5, ease:'power2.out'} };
+    default:      return { out:{opacity:0, duration:0.4, ease:'power2.in'}, in:{opacity:0, duration:0.4, ease:'power2.out'} };
+  }
+}
+
+const OVERLAP = 0.45;
+const slides = document.querySelectorAll('.slide');
+
+/* TODO: 填入每页 start/dur */
+const timings = [];
+for (let i = 0; i < slides.length; i++) timings.push({ start:i*5, dur:5 });
+
+slides.forEach((slide, i) => {
+  const t = timings[i];
+  const slideTrans = slide.getAttribute('data-transition'); // 每页独独立转场
+  const trans = getTrans(slideTrans || defaultTrans);
+
+  tl.set(slide, { visibility:'visible' }, t.start - (i>0 ? OVERLAP : 0));
+
+  /* impress.js 风格: data-scale 缩放强调 */
+  const scale = parseFloat(slide.getAttribute('data-scale')) || 1;
+  if (scale > 1) {
+    tl.from(slide, { scale:1, duration:0.5, ease:'power2.out', transformOrigin:'50% 50%' }, t.start - 0.1);
+  }
+
+  if (i > 0) tl.from(slide, trans.in, t.start);
+
+  /* data-anim 元素 */
+  slide.querySelectorAll('[data-anim]').forEach(el => {
+    const cfg = ANIM_MAP[el.getAttribute('data-anim')];
+    if (cfg) tl.from(el, cfg, t.start + 0.2);
+  });
+
+  /* data-auto 匹配：用当前页自己的转场 */
+  if (i > 0) {
+    const ps = slides[i-1];
+    slide.querySelectorAll('[data-auto]').forEach(el => {
+      const id = el.getAttribute('data-auto');
+      const pe = ps.querySelector(`[data-auto="${CSS.escape(id)}"]`);
+      if (pe) tl.from(el, { duration:0.5, ease:'power2.out' }, t.start - OVERLAP);
+    });
+    tl.to(ps, trans.out, t.start);
+    tl.set(ps, { visibility:'hidden' }, t.start + OVERLAP);
+  }
+});
+
+/* 最后一页退场 */
+if (slides.length > 0) {
+  const lt = timings[timings.length-1];
+  tl.to(slides[slides.length-1], { opacity:0, duration:0.3 }, lt.start + lt.dur - 0.3);
+  tl.set(slides[slides.length-1], { visibility:'hidden' }, lt.start + lt.dur);
+}
+
+const total = timings.reduce((s,t) => s+t.dur, 0);
+tl.to(pb, { width:'100%', duration:total, ease:'none' }, 0);
+window.__timelines["main"] = tl;
+
+window.addEventListener('load', () => {
+  console.log(`Template: ${slides.length} slides, default trans: ${defaultTrans}`);
+});
+</script>
+</body>
+</html>

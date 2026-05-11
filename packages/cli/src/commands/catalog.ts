@@ -2,15 +2,15 @@ import { defineCommand } from "citty";
 import type { Example } from "./_examples.js";
 
 export const examples: Example[] = [
-  ["List all blocks and components", "hyperframes catalog"],
-  ["List blocks only", "hyperframes catalog --type block"],
-  ["Filter by tag", "hyperframes catalog --type block --tag social"],
-  ["Machine-readable JSON", "hyperframes catalog --json"],
-  ["Interactive picker (install on select)", "hyperframes catalog --human-friendly"],
+  ["List all blocks and components", "pentovideo catalog"],
+  ["List blocks only", "pentovideo catalog --type block"],
+  ["Filter by tag", "pentovideo catalog --type block --tag social"],
+  ["Machine-readable JSON", "pentovideo catalog --json"],
+  ["Interactive picker (install on select)", "pentovideo catalog --human-friendly"],
 ];
 
 import * as clack from "@clack/prompts";
-import { type ItemType } from "@hyperframes/core";
+import { type ItemType } from "@pentovideo/core";
 import { c } from "../ui/colors.js";
 import { listRegistryItems, loadAllItems } from "../registry/resolver.js";
 import { loadProjectConfig, DEFAULT_PROJECT_CONFIG } from "../utils/projectConfig.js";
@@ -47,8 +47,8 @@ export default defineCommand({
     const config = loadProjectConfig(dir) ?? DEFAULT_PROJECT_CONFIG;
 
     let typeFilter: ItemType | undefined;
-    if (args.type === "block") typeFilter = "hyperframes:block";
-    else if (args.type === "component") typeFilter = "hyperframes:component";
+    if (args.type === "block") typeFilter = "pentovideo:block";
+    else if (args.type === "component") typeFilter = "pentovideo:component";
     else if (args.type) {
       console.error(`Invalid --type: "${args.type}". Use "block" or "component".`);
       process.exit(1);
@@ -57,7 +57,7 @@ export default defineCommand({
     const entries = await listRegistryItems(typeFilter ? { type: typeFilter } : undefined, {
       baseUrl: config.registry,
     });
-    const filtered = entries.filter((e) => e.type !== "hyperframes:example");
+    const filtered = entries.filter((e) => e.type !== "pentovideo:example");
 
     if (filtered.length === 0) {
       if (json) console.log("[]");
@@ -81,7 +81,7 @@ export default defineCommand({
     if (json) {
       const output = matching.map((item) => ({
         name: item.name,
-        type: item.type.replace("hyperframes:", ""),
+        type: item.type.replace("pentovideo:", ""),
         title: item.title,
         description: item.description,
         tags: item.tags ?? [],
@@ -137,7 +137,7 @@ export default defineCommand({
     console.log("-".repeat(80));
 
     for (const item of matching) {
-      const type = item.type.replace("hyperframes:", "");
+      const type = item.type.replace("pentovideo:", "");
       const tags = item.tags?.length ? c.dim(` [${item.tags.join(", ")}]`) : "";
       console.log(
         `${c.cyan(item.name.padEnd(NAME_COL))}${type.padEnd(TYPE_COL)}${item.description}${tags}`,
@@ -145,6 +145,6 @@ export default defineCommand({
     }
 
     console.log("");
-    console.log(c.dim(`${matching.length} items. Run "hyperframes add <name>" to install.`));
+    console.log(c.dim(`${matching.length} items. Run "pentovideo add <name>" to install.`));
   },
 });

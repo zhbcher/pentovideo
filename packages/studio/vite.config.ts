@@ -13,7 +13,7 @@ import type {
   StudioApiAdapter,
   ResolvedProject,
   RenderJobState,
-} from "@hyperframes/core/studio-api";
+} from "@pentovideo/core/studio-api";
 import { createProjectSignature } from "../core/src/studio-api/helpers/projectSignature";
 import { createRetryingModuleLoader, ensureProducerDist } from "./vite.producer";
 import { readNodeRequestBody } from "./vite.request-body.js";
@@ -95,7 +95,7 @@ function createViteAdapter(dataDir: string, server: ViteDevServer): StudioApiAda
   const getBundler = async () => {
     if (!_bundler) {
       try {
-        const mod = await server.ssrLoadModule("@hyperframes/core/compiler");
+        const mod = await server.ssrLoadModule("@pentovideo/core/compiler");
         _bundler = (dir, options) => mod.bundleToSingleHtml(dir, options);
       } catch (err) {
         console.warn("[Studio] Failed to load compiler, previews will use raw HTML:", err);
@@ -114,10 +114,10 @@ function createViteAdapter(dataDir: string, server: ViteDevServer): StudioApiAda
         });
         if (built) {
           console.warn(
-            "[Studio] @hyperframes/producer dist missing; building producer package for local renders...",
+            "[Studio] @pentovideo/producer dist missing; building producer package for local renders...",
           );
         }
-        const producerPkg = "@hyperframes/producer";
+        const producerPkg = "@pentovideo/producer";
         return await import(/* @vite-ignore */ producerPkg);
       })();
     }
@@ -194,8 +194,8 @@ function createViteAdapter(dataDir: string, server: ViteDevServer): StudioApiAda
       // across composition hot-reloads instead of being inlined fresh each time.
       let html = await bundler(dir, { runtime: "placeholder" });
       html = html.replace(
-        'data-hyperframes-preview-runtime="1" src=""',
-        `data-hyperframes-preview-runtime="1" src="${this.runtimeUrl}"`,
+        'data-pentovideo-preview-runtime="1" src=""',
+        `data-pentovideo-preview-runtime="1" src="${this.runtimeUrl}"`,
       );
       return html;
     },
@@ -211,8 +211,8 @@ function createViteAdapter(dataDir: string, server: ViteDevServer): StudioApiAda
     },
 
     async lint(html: string, opts?: { filePath?: string }) {
-      const mod = await server.ssrLoadModule("@hyperframes/core/lint");
-      return mod.lintHyperframeHtml(html, opts);
+      const mod = await server.ssrLoadModule("@pentovideo/core/lint");
+      return mod.lintPentovideoHtml(html, opts);
     },
 
     runtimeUrl: "/api/runtime.js",
@@ -366,10 +366,10 @@ function createViteAdapter(dataDir: string, server: ViteDevServer): StudioApiAda
 async function loadRuntimeSourceForDev(server: ViteDevServer): Promise<string | null> {
   try {
     const mod = await server.ssrLoadModule(
-      resolve(__dirname, "../core/src/inline-scripts/hyperframe.ts"),
+      resolve(__dirname, "../core/src/inline-scripts/pentovideo.ts"),
     );
-    if (typeof mod.loadHyperframeRuntimeSource === "function") {
-      return mod.loadHyperframeRuntimeSource();
+    if (typeof mod.loadPentovideoRuntimeSource === "function") {
+      return mod.loadPentovideoRuntimeSource();
     }
   } catch (err) {
     console.warn("[Studio] Failed to load runtime source from core:", err);
@@ -420,7 +420,7 @@ function devProjectApi(): Plugin {
       let _api: { fetch: (req: Request) => Promise<Response> } | null = null;
       const getApi = async () => {
         if (!_api) {
-          const mod = await server.ssrLoadModule("@hyperframes/core/studio-api");
+          const mod = await server.ssrLoadModule("@pentovideo/core/studio-api");
           const adapter = createViteAdapter(dataDir, server);
           _api = mod.createStudioApi(adapter);
         }
@@ -431,7 +431,7 @@ function devProjectApi(): Plugin {
       // artifact. Otherwise Studio can silently serve a stale runtime bundle
       // after source edits in packages/core, which makes browser behavior lag
       // behind the code under test until someone manually rebuilds core/dist.
-      const runtimePath = resolve(__dirname, "../core/dist/hyperframe.runtime.iife.js");
+      const runtimePath = resolve(__dirname, "../core/dist/pentovideo.runtime.iife.js");
       server.middlewares.use((req, res, next) => {
         if (req.url !== "/api/runtime.js") return next();
         const serve = async () => {
@@ -537,7 +537,7 @@ export default defineConfig({
   plugins: [react(), devProjectApi()],
   resolve: {
     alias: {
-      "@hyperframes/player": resolve(__dirname, "../player/src/hyperframes-player.ts"),
+      "@pentovideo/player": resolve(__dirname, "../player/src/pentovideo-player.ts"),
     },
   },
   build: {

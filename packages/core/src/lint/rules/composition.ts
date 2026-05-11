@@ -1,4 +1,4 @@
-import type { LintContext, HyperframeLintFinding } from "../context";
+import type { LintContext, PentovideoLintFinding } from "../context";
 import { findHtmlTag, readAttr, readJsonAttr, truncateSnippet } from "../utils";
 import { COMPOSITION_VARIABLE_TYPES } from "../../core.types";
 
@@ -28,7 +28,7 @@ function isRegistrySourceFile(filePath?: string): boolean {
 }
 
 function isRegistryInstalledFile(rawSource: string): boolean {
-  return /^\s*<!--\s*hyperframes-registry-item:[^>]*-->/i.test(rawSource.slice(0, 512));
+  return /^\s*<!--\s*pentovideo-registry-item:[^>]*-->/i.test(rawSource.slice(0, 512));
 }
 
 function isCompositionRootOrMount(rawTag: string): boolean {
@@ -37,7 +37,7 @@ function isCompositionRootOrMount(rawTag: string): boolean {
   );
 }
 
-export const compositionRules: Array<(ctx: LintContext) => HyperframeLintFinding[]> = [
+export const compositionRules: Array<(ctx: LintContext) => PentovideoLintFinding[]> = [
   // composition_file_too_large
   ({ rawSource, options }) => {
     if (isRegistrySourceFile(options.filePath) || isRegistryInstalledFile(rawSource)) return [];
@@ -72,7 +72,7 @@ export const compositionRules: Array<(ctx: LintContext) => HyperframeLintFinding
       trackCounts.set(track, (trackCounts.get(track) ?? 0) + 1);
     }
 
-    const findings: HyperframeLintFinding[] = [];
+    const findings: PentovideoLintFinding[] = [];
     for (const [track, count] of trackCounts) {
       if (count <= MAX_TIMED_ELEMENTS_PER_TRACK) continue;
       const splitTarget = options.isSubComposition
@@ -91,7 +91,7 @@ export const compositionRules: Array<(ctx: LintContext) => HyperframeLintFinding
 
   // timed_element_missing_visibility_hidden
   ({ tags }) => {
-    const findings: HyperframeLintFinding[] = [];
+    const findings: PentovideoLintFinding[] = [];
     for (const tag of tags) {
       if (tag.name === "audio" || tag.name === "script" || tag.name === "style") continue;
       if (!readAttr(tag.raw, "data-start")) continue;
@@ -120,7 +120,7 @@ export const compositionRules: Array<(ctx: LintContext) => HyperframeLintFinding
 
   // deprecated_data_layer + deprecated_data_end
   ({ tags }) => {
-    const findings: HyperframeLintFinding[] = [];
+    const findings: PentovideoLintFinding[] = [];
     for (const tag of tags) {
       if (readAttr(tag.raw, "data-layer") && !readAttr(tag.raw, "data-track-index")) {
         const elementId = readAttr(tag.raw, "id") || undefined;
@@ -151,7 +151,7 @@ export const compositionRules: Array<(ctx: LintContext) => HyperframeLintFinding
 
   // split_data_attribute_selector
   ({ scripts, styles }) => {
-    const findings: HyperframeLintFinding[] = [];
+    const findings: PentovideoLintFinding[] = [];
     const splitDataAttrSelectorPattern =
       /\[data-composition-id=(["'])([^"'\]]+)\1\s+(data-[\w:-]+)=(["'])([^"'\]]*)\4\]/g;
     const scan = (content: string) => {
@@ -180,7 +180,7 @@ export const compositionRules: Array<(ctx: LintContext) => HyperframeLintFinding
 
   // template_literal_selector
   ({ scripts }) => {
-    const findings: HyperframeLintFinding[] = [];
+    const findings: PentovideoLintFinding[] = [];
     for (const script of scripts) {
       const templateLiteralSelectorPattern =
         /(?:querySelector|querySelectorAll)\s*\(\s*`[^`]*\$\{[^}]+\}[^`]*`\s*\)/g;
@@ -203,7 +203,7 @@ export const compositionRules: Array<(ctx: LintContext) => HyperframeLintFinding
 
   // external_script_dependency
   ({ source }) => {
-    const findings: HyperframeLintFinding[] = [];
+    const findings: PentovideoLintFinding[] = [];
     const externalScriptRe = /<script\b[^>]*\bsrc=["'](https?:\/\/[^"']+)["'][^>]*>/gi;
     let match: RegExpExecArray | null;
     const seen = new Set<string>();
@@ -214,9 +214,9 @@ export const compositionRules: Array<(ctx: LintContext) => HyperframeLintFinding
       findings.push({
         code: "external_script_dependency",
         severity: "info",
-        message: `This composition loads an external script from \`${src}\`. The HyperFrames bundler automatically hoists CDN scripts from sub-compositions into the parent document. In unbundled runtime mode, \`loadExternalCompositions\` re-injects them. If you're using a custom pipeline that bypasses both, you'll need to include this script manually.`,
+        message: `This composition loads an external script from \`${src}\`. The PentoVideo bundler automatically hoists CDN scripts from sub-compositions into the parent document. In unbundled runtime mode, \`loadExternalCompositions\` re-injects them. If you're using a custom pipeline that bypasses both, you'll need to include this script manually.`,
         fixHint:
-          "No action needed when using `hyperframes preview` or `hyperframes render`. If using a custom pipeline, add this script tag to your root composition or HTML page.",
+          "No action needed when using `pentovideo preview` or `pentovideo render`. If using a custom pipeline, add this script tag to your root composition or HTML page.",
         snippet: truncateSnippet(match[0] ?? ""),
       });
     }
@@ -225,7 +225,7 @@ export const compositionRules: Array<(ctx: LintContext) => HyperframeLintFinding
 
   // timed_element_missing_clip_class
   ({ tags }) => {
-    const findings: HyperframeLintFinding[] = [];
+    const findings: PentovideoLintFinding[] = [];
     const skipTags = new Set(["audio", "video", "script", "style", "template"]);
     for (const tag of tags) {
       if (skipTags.has(tag.name)) continue;
@@ -249,7 +249,7 @@ export const compositionRules: Array<(ctx: LintContext) => HyperframeLintFinding
         message: `<${tag.name}${elementId ? ` id="${elementId}"` : ""}> has timing attributes but no class="clip". The element will be visible for the entire composition instead of only during its scheduled time range.`,
         elementId,
         fixHint:
-          'Add class="clip" to the element. The HyperFrames runtime uses .clip to control visibility based on data-start/data-duration.',
+          'Add class="clip" to the element. The PentoVideo runtime uses .clip to control visibility based on data-start/data-duration.',
         snippet: truncateSnippet(tag.raw),
       });
     }
@@ -258,7 +258,7 @@ export const compositionRules: Array<(ctx: LintContext) => HyperframeLintFinding
 
   // overlapping_clips_same_track
   ({ tags }) => {
-    const findings: HyperframeLintFinding[] = [];
+    const findings: PentovideoLintFinding[] = [];
 
     type ClipInfo = { start: number; end: number; elementId?: string; snippet: string };
     const trackMap = new Map<string, ClipInfo[]>();
@@ -309,7 +309,7 @@ export const compositionRules: Array<(ctx: LintContext) => HyperframeLintFinding
 
   // root_composition_missing_data_start
   ({ rootTag, options }) => {
-    const findings: HyperframeLintFinding[] = [];
+    const findings: PentovideoLintFinding[] = [];
     if (options.isSubComposition) return findings;
     if (!rootTag) return findings;
     const compId = readAttr(rootTag.raw, "data-composition-id");
@@ -329,7 +329,7 @@ export const compositionRules: Array<(ctx: LintContext) => HyperframeLintFinding
 
   // standalone_composition_wrapped_in_template
   ({ rawSource, options }) => {
-    const findings: HyperframeLintFinding[] = [];
+    const findings: PentovideoLintFinding[] = [];
     if (options.isSubComposition) return findings;
     const trimmed = rawSource.trimStart().toLowerCase();
     if (trimmed.startsWith("<template")) {
@@ -349,7 +349,7 @@ export const compositionRules: Array<(ctx: LintContext) => HyperframeLintFinding
 
   // root_composition_missing_html_wrapper
   ({ rawSource, rootTag, options }) => {
-    const findings: HyperframeLintFinding[] = [];
+    const findings: PentovideoLintFinding[] = [];
     if (options.isSubComposition) return findings;
     const trimmed = rawSource.trimStart().toLowerCase();
     // Compositions inside <template> are caught by standalone_composition_wrapped_in_template
@@ -375,7 +375,7 @@ export const compositionRules: Array<(ctx: LintContext) => HyperframeLintFinding
 
   // requestanimationframe_in_composition
   ({ scripts }) => {
-    const findings: HyperframeLintFinding[] = [];
+    const findings: PentovideoLintFinding[] = [];
     for (const script of scripts) {
       // Strip comments to avoid false positives
       const stripped = script.content.replace(/\/\/.*$/gm, "").replace(/\/\*[\s\S]*?\*\//g, "");
@@ -400,7 +400,7 @@ export const compositionRules: Array<(ctx: LintContext) => HyperframeLintFinding
   // falls back to declared defaults, which masks typos. This rule surfaces
   // the parse failure so authors notice before render time.
   ({ tags }) => {
-    const findings: HyperframeLintFinding[] = [];
+    const findings: PentovideoLintFinding[] = [];
     for (const tag of tags) {
       const raw = readJsonAttr(tag.raw, "data-variable-values");
       if (!raw) continue;
@@ -479,7 +479,7 @@ export const compositionRules: Array<(ctx: LintContext) => HyperframeLintFinding
       ];
     }
 
-    const findings: HyperframeLintFinding[] = [];
+    const findings: PentovideoLintFinding[] = [];
     const knownTypes = new Set<string>(COMPOSITION_VARIABLE_TYPES);
     for (let i = 0; i < parsed.length; i += 1) {
       const entry = parsed[i];

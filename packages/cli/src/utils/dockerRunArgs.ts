@@ -1,5 +1,5 @@
 /**
- * Build the argument array for `docker run` that invokes the Hyperframes
+ * Build the argument array for `docker run` that invokes the Pentovideo
  * renderer inside a container.
  *
  * Pure function with no I/O so it can be snapshot-tested. Any new render

@@ -9,8 +9,8 @@ import {
 } from "./htmlDocument";
 import { rewriteAssetPaths, rewriteCssAssetUrls } from "./rewriteSubCompPaths";
 import { scopeCssToComposition, wrapScopedCompositionScript } from "./compositionScoping";
-import { validateHyperframeHtmlContract } from "./staticGuard";
-import { getHyperframeRuntimeScript } from "../generated/runtime-inline";
+import { validatePentovideoHtmlContract } from "./staticGuard";
+import { getPentovideoRuntimeScript } from "../generated/runtime-inline";
 
 /** Resolve a relative path within projectDir, rejecting traversal outside it. */
 function safePath(projectDir: string, relativePath: string): string | null {
@@ -23,7 +23,7 @@ function safePath(projectDir: string, relativePath: string): string | null {
 const DEFAULT_RUNTIME_SCRIPT_URL = "";
 
 function getRuntimeScriptUrl(): string {
-  const configured = (process.env.HYPERFRAME_RUNTIME_URL || "").trim();
+  const configured = (process.env.PENTOVIDEO_RUNTIME_URL || "").trim();
   return configured || DEFAULT_RUNTIME_SCRIPT_URL;
 }
 
@@ -32,7 +32,7 @@ function injectInterceptor(html: string, runtimeMode: "inline" | "placeholder" =
   if (sanitized.includes(RUNTIME_BOOTSTRAP_ATTR)) return sanitized;
 
   // Three modes for the runtime <script>:
-  //   1. HYPERFRAME_RUNTIME_URL env var set → emit src="<url>" (production CDN deploy).
+  //   1. PENTOVIDEO_RUNTIME_URL env var set → emit src="<url>" (production CDN deploy).
   //   2. runtime: "placeholder" passed         → emit src="" for the caller to substitute
   //                                              (studio + vite preview hot-load a local
   //                                              runtime endpoint via string replace).
@@ -46,7 +46,7 @@ function injectInterceptor(html: string, runtimeMode: "inline" | "placeholder" =
   } else if (runtimeMode === "placeholder") {
     tag = `<script ${RUNTIME_BOOTSTRAP_ATTR}="1" src=""></script>`;
   } else {
-    const inlinedRuntime = getHyperframeRuntimeScript();
+    const inlinedRuntime = getPentovideoRuntimeScript();
     tag = `<script ${RUNTIME_BOOTSTRAP_ATTR}="1">${inlinedRuntime}</script>`;
   }
   if (sanitized.includes("</head>")) {
@@ -335,7 +335,7 @@ export interface BundleOptions {
   /** Optional media duration prober (e.g., ffprobe). If omitted, media durations are not resolved. */
   probeMediaDuration?: MediaDurationProber;
   /**
-   * How to handle the HyperFrames runtime <script> tag. Default: `"inline"`.
+   * How to handle the PentoVideo runtime <script> tag. Default: `"inline"`.
    *
    * - `"inline"` — embed the runtime IIFE body directly into the bundle. Produces
    *   genuinely self-contained HTML. Right for CLI render output, validate,
@@ -346,7 +346,7 @@ export interface BundleOptions {
    *   the runtime cacheable across hot-reloads instead of re-inlining ~150 KB
    *   on every change.
    *
-   * The `HYPERFRAME_RUNTIME_URL` env var, when set, takes precedence over both
+   * The `PENTOVIDEO_RUNTIME_URL` env var, when set, takes precedence over both
    * modes and emits `<script ... src="<URL>">` directly.
    */
   runtime?: "inline" | "placeholder";
@@ -356,7 +356,7 @@ export interface BundleOptions {
  * Bundle a project's index.html into a single self-contained HTML file.
  *
  * - Compiles timing attributes and optionally resolves media durations
- * - Injects the HyperFrames runtime script
+ * - Injects the PentoVideo runtime script
  * - Inlines local CSS and JS files
  * - Inlines sub-composition HTML fragments (data-composition-src)
  * - Inlines small textual assets as data URLs
@@ -371,7 +371,7 @@ export async function bundleToSingleHtml(
   const rawHtml = readFileSync(indexPath, "utf-8");
   const compiled = await compileHtml(rawHtml, projectDir, options?.probeMediaDuration);
 
-  const staticGuard = validateHyperframeHtmlContract(compiled);
+  const staticGuard = validatePentovideoHtmlContract(compiled);
   if (!staticGuard.isValid) {
     console.warn(
       `[StaticGuard] Invalid HyperFrame contract: ${staticGuard.missingKeys.join("; ")}`,
@@ -533,11 +533,11 @@ export async function bundleToSingleHtml(
             ? wrapScopedCompositionScript(
                 s.textContent || "",
                 scopeCompId,
-                "[HyperFrames] composition script error:",
+                "[PentoVideo] composition script error:",
                 runtimeScope,
                 runtimeCompId || scopeCompId,
               )
-            : `(function(){ try { ${s.textContent || ""} } catch (_err) { console.error('[HyperFrames] composition script error:', _err); } })();`,
+            : `(function(){ try { ${s.textContent || ""} } catch (_err) { console.error('[PentoVideo] composition script error:', _err); } })();`,
         );
       }
       s.remove();
@@ -613,9 +613,9 @@ export async function bundleToSingleHtml(
               ? wrapScopedCompositionScript(
                   scriptEl.textContent || "",
                   compId,
-                  "[HyperFrames] composition script error:",
+                  "[PentoVideo] composition script error:",
                 )
-              : `(function(){ try { ${scriptEl.textContent || ""} } catch (_err) { console.error('[HyperFrames] composition script error:', _err); } })();`,
+              : `(function(){ try { ${scriptEl.textContent || ""} } catch (_err) { console.error('[PentoVideo] composition script error:', _err); } })();`,
           );
         }
         scriptEl.remove();
@@ -647,9 +647,9 @@ export async function bundleToSingleHtml(
               ? wrapScopedCompositionScript(
                   scriptEl.textContent || "",
                   compId,
-                  "[HyperFrames] composition script error:",
+                  "[PentoVideo] composition script error:",
                 )
-              : `(function(){ try { ${scriptEl.textContent || ""} } catch (_err) { console.error('[HyperFrames] composition script error:', _err); } })();`,
+              : `(function(){ try { ${scriptEl.textContent || ""} } catch (_err) { console.error('[PentoVideo] composition script error:', _err); } })();`,
           );
         }
         scriptEl.remove();

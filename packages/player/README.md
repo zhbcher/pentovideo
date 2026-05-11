@@ -1,29 +1,29 @@
-# @hyperframes/player
+# @pentovideo/player
 
-Embeddable web component for playing HyperFrames compositions. Zero dependencies, works with any framework.
+Embeddable web component for playing PentoVideo compositions. Zero dependencies, works with any framework.
 
 ## Install
 
 ```bash
-npm install @hyperframes/player
+npm install @pentovideo/player
 ```
 
 Or load directly via CDN:
 
 ```html
-<script type="module" src="https://cdn.jsdelivr.net/npm/@hyperframes/player"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@pentovideo/player"></script>
 ```
 
 If you need a classic `<script>` tag instead of ESM, use the explicit global build:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@hyperframes/player/dist/hyperframes-player.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@pentovideo/player/dist/pentovideo-player.global.js"></script>
 ```
 
 ## Usage
 
 ```html
-<hyperframes-player src="./my-composition/index.html" controls></hyperframes-player>
+<pentovideo-player src="./my-composition/index.html" controls></pentovideo-player>
 ```
 
 The player loads the composition in a sandboxed iframe, auto-detects its dimensions and duration, and scales it responsively to fit the container.
@@ -31,11 +31,11 @@ The player loads the composition in a sandboxed iframe, auto-detects its dimensi
 ### With a framework
 
 ```typescript
-import "@hyperframes/player";
+import "@pentovideo/player";
 
 // The custom element is now registered — use it in your markup
-// React: <hyperframes-player src="..." controls />
-// Vue:   <hyperframes-player :src="url" controls />
+// React: <pentovideo-player src="..." controls />
+// Vue:   <pentovideo-player :src="url" controls />
 ```
 
 ### Poster image
@@ -43,11 +43,11 @@ import "@hyperframes/player";
 Show a static image before playback starts:
 
 ```html
-<hyperframes-player
+<pentovideo-player
   src="./composition/index.html"
   poster="./thumbnail.jpg"
   controls
-></hyperframes-player>
+></pentovideo-player>
 ```
 
 ## Attributes
@@ -69,15 +69,15 @@ Show a static image before playback starts:
 
 ### Shader transition previews
 
-When a composition uses `@hyperframes/shader-transitions`, the player can own preview-only shader capture settings:
+When a composition uses `@pentovideo/shader-transitions`, the player can own preview-only shader capture settings:
 
 ```html
-<hyperframes-player
+<pentovideo-player
   src="./composition/index.html"
   shader-capture-scale="1"
   shader-loading="player"
   controls
-></hyperframes-player>
+></pentovideo-player>
 ```
 
 `shader-loading="player"` shows the player-owned transition-prep overlay from shader progress messages. `composition` leaves direct composition fallback behavior alone, and `none` suppresses the loader.
@@ -100,7 +100,7 @@ The optional `audio-src` attribute can be used to start preloading a primary aud
 ## JavaScript API
 
 ```js
-const player = document.querySelector("hyperframes-player");
+const player = document.querySelector("pentovideo-player");
 
 // Playback
 player.play();
@@ -127,7 +127,7 @@ player.iframeElement; // HTMLIFrameElement (read-only)
 The composition runs inside a sandboxed `<iframe>` in the player's Shadow DOM. For most use cases you don't need direct access — the JavaScript API above is enough. But if you're building an editor, recorder, or custom timeline that needs to inspect the composition's DOM or read its `__player` / `__timelines` runtime objects, use the `iframeElement` getter:
 
 ```js
-const player = document.querySelector("hyperframes-player");
+const player = document.querySelector("pentovideo-player");
 const iframe = player.iframeElement;
 
 // Now you can reach into the composition's DOM and runtime
@@ -135,13 +135,13 @@ iframe.contentDocument.querySelectorAll("[data-composition-id]");
 iframe.contentWindow.__timelines;
 ```
 
-This is the canonical way to bridge the player into tools like [`@hyperframes/studio`](../studio). The studio exports a `resolveIframe` helper that works with both iframe refs and web-component refs:
+This is the canonical way to bridge the player into tools like [`@pentovideo/studio`](../studio). The studio exports a `resolveIframe` helper that works with both iframe refs and web-component refs:
 
 ```ts
-import { useTimelinePlayer, resolveIframe } from "@hyperframes/studio";
+import { useTimelinePlayer, resolveIframe } from "@pentovideo/studio";
 
 const { iframeRef } = useTimelinePlayer();
-const player = document.createElement("hyperframes-player");
+const player = document.createElement("pentovideo-player");
 player.setAttribute("src", src);
 container.appendChild(player);
 
@@ -154,25 +154,25 @@ iframeRef.current = resolveIframe(player);
 If you prefer JSX over imperative element creation, attach a ref directly to the web component and resolve the iframe inside an effect:
 
 ```tsx
-import "@hyperframes/player";
-import type { HyperframesPlayer } from "@hyperframes/player";
-import { useTimelinePlayer, resolveIframe } from "@hyperframes/studio";
+import "@pentovideo/player";
+import type { PentovideoPlayer } from "@pentovideo/player";
+import { useTimelinePlayer, resolveIframe } from "@pentovideo/studio";
 
 function StudioPreview({ src }: { src: string }) {
   const { iframeRef, onIframeLoad } = useTimelinePlayer();
-  const playerRef = useRef<HyperframesPlayer>(null);
+  const playerRef = useRef<PentovideoPlayer>(null);
 
   useEffect(() => {
     iframeRef.current = resolveIframe(playerRef.current);
   });
 
-  return <hyperframes-player ref={playerRef} src={src} onLoad={onIframeLoad} />;
+  return <pentovideo-player ref={playerRef} src={src} onLoad={onIframeLoad} />;
 }
 ```
 
 > **Heads up — common gotcha**
 >
-> If you pass the `<hyperframes-player>` element itself (not `iframeElement`) into a hook that expects an `<iframe>`, every `.contentWindow` / `.contentDocument` access returns `null` because the iframe lives inside the player's Shadow DOM. Always extract `iframeElement` first, or use `resolveIframe` from `@hyperframes/studio` which handles both iframe and web-component hosts transparently.
+> If you pass the `<pentovideo-player>` element itself (not `iframeElement`) into a hook that expects an `<iframe>`, every `.contentWindow` / `.contentDocument` access returns `null` because the iframe lives inside the player's Shadow DOM. Always extract `iframeElement` first, or use `resolveIframe` from `@pentovideo/studio` which handles both iframe and web-component hosts transparently.
 
 ## Events
 
@@ -201,7 +201,7 @@ player.addEventListener("ended", () => {
 The player fills its container and scales the composition to fit while preserving aspect ratio. Set a size on the element or its parent:
 
 ```css
-hyperframes-player {
+pentovideo-player {
   width: 100%;
   max-width: 800px;
   aspect-ratio: 16 / 9;
@@ -212,15 +212,15 @@ The `width` and `height` attributes define the composition's native resolution f
 
 ## How it works
 
-The player renders compositions in a sandboxed `<iframe>` inside a Shadow DOM. It communicates with the HyperFrames runtime via `postMessage`. If the composition has GSAP timelines (`window.__timelines`) but no runtime, the player auto-injects it from CDN.
+The player renders compositions in a sandboxed `<iframe>` inside a Shadow DOM. It communicates with the PentoVideo runtime via `postMessage`. If the composition has GSAP timelines (`window.__timelines`) but no runtime, the player auto-injects it from CDN.
 
 ## Distribution
 
 | Format | File                           | Use case                       |
 | ------ | ------------------------------ | ------------------------------ |
-| ESM    | `hyperframes-player.js`        | Bundlers (Vite, webpack, etc.) |
-| CJS    | `hyperframes-player.cjs`       | Node.js / require()            |
-| IIFE   | `hyperframes-player.global.js` | `<script>` tag, CDN            |
+| ESM    | `pentovideo-player.js`        | Bundlers (Vite, webpack, etc.) |
+| CJS    | `pentovideo-player.cjs`       | Node.js / require()            |
+| IIFE   | `pentovideo-player.global.js` | `<script>` tag, CDN            |
 
 All formats are minified with source maps. TypeScript definitions included.
 

@@ -1,5 +1,5 @@
 /**
- * @hyperframes/engine — Protocol Types
+ * @pentovideo/engine — Protocol Types
  *
  * The engine's page contract. Any web page that wants to be rendered
  * as video must expose `window.__hf` implementing the HfProtocol interface.
@@ -34,7 +34,7 @@ export interface HfMediaElement {
 /**
  * Metadata for a shader transition between two scenes.
  *
- * Compositions using @hyperframes/shader-transitions populate
+ * Compositions using @pentovideo/shader-transitions populate
  * `window.__hf.transitions` with one entry per transition so the
  * producer can pre-compute scene ranges, capture per-scene buffers,
  * and apply the transition in HDR-aware compositing.
@@ -72,7 +72,7 @@ export interface HfProtocol {
   seek(time: number): void;
   /** Optional: media elements the engine should handle */
   media?: HfMediaElement[];
-  /** Optional: shader transition metadata, populated by @hyperframes/shader-transitions */
+  /** Optional: shader transition metadata, populated by @pentovideo/shader-transitions */
   transitions?: HfTransitionMeta[];
 }
 

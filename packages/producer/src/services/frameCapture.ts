@@ -1,5 +1,5 @@
 /**
- * Re-exported from @hyperframes/engine.
+ * Re-exported from @pentovideo/engine.
  * @see engine/src/services/frameCapture.ts for implementation.
  */
 export {
@@ -17,4 +17,4 @@ export {
   type CapturePerfSummary,
   type CaptureSession,
   type BeforeCaptureHook,
-} from "@hyperframes/engine";
+} from "@pentovideo/engine";

@@ -1,8 +1,8 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join, resolve, extname } from "node:path";
-import { lintHyperframeHtml, type HyperframeLintResult } from "@hyperframes/core/lint";
-import type { HyperframeLintFinding } from "@hyperframes/core/lint";
-import { rewriteAssetPath } from "@hyperframes/core";
+import { lintPentovideoHtml, type PentovideoLintResult } from "@pentovideo/core/lint";
+import type { PentovideoLintFinding } from "@pentovideo/core/lint";
+import { rewriteAssetPath } from "@pentovideo/core";
 import type { ProjectDir } from "./project.js";
 
 /**
@@ -25,7 +25,7 @@ interface CssSource {
 }
 
 export interface ProjectLintResult {
-  results: Array<{ file: string; result: HyperframeLintResult }>;
+  results: Array<{ file: string; result: PentovideoLintResult }>;
   totalErrors: number;
   totalWarnings: number;
   totalInfos: number;
@@ -130,14 +130,14 @@ function resolveCssAssetPath(
  * Returns aggregated results across all files.
  */
 export function lintProject(project: ProjectDir): ProjectLintResult {
-  const results: Array<{ file: string; result: HyperframeLintResult }> = [];
+  const results: Array<{ file: string; result: PentovideoLintResult }> = [];
   let totalErrors = 0;
   let totalWarnings = 0;
   let totalInfos = 0;
 
   // Lint root composition
   const rootHtml = readFileSync(project.indexPath, "utf-8");
-  const rootResult = lintHyperframeHtml(rootHtml, {
+  const rootResult = lintPentovideoHtml(rootHtml, {
     filePath: project.indexPath,
     externalStyles: collectExternalStyles(project.dir, rootHtml),
   });
@@ -156,7 +156,7 @@ export function lintProject(project: ProjectDir): ProjectLintResult {
       const html = readFileSync(filePath, "utf-8");
       const compSrcPath = `compositions/${file}`;
       allHtmlSources.push({ html, compSrcPath });
-      const result = lintHyperframeHtml(html, {
+      const result = lintPentovideoHtml(html, {
         filePath,
         isSubComposition: true,
         externalStyles: collectExternalStyles(project.dir, html, compSrcPath),
@@ -207,8 +207,8 @@ export function lintProject(project: ProjectDir): ProjectLintResult {
 function lintProjectAudioFiles(
   projectDir: string,
   htmlSources: HtmlSource[],
-): HyperframeLintFinding[] {
-  const findings: HyperframeLintFinding[] = [];
+): PentovideoLintFinding[] {
+  const findings: PentovideoLintFinding[] = [];
 
   // Scan project root for audio files (non-recursive — only top-level)
   let audioFiles: string[];
@@ -248,8 +248,8 @@ function lintProjectAudioFiles(
 function lintAudioSrcNotFound(
   projectDir: string,
   htmlSources: HtmlSource[],
-): HyperframeLintFinding[] {
-  const findings: HyperframeLintFinding[] = [];
+): PentovideoLintFinding[] {
+  const findings: PentovideoLintFinding[] = [];
 
   const audioSrcRe = /<audio\b[^>]*\bsrc\s*=\s*["']([^"']+)["'][^>]*>/gi;
 
@@ -291,7 +291,7 @@ function lintAudioSrcNotFound(
 function lintTextureMaskAssetNotFound(
   projectDir: string,
   htmlSources: HtmlSource[],
-): HyperframeLintFinding[] {
+): PentovideoLintFinding[] {
   const missing = new Map<string, string>();
 
   for (const { html, compSrcPath } of htmlSources) {
@@ -336,8 +336,8 @@ function lintTextureMaskAssetNotFound(
  * Scans the project directory filesystem (not just what lintProject chose to read)
  * to catch stray scaffold files, duplicates, or backup copies.
  */
-function lintMultipleRootCompositions(projectDir: string): HyperframeLintFinding[] {
-  const findings: HyperframeLintFinding[] = [];
+function lintMultipleRootCompositions(projectDir: string): PentovideoLintFinding[] {
+  const findings: PentovideoLintFinding[] = [];
   try {
     const rootHtmlFiles = readdirSync(projectDir).filter((f) => f.endsWith(".html"));
     const rootCompositions: string[] = [];
@@ -367,8 +367,8 @@ function lintMultipleRootCompositions(projectDir: string): HyperframeLintFinding
  * Extracts each attribute independently (order-insensitive) to handle any HTML attribute order.
  * Deduplicates by (src, start, duration) to avoid flagging the same audio reached via sub-compositions.
  */
-function lintDuplicateAudioTracks(htmlSources: HtmlSource[]): HyperframeLintFinding[] {
-  const findings: HyperframeLintFinding[] = [];
+function lintDuplicateAudioTracks(htmlSources: HtmlSource[]): PentovideoLintFinding[] {
+  const findings: PentovideoLintFinding[] = [];
   function extractAttr(tag: string, name: string): string | null {
     const re = new RegExp(`\\b${name}\\s*=\\s*["']([^"']+)["']`, "i");
     const m = tag.match(re);

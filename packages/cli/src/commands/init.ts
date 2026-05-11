@@ -2,15 +2,15 @@ import { defineCommand, runCommand } from "citty";
 import type { Example } from "./_examples.js";
 
 export const examples: Example[] = [
-  ["Create a project with the interactive wizard", "hyperframes init my-video"],
-  ["Pick a starter example", "hyperframes init my-video --example warm-grain"],
-  ["Scaffold a 4K project", "hyperframes init my-video --resolution 4k"],
-  ["Scaffold a portrait video", "hyperframes init my-video --resolution portrait"],
-  ["Start from an existing video file", "hyperframes init my-video --video clip.mp4"],
-  ["Start from an audio file", "hyperframes init my-video --audio track.mp3"],
-  ["Scaffold with Tailwind CSS", "hyperframes init my-video --example blank --tailwind"],
-  ["Non-interactive mode (for CI or AI agents)", "hyperframes init my-video --non-interactive"],
-  ["Skip AI coding skills installation", "hyperframes init my-video --skip-skills"],
+  ["Create a project with the interactive wizard", "pentovideo init my-video"],
+  ["Pick a starter example", "pentovideo init my-video --example warm-grain"],
+  ["Scaffold a 4K project", "pentovideo init my-video --resolution 4k"],
+  ["Scaffold a portrait video", "pentovideo init my-video --resolution portrait"],
+  ["Start from an existing video file", "pentovideo init my-video --video clip.mp4"],
+  ["Start from an audio file", "pentovideo init my-video --audio track.mp3"],
+  ["Scaffold with Tailwind CSS", "pentovideo init my-video --example blank --tailwind"],
+  ["Non-interactive mode (for CI or AI agents)", "pentovideo init my-video --non-interactive"],
+  ["Skip AI coding skills installation", "pentovideo init my-video --skip-skills"],
 ];
 import {
   existsSync,
@@ -40,7 +40,7 @@ import {
   CANVAS_DIMENSIONS,
   normalizeResolutionFlag,
   type CanvasResolution,
-} from "@hyperframes/core";
+} from "@pentovideo/core";
 
 interface VideoMeta {
   durationSeconds: number;
@@ -193,25 +193,25 @@ function toPackageName(projectName: string): string {
     .replace(/-+/g, "-")
     .replace(/^[-.]+|[-.]+$/g, "");
 
-  return normalized || "hyperframes-project";
+  return normalized || "pentovideo-project";
 }
 
-function getHyperframesPackageSpecifier(): string {
-  return VERSION === "0.0.0-dev" ? "hyperframes" : `hyperframes@${VERSION}`;
+function getPentovideoPackageSpecifier(): string {
+  return VERSION === "0.0.0-dev" ? "pentovideo" : `pentovideo@${VERSION}`;
 }
 
-function hyperframesScript(command: string): string {
-  return `npx --yes ${getHyperframesPackageSpecifier()} ${command}`;
+function pentovideoScript(command: string): string {
+  return `npx --yes ${getPentovideoPackageSpecifier()} ${command}`;
 }
 
 function buildPackageScripts(): Record<string, string> {
   return {
-    dev: hyperframesScript("preview"),
+    dev: pentovideoScript("preview"),
     check:
-      `${hyperframesScript("lint")} && ${hyperframesScript("validate")} && ` +
-      `${hyperframesScript("inspect")}`,
-    render: hyperframesScript("render"),
-    publish: hyperframesScript("publish"),
+      `${pentovideoScript("lint")} && ${pentovideoScript("validate")} && ` +
+      `${pentovideoScript("inspect")}`,
+    render: pentovideoScript("render"),
+    publish: pentovideoScript("publish"),
   };
 }
 
@@ -535,9 +535,9 @@ async function scaffoldProject(
     "utf-8",
   );
 
-  // Write hyperframes.json so `hyperframes add` knows which registry to use
+  // Write pentovideo.json so `pentovideo add` knows which registry to use
   // and where to drop block/component files. Overwritten only if absent.
-  if (!existsSync(resolve(destDir, "hyperframes.json"))) {
+  if (!existsSync(resolve(destDir, "pentovideo.json"))) {
     const { writeProjectConfig, DEFAULT_PROJECT_CONFIG } =
       await import("../utils/projectConfig.js");
     writeProjectConfig(destDir, DEFAULT_PROJECT_CONFIG);
@@ -639,7 +639,7 @@ export default defineCommand({
       // command copy-pasteable.
       console.error(
         c.error(
-          `The --template flag was renamed to --example. Example:\n  npx hyperframes init ${args.name ?? "my-video"} --example "${args.template}"`,
+          `The --template flag was renamed to --example. Example:\n  npx pentovideo init ${args.name ?? "my-video"} --example "${args.template}"`,
         ),
       );
       process.exit(1);
@@ -647,7 +647,7 @@ export default defineCommand({
     if (args["video-legacy"] !== undefined) {
       console.error(
         c.error(
-          `The -V short flag no longer maps to --video. Use --video (or -v). Example:\n  npx hyperframes init ${args.name ?? "my-video"} --video "${args["video-legacy"]}"`,
+          `The -V short flag no longer maps to --video. Use --video (or -v). Example:\n  npx pentovideo init ${args.name ?? "my-video"} --video "${args["video-legacy"]}"`,
         ),
       );
       process.exit(1);
@@ -784,7 +784,7 @@ export default defineCommand({
       console.log("Get started:");
       console.log();
       console.log(`  ${c.accent("1.")} Install AI coding skills (one-time):`);
-      console.log(`     ${c.accent("npx skills add heygen-com/hyperframes")}`);
+      console.log(`     ${c.accent("npx skills add heygen-com/pentovideo")}`);
       console.log();
       console.log(`  ${c.accent("2.")} Open this project with your AI coding agent:`);
       console.log(
@@ -793,9 +793,9 @@ export default defineCommand({
       console.log();
       console.log(`  ${c.accent("3.")} Try a starter prompt:`);
       console.log(
-        `     ${c.dim('"Using /hyperframes, create a 15-second intro about [your topic]"')}`,
+        `     ${c.dim('"Using /pentovideo, create a 15-second intro about [your topic]"')}`,
       );
-      console.log(`     ${c.dim("More patterns: hyperframes.heygen.com/guides/prompting")}`);
+      console.log(`     ${c.dim("More patterns: pentovideo.heygen.com/guides/prompting")}`);
       console.log();
       console.log(`  ${c.accent("4.")} Preview in the browser:`);
       console.log(`     ${c.accent(`cd ${name}`)} && ${c.accent("npm run dev")}`);
@@ -806,7 +806,7 @@ export default defineCommand({
       console.log(`  ${c.accent("6.")} Render to MP4 when ready:`);
       console.log(`     ${c.accent(`cd ${name}`)} && ${c.accent("npm run render")}`);
       console.log();
-      console.log(`  ${c.dim("Full docs: hyperframes.heygen.com")}`);
+      console.log(`  ${c.dim("Full docs: pentovideo.heygen.com")}`);
       return;
     }
 
@@ -814,7 +814,7 @@ export default defineCommand({
     // Interactive mode
     // -----------------------------------------------------------------------
     printBanner();
-    clack.intro("Create a new HyperFrames project");
+    clack.intro("Create a new PentoVideo project");
 
     // 1. Project name
     let name: string;

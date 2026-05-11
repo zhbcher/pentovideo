@@ -84,7 +84,7 @@ export function scopeCssToComposition(
 export function wrapScopedCompositionScript(
   source: string,
   compositionId: string,
-  errorLabel = "[HyperFrames] composition script error:",
+  errorLabel = "[PentoVideo] composition script error:",
   scopeSelectorOverride?: string,
   timelineCompositionId = compositionId,
 ): string {
@@ -278,10 +278,10 @@ export function wrapScopedCompositionScript(
           return typeof value === "function" ? value.bind(target) : value;
         },
       });
-  var __hfBaseHyperframes = window.__hyperframes;
-  var __hfScopedHyperframes = !__hfBaseHyperframes
-    ? __hfBaseHyperframes
-    : Object.assign({}, __hfBaseHyperframes, {
+  var __hfBasePentovideo = window.__pentovideo;
+  var __hfScopedPentovideo = !__hfBasePentovideo
+    ? __hfBasePentovideo
+    : Object.assign({}, __hfBasePentovideo, {
         getVariables: function() {
           var byComp = window.__hfVariablesByComp;
           var scoped = byComp && __hfCompId ? byComp[__hfCompId] : null;
@@ -290,9 +290,9 @@ export function wrapScopedCompositionScript(
       });
   var __hfRun = function() {
     try {
-      (function(document, gsap, window, __hyperframes) {
+      (function(document, gsap, window, __pentovideo) {
 ${source}
-      }).call(window, __hfScopedDocument, __hfScopedGsap, __hfScopedWindow, __hfScopedHyperframes);
+      }).call(window, __hfScopedDocument, __hfScopedGsap, __hfScopedWindow, __hfScopedPentovideo);
     } catch (_err) {
       console.error(__hfErrorLabel, __hfCompId, _err);
     }

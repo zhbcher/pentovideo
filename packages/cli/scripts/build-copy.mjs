@@ -68,8 +68,22 @@ async function main() {
     copyDir(join(CLI_ROOT, "src", "templates", tmpl), join(DIST, "templates", tmpl));
   }
 
-  for (const skill of ["hyperframes", "hyperframes-cli", "gsap"]) {
-    copyDir(join(REPO_ROOT, "skills", skill), join(DIST, "skills", skill));
+  // PentoVideo skills: copy root-level skill files to CLI dist
+  mkdirSync(join(DIST, "skills", "pentovideo"), { recursive: true });
+  for (const f of readdirSync(REPO_ROOT)) {
+    const src = join(REPO_ROOT, f);
+    // Skip heavy dirs, only copy .md files and skill dirs
+    if (f === "node_modules" || f === "packages" || f === ".git" || f === "dist" || f === "docs") continue;
+    try {
+      if (f.endsWith(".md")) {
+        cpSync(src, join(DIST, "skills", "pentovideo", f));
+      }
+    } catch {}
+  }
+  // Copy skill sub-dirs
+  for (const d of ["references", "palettes", "animations", "tools", "styles", "workflows"]) {
+    const s = join(REPO_ROOT, d);
+    if (existsSync(s)) copyDir(s, join(DIST, "skills", "pentovideo", d));
   }
 
   const dockerfile = join(CLI_ROOT, "src", "docker", "Dockerfile.render");

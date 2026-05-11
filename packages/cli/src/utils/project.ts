@@ -21,7 +21,7 @@ export function resolveProject(dirArg: string | undefined): ProjectDir {
     errorBox(
       "No composition found in " + dir,
       "No index.html file found.",
-      "Run npx hyperframes init to create a new composition.",
+      "Run npx pentovideo init to create a new composition.",
     );
     process.exit(1);
   }

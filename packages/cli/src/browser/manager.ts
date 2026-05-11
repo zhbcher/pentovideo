@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { Browser, detectBrowserPlatform, getInstalledBrowsers, install } from "@puppeteer/browsers";
 
 const CHROME_VERSION = "131.0.6778.85";
-const CACHE_DIR = join(homedir(), ".cache", "hyperframes", "chrome");
+const CACHE_DIR = join(homedir(), ".cache", "pentovideo", "chrome");
 
 /** Override browser path via --browser-path flag. Takes priority over env var. */
 let _browserPathOverride: string | undefined;
@@ -59,7 +59,7 @@ function findFromEnv(): BrowserResult | undefined {
   if (_browserPathOverride && existsSync(_browserPathOverride)) {
     return { executablePath: _browserPathOverride, source: "env" };
   }
-  const envPath = process.env["HYPERFRAMES_BROWSER_PATH"];
+  const envPath = process.env["PENTOVIDEO_BROWSER_PATH"];
   if (envPath && existsSync(envPath)) {
     return { executablePath: envPath, source: "env" };
   }

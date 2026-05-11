@@ -14,7 +14,7 @@ const BASE: DockerRenderOptions = {
 };
 
 const FIXED_INPUT = {
-  imageTag: "hyperframes-renderer:0.0.0-test",
+  imageTag: "pentovideo-renderer:0.0.0-test",
   projectDir: "/abs/proj",
   outputDir: "/abs/out",
   outputFilename: "out.mp4",
@@ -33,7 +33,7 @@ describe("buildDockerRunArgs", () => {
         "/abs/proj:/project:ro",
         "-v",
         "/abs/out:/output",
-        "hyperframes-renderer:0.0.0-test",
+        "pentovideo-renderer:0.0.0-test",
         "/project",
         "--output",
         "/output/out.mp4",
@@ -79,7 +79,7 @@ describe("buildDockerRunArgs", () => {
         "/abs/proj:/project:ro",
         "-v",
         "/abs/out:/output",
-        "hyperframes-renderer:0.0.0-test",
+        "pentovideo-renderer:0.0.0-test",
         "/project",
         "--output",
         "/output/out.mp4",
@@ -136,7 +136,7 @@ describe("buildDockerRunArgs", () => {
       options: { ...BASE, gpu: true },
     });
     // `--gpus all` is a docker run flag (host passthrough); `--gpu` is the
-    // hyperframes CLI flag forwarded into the container — both must be set.
+    // pentovideo CLI flag forwarded into the container — both must be set.
     expect(on).toContain("--gpus");
     expect(on).toContain("all");
     expect(on).toContain("--gpu");

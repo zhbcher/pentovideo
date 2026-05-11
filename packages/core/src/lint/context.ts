@@ -1,4 +1,4 @@
-import type { HyperframeLintFinding, HyperframeLinterOptions } from "./types";
+import type { PentovideoLintFinding, PentovideoLinterOptions } from "./types";
 import {
   extractBlocks,
   extractOpenTags,
@@ -21,13 +21,13 @@ export type LintContext = {
   compositionIds: Set<string>;
   rootTag: OpenTag | null;
   rootCompositionId: string | null;
-  options: HyperframeLinterOptions;
+  options: PentovideoLinterOptions;
 };
 
 // Re-export for convenience so rule modules only need one import for the finding type
-export type { HyperframeLintFinding };
+export type { PentovideoLintFinding };
 
-export function buildLintContext(html: string, options: HyperframeLinterOptions = {}): LintContext {
+export function buildLintContext(html: string, options: PentovideoLinterOptions = {}): LintContext {
   const rawSource = html || "";
   let source = rawSource;
   const templateMatch = source.match(/<template[^>]*>([\s\S]*)<\/template>/i);

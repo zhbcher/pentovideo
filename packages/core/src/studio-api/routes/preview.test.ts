@@ -58,7 +58,7 @@ async function getPreviewSignature(projectDir: string): Promise<string> {
   const response = await app.request("http://localhost/projects/demo/preview");
   expect(response.status).toBe(200);
   const html = await response.text();
-  const match = /<meta name="hyperframes-project-signature" content="([^"]+)">/.exec(html);
+  const match = /<meta name="pentovideo-project-signature" content="([^"]+)">/.exec(html);
   expect(match?.[1]).toBeTruthy();
   return match![1]!;
 }
@@ -76,7 +76,7 @@ describe("registerPreviewRoutes", () => {
     expect(response.status).toBe(200);
     expect(getProjectSignature).toHaveBeenCalledWith(projectDir);
     expect(html).toContain(
-      '<meta name="hyperframes-project-signature" content="cached-signature">',
+      '<meta name="pentovideo-project-signature" content="cached-signature">',
     );
   });
 

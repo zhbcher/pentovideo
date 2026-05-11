@@ -26,7 +26,7 @@ export interface RemoteTemplateInfo {
  * uses, and it goes through the registry resolver directly.
  */
 export async function listRemoteTemplates(): Promise<RemoteTemplateInfo[]> {
-  const entries = await listRegistryItems({ type: "hyperframes:example" });
+  const entries = await listRegistryItems({ type: "pentovideo:example" });
   const items = await loadAllItems(entries);
   return items.map((item) => ({
     id: item.name,

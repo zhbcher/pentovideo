@@ -1,7 +1,7 @@
 /**
  * Remote Registry Fetching
  *
- * Fetches registry manifests and item files from a Hyperframes registry hosted
+ * Fetches registry manifests and item files from a Pentovideo registry hosted
  * on GitHub (or any HTTPS endpoint serving the same file layout).
  *
  * Base URL layout:
@@ -9,7 +9,7 @@
  *   <base>/<type-dir>/<name>/registry-item.json
  *   <base>/<type-dir>/<name>/<file.path>    → individual files referenced by the item
  *
- * `<type-dir>` comes from ITEM_TYPE_DIRS in @hyperframes/core.
+ * `<type-dir>` comes from ITEM_TYPE_DIRS in @pentovideo/core.
  */
 
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -21,10 +21,10 @@ import {
   type ItemType,
   type RegistryItem,
   type RegistryManifest,
-} from "@hyperframes/core";
+} from "@pentovideo/core";
 
 export const DEFAULT_REGISTRY_URL =
-  "https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry";
+  "https://raw.githubusercontent.com/heygen-com/pentovideo/main/registry";
 
 const FETCH_TIMEOUT_MS = 10_000;
 
@@ -32,7 +32,7 @@ const FETCH_TIMEOUT_MS = 10_000;
 // 24h TTL on manifest fetches so the interactive picker stays snappy offline.
 // Item files aren't cached — they're written straight to destDir on install.
 
-const CACHE_DIR = join(homedir(), ".hyperframes", "cache");
+const CACHE_DIR = join(homedir(), ".pentovideo", "cache");
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 
 interface CacheEntry<T> {

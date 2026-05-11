@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * @hyperframes/producer — Public Server
+ * @pentovideo/producer — Public Server
  *
  * Clean HTTP API for rendering HTML compositions to video.
  *
@@ -8,7 +8,7 @@
  *   POST /render         — blocking render, returns JSON
  *   POST /render/stream  — SSE streaming render with progress
  *   GET  /render/queue   — current render queue status
- *   POST /lint           — blocking Hyperframe lint
+ *   POST /lint           — blocking Pentovideo lint
  *   GET  /health         — health check
  *   GET  /outputs/:token — download rendered MP4
  */
@@ -34,7 +34,7 @@ import {
   createRenderJob,
   executeRenderJob,
 } from "./services/renderOrchestrator.js";
-import { prepareHyperframeLintBody, runHyperframeLint } from "./services/hyperframeLint.js";
+import { preparePentovideoLintBody, runPentovideoLint } from "./services/pentovideoLint.js";
 import { resolveRenderPaths } from "./utils/paths.js";
 import { defaultLogger, type ProducerLogger } from "./logger.js";
 import { Semaphore } from "./utils/semaphore.js";
@@ -275,12 +275,12 @@ export function createRenderHandlers(options: HandlerOptions = {}): RenderHandle
       return c.json({ success: false, requestId, error: "Invalid JSON body" }, 400);
     }
 
-    const preparedResult = prepareHyperframeLintBody(body);
+    const preparedResult = preparePentovideoLintBody(body);
     if ("error" in preparedResult) {
       return c.json({ success: false, requestId, error: preparedResult.error }, 400);
     }
 
-    const result = runHyperframeLint(preparedResult.prepared);
+    const result = runPentovideoLint(preparedResult.prepared);
     log.info("lint completed", {
       requestId,
       entryFile: preparedResult.prepared.entryFile,

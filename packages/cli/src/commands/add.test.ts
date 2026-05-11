@@ -2,26 +2,26 @@ import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
 import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { RegistryItem, RegistryManifest } from "@hyperframes/core";
+import type { RegistryItem, RegistryManifest } from "@pentovideo/core";
 import { AddError, buildSnippet, remapTarget, runAdd } from "./add.js";
 
 // ── Fixtures ────────────────────────────────────────────────────────────────
 
 const MANIFEST: RegistryManifest = {
-  $schema: "https://hyperframes.heygen.com/schema/registry.json",
+  $schema: "https://pentovideo.heygen.com/schema/registry.json",
   name: "test",
   homepage: "https://example.com",
   items: [
-    { name: "my-block", type: "hyperframes:block" },
-    { name: "my-component", type: "hyperframes:component" },
-    { name: "my-example", type: "hyperframes:example" },
+    { name: "my-block", type: "pentovideo:block" },
+    { name: "my-component", type: "pentovideo:component" },
+    { name: "my-example", type: "pentovideo:example" },
   ],
 };
 
 const BLOCK_ITEM: RegistryItem = {
-  $schema: "https://hyperframes.heygen.com/schema/registry-item.json",
+  $schema: "https://pentovideo.heygen.com/schema/registry-item.json",
   name: "my-block",
-  type: "hyperframes:block",
+  type: "pentovideo:block",
   title: "My Block",
   description: "Block for tests",
   dimensions: { width: 1080, height: 1350 },
@@ -30,45 +30,45 @@ const BLOCK_ITEM: RegistryItem = {
     {
       path: "my-block.html",
       target: "compositions/my-block.html",
-      type: "hyperframes:composition",
+      type: "pentovideo:composition",
     },
   ],
 };
 
 const COMPONENT_ITEM: RegistryItem = {
-  $schema: "https://hyperframes.heygen.com/schema/registry-item.json",
+  $schema: "https://pentovideo.heygen.com/schema/registry-item.json",
   name: "my-component",
-  type: "hyperframes:component",
+  type: "pentovideo:component",
   title: "My Component",
   description: "Component for tests",
   files: [
     {
       path: "my-component.html",
       target: "compositions/components/my-component/my-component.html",
-      type: "hyperframes:snippet",
+      type: "pentovideo:snippet",
     },
     {
       path: "my-component.css",
       target: "compositions/components/my-component/my-component.css",
-      type: "hyperframes:style",
+      type: "pentovideo:style",
     },
     {
       path: "assets/mask.png",
       target: "assets/my-component/mask.png",
-      type: "hyperframes:asset",
+      type: "pentovideo:asset",
     },
   ],
 };
 
 const EXAMPLE_ITEM: RegistryItem = {
-  $schema: "https://hyperframes.heygen.com/schema/registry-item.json",
+  $schema: "https://pentovideo.heygen.com/schema/registry-item.json",
   name: "my-example",
-  type: "hyperframes:example",
+  type: "pentovideo:example",
   title: "My Example",
   description: "Example for tests",
   dimensions: { width: 1920, height: 1080 },
   duration: 10,
-  files: [{ path: "index.html", target: "index.html", type: "hyperframes:composition" }],
+  files: [{ path: "index.html", target: "index.html", type: "pentovideo:composition" }],
 };
 
 const ITEM_BY_NAME: Record<string, RegistryItem> = {
@@ -171,23 +171,23 @@ describe("runAdd (integration, mocked registry)", () => {
   it("installs a block into the default compositions/ path and returns the snippet", async () => {
     const dir = tmp();
     try {
-      // Write hyperframes.json so runAdd uses our unique baseUrl.
+      // Write pentovideo.json so runAdd uses our unique baseUrl.
       const baseUrl = uniqueBase();
       const cfg = {
-        $schema: "https://hyperframes.heygen.com/schema/hyperframes.json",
+        $schema: "https://pentovideo.heygen.com/schema/pentovideo.json",
         registry: baseUrl,
         paths: { blocks: "compositions", components: "compositions/components", assets: "assets" },
       };
-      writeFileSync(join(dir, "hyperframes.json"), JSON.stringify(cfg), "utf-8");
+      writeFileSync(join(dir, "pentovideo.json"), JSON.stringify(cfg), "utf-8");
 
       const result = await runAdd({ name: "my-block", projectDir: dir, skipClipboard: true });
       expect(result.ok).toBe(true);
       expect(result.name).toBe("my-block");
-      expect(result.type).toBe("hyperframes:block");
+      expect(result.type).toBe("pentovideo:block");
       expect(result.written).toHaveLength(1);
       expect(existsSync(join(dir, "compositions/my-block.html"))).toBe(true);
       const installed = readFileSync(join(dir, "compositions/my-block.html"), "utf-8");
-      expect(installed).toContain("<!-- hyperframes-registry-item: my-block -->");
+      expect(installed).toContain("<!-- pentovideo-registry-item: my-block -->");
       expect(installed).toContain("my-block.html");
       expect(result.snippet).toContain("compositions/my-block.html");
     } finally {
@@ -200,11 +200,11 @@ describe("runAdd (integration, mocked registry)", () => {
     try {
       const baseUrl = uniqueBase();
       const cfg = {
-        $schema: "https://hyperframes.heygen.com/schema/hyperframes.json",
+        $schema: "https://pentovideo.heygen.com/schema/pentovideo.json",
         registry: baseUrl,
         paths: { blocks: "compositions", components: "src/fx", assets: "assets" },
       };
-      writeFileSync(join(dir, "hyperframes.json"), JSON.stringify(cfg), "utf-8");
+      writeFileSync(join(dir, "pentovideo.json"), JSON.stringify(cfg), "utf-8");
 
       const result = await runAdd({
         name: "my-component",
@@ -226,7 +226,7 @@ describe("runAdd (integration, mocked registry)", () => {
     try {
       const baseUrl = uniqueBase();
       writeFileSync(
-        join(dir, "hyperframes.json"),
+        join(dir, "pentovideo.json"),
         JSON.stringify({
           registry: baseUrl,
           paths: {
@@ -253,7 +253,7 @@ describe("runAdd (integration, mocked registry)", () => {
     try {
       const baseUrl = uniqueBase();
       writeFileSync(
-        join(dir, "hyperframes.json"),
+        join(dir, "pentovideo.json"),
         JSON.stringify({
           registry: baseUrl,
           paths: {

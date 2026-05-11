@@ -1,11 +1,11 @@
-# @hyperframes/studio
+# @pentovideo/studio
 
-Browser-based composition editor UI for Hyperframes. Provides a visual timeline, code editor, and live preview for building video compositions.
+Browser-based composition editor UI for Pentovideo. Provides a visual timeline, code editor, and live preview for building video compositions.
 
 ## Install
 
 ```bash
-npm install @hyperframes/studio
+npm install @pentovideo/studio
 ```
 
 ## What it does
@@ -19,7 +19,7 @@ The studio is a React application with:
 
 ## Development
 
-The studio is embedded in the `hyperframes preview` command. To develop the studio UI itself:
+The studio is embedded in the `pentovideo preview` command. To develop the studio UI itself:
 
 ```bash
 cd packages/studio
@@ -38,9 +38,9 @@ bun run typecheck  # Type-check
 
 ## Documentation
 
-Full documentation: [hyperframes.heygen.com/packages/studio](https://hyperframes.heygen.com/packages/studio)
+Full documentation: [pentovideo.heygen.com/packages/studio](https://pentovideo.heygen.com/packages/studio)
 
 ## Related packages
 
-- [`@hyperframes/core`](../core) — types and parsers used by the editor
-- [`hyperframes`](../cli) — CLI that serves the studio via `hyperframes preview`
+- [`@pentovideo/core`](../core) — types and parsers used by the editor
+- [`pentovideo`](../cli) — CLI that serves the studio via `pentovideo preview`

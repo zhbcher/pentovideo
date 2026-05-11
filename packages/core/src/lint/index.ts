@@ -1,7 +1,7 @@
 export type {
-  HyperframeLintSeverity,
-  HyperframeLintFinding,
-  HyperframeLintResult,
-  HyperframeLinterOptions,
+  PentovideoLintSeverity,
+  PentovideoLintFinding,
+  PentovideoLintResult,
+  PentovideoLinterOptions,
 } from "./types";
-export { lintHyperframeHtml, lintMediaUrls } from "./hyperframeLinter";
+export { lintPentovideoHtml, lintMediaUrls } from "./pentovideoLinter";

@@ -29,7 +29,7 @@ import {
   symlinkSync,
 } from "fs";
 import { parseHTML } from "linkedom";
-import { CANVAS_DIMENSIONS, type CanvasResolution } from "@hyperframes/core";
+import { CANVAS_DIMENSIONS, type CanvasResolution } from "@pentovideo/core";
 import {
   type EngineConfig,
   resolveConfig,
@@ -96,7 +96,7 @@ import {
   type TransitionFn,
   type ElementStackingInfo,
   type HfTransitionMeta,
-} from "@hyperframes/engine";
+} from "@pentovideo/engine";
 import { join, dirname, resolve, relative, isAbsolute, basename } from "path";
 import { randomUUID } from "crypto";
 import { freemem } from "os";
@@ -825,7 +825,7 @@ export function materializeExtractedFramesForCompiledDir(
   const pathModule = options.pathModule ?? materializePathModule;
   const fileSystem = options.fileSystem ?? materializeFileSystem;
   const resolvedCompiledDir = pathModule.resolve(compiledDir);
-  const compiledFrameRoot = pathModule.join(resolvedCompiledDir, "__hyperframes_video_frames");
+  const compiledFrameRoot = pathModule.join(resolvedCompiledDir, "__pentovideo_video_frames");
 
   for (const ext of extracted) {
     const resolvedOut = pathModule.resolve(ext.outputDir);
@@ -2487,7 +2487,7 @@ export async function executeRenderJob(
       extractionResult = await extractAllVideoFrames(
         composition.videos,
         projectDir,
-        { fps: job.config.fps, outputDir: join(compiledDir, "__hyperframes_video_frames") },
+        { fps: job.config.fps, outputDir: join(compiledDir, "__pentovideo_video_frames") },
         abortSignal,
         { extractCacheDir: cfg.extractCacheDir },
         compiledDir,
@@ -2943,7 +2943,7 @@ export async function executeRenderJob(
         await initTransparentBackground(domSession.page);
 
         // ── Scene detection for shader transitions ──────────────────────────
-        // Query the browser for transition metadata written by @hyperframes/shader-transitions
+        // Query the browser for transition metadata written by @pentovideo/shader-transitions
         // (window.__hf.transitions) and discover which elements belong to each scene.
         const transitionMeta: HdrTransitionMeta[] = await domSession.page.evaluate(() => {
           return window.__hf?.transitions ?? [];

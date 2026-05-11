@@ -124,7 +124,7 @@ function isVideoFile(filePath: string): boolean {
  * Extract audio from a video file as 16kHz mono WAV (whisper requirement).
  */
 function extractAudio(videoPath: string): string {
-  const wavPath = join(tmpdir(), `hyperframes-audio-${Date.now()}.wav`);
+  const wavPath = join(tmpdir(), `pentovideo-audio-${Date.now()}.wav`);
   execFileSync(
     "ffmpeg",
     ["-i", videoPath, "-vn", "-ar", "16000", "-ac", "1", "-f", "wav", "-y", wavPath],
@@ -166,7 +166,7 @@ function prepareAudio(audioPath: string): string {
   }
 
   // Convert to whisper-compatible WAV
-  const wavPath = join(tmpdir(), `hyperframes-audio-${Date.now()}.wav`);
+  const wavPath = join(tmpdir(), `pentovideo-audio-${Date.now()}.wav`);
   execFileSync(
     "ffmpeg",
     ["-i", audioPath, "-ar", "16000", "-ac", "1", "-f", "wav", "-y", wavPath],

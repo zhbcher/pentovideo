@@ -1,24 +1,24 @@
 {
-  "name": "@hyperframes/player",
+  "name": "@pentovideo/player",
   "version": "0.5.7",
-  "description": "Embeddable web component for HyperFrames compositions",
+  "description": "Embeddable web component for PentoVideo compositions",
   "repository": {
     "type": "git",
-    "url": "https://github.com/heygen-com/hyperframes",
+    "url": "https://github.com/pentovideo/pentovideo",
     "directory": "packages/player"
   },
   "files": [
     "dist"
   ],
   "type": "module",
-  "main": "./dist/hyperframes-player.js",
-  "types": "./dist/hyperframes-player.d.ts",
+  "main": "./dist/pentovideo-player.js",
+  "types": "./dist/pentovideo-player.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/hyperframes-player.d.ts",
-      "script": "./dist/hyperframes-player.global.js",
-      "import": "./dist/hyperframes-player.js",
-      "require": "./dist/hyperframes-player.cjs"
+      "types": "./dist/pentovideo-player.d.ts",
+      "script": "./dist/pentovideo-player.global.js",
+      "import": "./dist/pentovideo-player.js",
+      "require": "./dist/pentovideo-player.cjs"
     }
   },
   "scripts": {

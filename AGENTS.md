@@ -1,4 +1,4 @@
-# Hyperframes
+# Pentovideo
 
 Open-source video rendering framework: write HTML, render video.
 
@@ -7,7 +7,7 @@ Open-source video rendering framework: write HTML, render video.
 This repo ships AI agent skills via [vercel-labs/skills](https://github.com/vercel-labs/skills). Install them before writing compositions — they encode framework-specific patterns that generic docs don't cover.
 
 ```bash
-npx skills add heygen-com/hyperframes
+npx skills add heygen-com/pentovideo
 ```
 
 ## Build & Test
@@ -35,8 +35,8 @@ Always lint and format changed files before committing. Lefthook pre-commit hook
 After creating or editing any `.html` composition:
 
 ```bash
-npx hyperframes lint       # Static HTML structure check
-npx hyperframes validate   # Runtime check (headless Chrome — catches JS errors, missing assets)
+npx pentovideo lint       # Static HTML structure check
+npx pentovideo validate   # Runtime check (headless Chrome — catches JS errors, missing assets)
 ```
 
 Both must pass before previewing or considering work complete.
@@ -45,10 +45,10 @@ Both must pass before previewing or considering work complete.
 
 ```
 packages/
-  cli/                  → hyperframes CLI (create, preview, lint, render)
+  cli/                  → pentovideo CLI (create, preview, lint, render)
   core/                 → Types, parsers, generators, linter, runtime, frame adapters
   engine/               → Seekable page-to-video capture engine (Puppeteer + FFmpeg)
-  player/               → Embeddable <hyperframes-player> web component
+  player/               → Embeddable <pentovideo-player> web component
   producer/             → Full rendering pipeline (capture + encode + audio mix)
   shader-transitions/   → WebGL shader transitions for compositions
   studio/               → Browser-based composition editor UI
@@ -56,7 +56,7 @@ registry/
   blocks/               → Installable sub-composition scenes (50+)
   components/           → Installable effects and snippets
   examples/             → Starter project templates
-docs/                   → Mintlify documentation site (hyperframes.heygen.com)
+docs/                   → Mintlify documentation site (pentovideo.heygen.com)
 skills/                 → AI agent skill definitions
 ```
 
@@ -71,5 +71,5 @@ skills/                 → AI agent skill definitions
 
 ## Documentation
 
-- Docs: https://hyperframes.heygen.com/introduction
-- Catalog (50+ blocks): https://hyperframes.heygen.com/catalog/blocks/data-chart
+- Docs: https://pentovideo.heygen.com/introduction
+- Catalog (50+ blocks): https://pentovideo.heygen.com/catalog/blocks/data-chart

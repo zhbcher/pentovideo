@@ -225,7 +225,7 @@ describe("ffprobe missing-binary fallback", () => {
     expect(meta.hasAlpha).toBe(true);
   });
 
-  // Regression: newer libavformat builds (and the output of `hyperframes
+  // Regression: newer libavformat builds (and the output of `pentovideo
   // remove-background` itself) write the VP9-alpha sidecar tag as
   // `ALPHA_MODE` (uppercase). The lowercase-only check classified those
   // files as having no alpha, the producer extracted them as JPGs, and

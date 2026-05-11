@@ -5,7 +5,7 @@
     "moduleResolution": "bundler",
     "baseUrl": ".",
     "paths": {
-      "@hyperframes/producer": ["../producer/src/index.ts"]
+      "@pentovideo/producer": ["../producer/src/index.ts"]
     },
     "strict": true,
     "noUncheckedIndexedAccess": true,

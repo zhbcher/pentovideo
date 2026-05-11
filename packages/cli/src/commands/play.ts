@@ -3,9 +3,9 @@ import type { Example } from "./_examples.js";
 import { existsSync, readFileSync } from "node:fs";
 
 export const examples: Example[] = [
-  ["Play the current project", "hyperframes play"],
-  ["Play a specific project directory", "hyperframes play ./my-video"],
-  ["Use a custom port", "hyperframes play --port 8080"],
+  ["Play the current project", "pentovideo play"],
+  ["Play a specific project directory", "pentovideo play ./my-video"],
+  ["Use a custom port", "pentovideo play --port 8080"],
 ];
 import { resolve, dirname } from "node:path";
 import * as clack from "@clack/prompts";
@@ -25,7 +25,7 @@ export default defineCommand({
     // Resolve runtime path — same logic as studioServer.ts
     const runtimePath = resolveRuntimePath();
     if (!runtimePath) {
-      clack.log.error("HyperFrames runtime not found. Run `bun run build` first.");
+      clack.log.error("PentoVideo runtime not found. Run `bun run build` first.");
       process.exitCode = 1;
       return;
     }
@@ -34,7 +34,7 @@ export default defineCommand({
     const playerPath = resolvePlayerPath();
     if (!playerPath) {
       clack.log.error(
-        "@hyperframes/player not found. Run `bun run --cwd packages/player build` first.",
+        "@pentovideo/player not found. Run `bun run --cwd packages/player build` first.",
       );
       process.exitCode = 1;
       return;
@@ -103,7 +103,7 @@ export default defineCommand({
       return ctx.html(buildPlayerPage(project.name));
     });
 
-    clack.intro(c.bold("hyperframes play"));
+    clack.intro(c.bold("pentovideo play"));
     const s = clack.spinner();
     s.start("Starting player...");
 
@@ -159,10 +159,10 @@ function resolveRuntimePath(): string | null {
   const d = commandDir();
   const candidates = [
     // Bundled with CLI dist
-    resolve(d, "hyperframe-runtime.js"),
-    resolve(d, "..", "hyperframe-runtime.js"),
+    resolve(d, "pentovideo-runtime.js"),
+    resolve(d, "..", "pentovideo-runtime.js"),
     // Monorepo dev: commands/ → src/ → cli/ → packages/ then into core/dist/
-    resolve(d, "..", "..", "..", "core", "dist", "hyperframe.runtime.iife.js"),
+    resolve(d, "..", "..", "..", "core", "dist", "pentovideo.runtime.iife.js"),
   ];
   for (const p of candidates) {
     if (existsSync(p)) return p;
@@ -174,10 +174,10 @@ function resolvePlayerPath(): string | null {
   const d = commandDir();
   const candidates = [
     // Monorepo dev: commands/ → src/ → cli/ → packages/ then into player/dist/
-    resolve(d, "..", "..", "..", "player", "dist", "hyperframes-player.global.js"),
+    resolve(d, "..", "..", "..", "player", "dist", "pentovideo-player.global.js"),
     // Bundled with CLI dist
-    resolve(d, "hyperframes-player.global.js"),
-    resolve(d, "..", "hyperframes-player.global.js"),
+    resolve(d, "pentovideo-player.global.js"),
+    resolve(d, "..", "pentovideo-player.global.js"),
   ];
   for (const p of candidates) {
     if (existsSync(p)) return p;
@@ -200,7 +200,7 @@ function buildPlayerPage(projectName: string): string {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>${projectName} — HyperFrames Player</title>
+    <title>${projectName} — PentoVideo Player</title>
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body {
@@ -214,7 +214,7 @@ function buildPlayerPage(projectName: string): string {
         width: 100%; max-width: 1280px; aspect-ratio: 16/9;
         border-radius: 8px; overflow: hidden;
       }
-      hyperframes-player { width: 100%; height: 100%; }
+      pentovideo-player { width: 100%; height: 100%; }
       .info {
         margin-top: 16px; font-size: 12px; color: #444;
         font-family: monospace;
@@ -223,9 +223,9 @@ function buildPlayerPage(projectName: string): string {
   </head>
   <body>
     <div class="player-wrap">
-      <hyperframes-player src="/composition/index.html" controls muted></hyperframes-player>
+      <pentovideo-player src="/composition/index.html" controls muted></pentovideo-player>
     </div>
-    <div class="info">${projectName} — hyperframes play</div>
+    <div class="info">${projectName} — pentovideo play</div>
     <script src="/player.js"></script>
   </body>
 </html>`;

@@ -1,46 +1,46 @@
-export type HyperframePickerBoundingBox = {
+export type PentovideoPickerBoundingBox = {
   x: number;
   y: number;
   width: number;
   height: number;
 };
 
-export type HyperframePickerElementInfo = {
+export type PentovideoPickerElementInfo = {
   id: string | null;
   tagName: string;
   selector: string;
   label: string;
-  boundingBox: HyperframePickerBoundingBox;
+  boundingBox: PentovideoPickerBoundingBox;
   textContent: string | null;
   src: string | null;
   dataAttributes: Record<string, string>;
 };
 
-export type HyperframePickerApi = {
+export type PentovideoPickerApi = {
   enable: () => void;
   disable: () => void;
   isActive: () => boolean;
-  getHovered: () => HyperframePickerElementInfo | null;
-  getSelected: () => HyperframePickerElementInfo | null;
+  getHovered: () => PentovideoPickerElementInfo | null;
+  getSelected: () => PentovideoPickerElementInfo | null;
   getCandidatesAtPoint: (
     clientX: number,
     clientY: number,
     limit?: number,
-  ) => HyperframePickerElementInfo[];
+  ) => PentovideoPickerElementInfo[];
   pickAtPoint: (
     clientX: number,
     clientY: number,
     index?: number,
-  ) => HyperframePickerElementInfo | null;
+  ) => PentovideoPickerElementInfo | null;
   pickManyAtPoint: (
     clientX: number,
     clientY: number,
     indexes?: number[],
-  ) => HyperframePickerElementInfo[];
+  ) => PentovideoPickerElementInfo[];
 };
 
 declare global {
   interface Window {
-    __HF_PICKER_API?: HyperframePickerApi;
+    __HF_PICKER_API?: PentovideoPickerApi;
   }
 }

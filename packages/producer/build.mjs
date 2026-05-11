@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Build script for @hyperframes/producer (public OSS package)
+ * Build script for @pentovideo/producer (public OSS package)
  *
  * Bundles src/server.ts → dist/public-server.js (standalone server).
  */
@@ -18,13 +18,13 @@ const scriptDir = dirname(fileURLToPath(import.meta.url));
 const workspaceAliasPlugin = {
   name: "workspace-alias",
   setup(build) {
-    build.onResolve({ filter: /^@hyperframes\/engine$/ }, () => ({
+    build.onResolve({ filter: /^@pentovideo\/engine$/ }, () => ({
       path: resolve(scriptDir, "../engine/src/index.ts"),
     }));
-    build.onResolve({ filter: /^@hyperframes\/core$/ }, () => ({
+    build.onResolve({ filter: /^@pentovideo\/core$/ }, () => ({
       path: resolve(scriptDir, "../core/src/index.ts"),
     }));
-    build.onResolve({ filter: /^@hyperframes\/core\/lint$/ }, () => ({
+    build.onResolve({ filter: /^@pentovideo\/core\/lint$/ }, () => ({
       path: resolve(scriptDir, "../core/src/lint/index.ts"),
     }));
   },
@@ -61,13 +61,13 @@ await Promise.all([
 import { copyFileSync, existsSync, readFileSync } from "fs";
 const coreDistDir = resolve(scriptDir, "../core/dist");
 try {
-  const manifestSrc = resolve(coreDistDir, "hyperframe.manifest.json");
+  const manifestSrc = resolve(coreDistDir, "pentovideo.manifest.json");
   if (existsSync(manifestSrc)) {
-    copyFileSync(manifestSrc, "dist/hyperframe.manifest.json");
+    copyFileSync(manifestSrc, "dist/pentovideo.manifest.json");
     const manifest = JSON.parse(readFileSync(manifestSrc, "utf8"));
-    const runtimeIife = manifest?.artifacts?.iife || "hyperframe.runtime.iife.js";
+    const runtimeIife = manifest?.artifacts?.iife || "pentovideo.runtime.iife.js";
     copyFileSync(resolve(coreDistDir, runtimeIife), `dist/${runtimeIife}`);
-    console.log(`[Build] Copied runtime: hyperframe.manifest.json, ${runtimeIife}`);
+    console.log(`[Build] Copied runtime: pentovideo.manifest.json, ${runtimeIife}`);
   }
 } catch (e) {
   console.warn("[Build] Warning: Could not copy runtime artifacts:", e.message);

@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, height=1080" />
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --bg2: #0f0f1a;
+      --surface: #1a1a1a;
+      --border: #2a2a2a;
+      --primary: #3b82f6;
+      --primary-glow: rgba(59,130,246,0.3);
+      --accent: #f59e0b;
+      --accent-glow: rgba(245,158,11,0.3);
+      --green: #10b981;
+      --red: #ef4444;
+      --text: #f3f4f6;
+      --muted: #9ca3af;
+      --dim: #525252;
+      --font: 'Inter', system-ui, sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html,body {
+      width:1920px; height:1080px; overflow:hidden;
+      background:var(--bg); color:var(--text);
+      font-family:var(--font);
+    }
+    .abs { position:absolute; }
+
+    /* ===== Background ===== */
+    .bg-layer {
+      position:absolute; inset:0;
+      background:
+        radial-gradient(ellipse at 50% 15%, #1a1a3a 0%, var(--bg) 55%),
+        radial-gradient(ellipse at 80% 85%, #0f0f2a 0%, transparent 50%);
+    }
+    .grid-layer {
+      position:absolute; inset:0;
+      opacity:0.04;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 80px, #fff 80px, #fff 81px),
+        repeating-linear-gradient(90deg, transparent, transparent 80px, #fff 80px, #fff 81px);
+    }
+    .glow {
+      position:absolute;
+      width:500px; height:500px;
+      border-radius:50%;
+      filter:blur(120px);
+      pointer-events:none;
+    }
+
+    /* ===== Slides ===== */
+    .slide {
+      position:absolute; inset:0;
+      display:flex; flex-direction:column;
+      justify-content:center; align-items:center;
+      padding:80px 140px;
+      visibility:hidden;
+    }
+    .slide-title {
+      font-size:68px; font-weight:800; line-height:1.15;
+      text-align:center; margin-bottom:18px;
+    }
+    .slide-sub {
+      font-size:28px; font-weight:400; color:var(--muted);
+      text-align:center; line-height:1.5;
+    }
+
+    /* ===== Tag ===== */
+    .tag {
+      display:inline-block; padding:6px 14px; border-radius:6px;
+      font-size:14px; font-weight:600; letter-spacing:0.5px;
+    }
+    .tag.primary { background:rgba(59,130,246,0.15); color:var(--primary); border:1px solid rgba(59,130,246,0.3); }
+    .tag.accent { background:rgba(245,158,11,0.15); color:var(--accent); border:1px solid rgba(245,158,11,0.3); }
+    .tag.green { background:rgba(16,185,129,0.15); color:var(--green); border:1px solid rgba(16,185,129,0.3); }
+    .tag.red { background:rgba(239,68,68,0.15); color:var(--red); border:1px solid rgba(239,68,68,0.3); }
+
+    /* ===== Bullet List ===== */
+    .bullets { display:flex; flex-direction:column; gap:12px; margin-top:12px; }
+    .bullet {
+      display:flex; align-items:center; gap:16px;
+      font-size:26px; line-height:1.4;
+    }
+    .bullet .x-icon {
+      width:36px; height:36px; border-radius:8px;
+      display:flex; align-items:center; justify-content:center;
+      font-size:18px; flex-shrink:0;
+    }
+    .bullet .x-icon.red { background:rgba(239,68,68,0.15); color:var(--red); }
+    .bullet .x-icon.green { background:rgba(16,185,129,0.15); color:var(--green); }
+    .bullet .x-icon.blue { background:rgba(59,130,246,0.15); color:var(--primary); }
+
+    /* ===== Phases Diagram ===== */
+    .phases { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:30px; }
+    .phase-item {
+      width:120px; height:100px; border-radius:10px;
+      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
+      background:var(--surface); border:1px solid var(--border);
+      font-size:16px; color:var(--muted);
+    }
+    .phase-item .num { font-size:32px; font-weight:800; font-family:var(--mono); }
+    .phase-item.active .num { color:var(--primary); }
+    .phase-item.active { border-color:var(--primary); background:rgba(59,130,246,0.08); }
+
+    /* ===== Question Cards ===== */
+    .questions { display:flex; flex-direction:column; gap:14px; margin-top:30px; width:100%; max-width:800px; }
+    .q-card {
+      display:flex; align-items:center; gap:16px;
+      padding:18px 24px; border-radius:12px;
+      background:var(--surface); border:1px solid var(--border);
+      font-size:24px;
+    }
+    .q-card .q-icon {
+      width:40px; height:40px; border-radius:8px;
+      display:flex; align-items:center; justify-content:center;
+      background:rgba(59,130,246,0.1); color:var(--primary);
+      font-size:20px; font-weight:700; flex-shrink:0;
+    }
+    .q-card .q-text { flex:1; }
+    .q-card .q-note { color:var(--dim); font-size:18px; white-space:nowrap; }
+
+    /* ===== Process Bar ===== */
+    .process-steps { display:flex; gap:6px; width:100%; max-width:700px; margin-top:28px; }
+    .p-step { flex:1; height:8px; border-radius:4px; background:var(--border); }
+
+    /* ===== Gate ===== */
+    .gates { display:flex; flex-direction:column; gap:16px; margin-top:30px; width:100%; max-width:720px; }
+    .gate-item {
+      display:flex; align-items:center; gap:16px;
+      padding:16px 20px; border-radius:12px;
+      background:var(--surface); border:1px solid var(--border);
+      font-size:24px;
+    }
+    .gate-item .g-icon {
+      width:40px; height:40px; border-radius:20px;
+      display:flex; align-items:center; justify-content:center;
+      font-weight:700; font-size:16px; flex-shrink:0;
+    }
+    .gate-item .g-text { flex:1; }
+
+    /* ===== Table ===== */
+    .cmp-table {
+      width:100%; max-width:860px; border-collapse:collapse; margin-top:24px;
+      font-size:20px;
+    }
+    .cmp-table th, .cmp-table td {
+      padding:10px 16px; text-align:center;
+      border:1px solid var(--border);
+    }
+    .cmp-table th { background:var(--surface); font-weight:600; color:var(--muted); }
+    .cmp-table td { color:var(--text); }
+    .cmp-table .hl { color:var(--primary); font-weight:600; }
+
+    /* ===== Features ===== */
+    .feat-row { display:flex; gap:14px; width:100%; max-width:860px; margin-top:30px; }
+    .feat-card {
+      flex:1; padding:20px; border-radius:12px;
+      text-align:center; background:var(--surface); border:1px solid var(--border);
+    }
+    .feat-card .f-icon {
+      font-size:36px; margin-bottom:8px;
+    }
+    .feat-card h3 { font-size:28px; font-weight:700; margin-bottom:4px; }
+    .feat-card p { font-size:18px; color:var(--muted); line-height:1.4; }
+
+    /* ===== WBS Table ===== */
+    .wbs-table {
+      width:100%; max-width:800px; border-collapse:collapse; margin-top:20px;
+      font-size:18px; font-family:var(--mono);
+    }
+    .wbs-table th, .wbs-table td { padding:8px 12px; text-align:left; border:1px solid var(--border); }
+    .wbs-table th { background:var(--surface); font-family:var(--font); color:var(--muted); font-weight:500; }
+
+    /* ===== Progress Bar ===== */
+    .progress-bar {
+      position:absolute; bottom:0; left:0; height:5px;
+      background:linear-gradient(90deg, var(--primary), var(--accent));
+      z-index:999;
+    }
+
+    /* ===== Animation helpers ===== */
+    .fade-in { opacity:0; }
+    .slide-up { transform:translateY(60px); opacity:0; }
+    .scale-in { transform:scale(0.8); opacity:0; }
+    [class*="stagger-"] > * { opacity:0; }
+
+    /* ===== Misc ===== */
+    .subtitle { font-size:30px; color:var(--muted); text-align:center; line-height:1.5; margin-top:8px; }
+    .divider { width:80px; height:3px; border-radius:2px; background:var(--primary); margin:16px auto; }
+    .big-num { font-size:72px; font-weight:900; font-family:var(--mono); color:var(--primary); }
+  </style>
+</head>
+<body>
+
+<div id="root" data-composition-id="main" data-start="0" data-duration="169.1" data-width="1920" data-height="1080">
+
+<!-- SINGLE AUDIO -->
+<audio id="narration" src="narration.mp3" data-start="0" data-duration="169.1" data-track-index="0"></audio>
+
+<!-- BACKGROUND LAYERS -->
+<div class="bg-layer"></div>
+<div class="grid-layer"></div>
+<div class="glow" style="top:-100px;left:200px;background:var(--primary-glow)"></div>
+<div class="glow" style="bottom:-100px;right:100px;background:var(--accent-glow)"></div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar" id="progress" style="width:0%"></div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 1: 封面                                               -->
+<!-- ============================================================ -->
+<div id="s1" class="slide">
+  <div class="tag primary" style="margin-bottom:16px">SPM v2.0</div>
+  <div class="slide-title" style="font-size:96px">AI 编程的<br>项目经理</div>
+  <div class="slide-sub" style="font-size:36px; margin-top:8px">
+    Super Project Manager — 让 AI 按规矩干活
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 2: 痛点                                               -->
+<!-- ============================================================ -->
+<div id="s2" class="slide" style="align-items:flex-start; padding:70px 140px">
+  <div class="tag red" style="margin-bottom:20px">你是不是也受够了</div>
+  <div class="bullets">
+    <div class="bullet">
+      <div class="x-icon red">✕</div>
+      <span>说"加个搜索"，它给你搭搜索引擎</span>
+    </div>
+    <div class="bullet">
+      <div class="x-icon red">✕</div>
+      <span>中断三天，全忘了刚才说到哪</span>
+    </div>
+    <div class="bullet">
+      <div class="x-icon red">✕</div>
+      <span>测试全红，它还说"写完了"</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 3: 根本原因                                            -->
+<!-- ============================================================ -->
+<div id="s3" class="slide" style="align-items:flex-start; padding:70px 140px">
+  <div class="tag" style="background:var(--surface);border:1px solid var(--border);margin-bottom:20px">为什么总翻车</div>
+  <div class="bullets">
+    <div class="bullet">
+      <div class="x-icon red">✕</div>
+      <span>无需求确认 → 过度设计</span>
+    </div>
+    <div class="bullet">
+      <div class="x-icon red">✕</div>
+      <span>无任务追踪 → 上下文丢失</span>
+    </div>
+    <div class="bullet">
+      <div class="x-icon red">✕</div>
+      <span>无质量检验 → 交付靠蒙</span>
+    </div>
+  </div>
+  <div style="margin-top:30px; margin-left:52px;">
+    <div class="tag accent">裸用 AI = 黑盒交付</div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 4: SPM 方案总览                                        -->
+<!-- ============================================================ -->
+<div id="s4" class="slide">
+  <div class="tag primary" style="margin-bottom:16px">解决问题的钥匙</div>
+  <div class="slide-title" style="font-size:80px">给 AI 装一个<br>项目经理</div>
+  <div class="slide-sub" style="margin-top:8px">
+    SPM = 需求澄清 + WBS 追踪 + TDD + 质量门控 + 并行调度
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 5: 6 大环节                                            -->
+<!-- ============================================================ -->
+<div id="s5" class="slide">
+  <div class="tag primary" style="margin-bottom:12px">从需求到交付</div>
+  <div class="slide-title" style="font-size:64px">6 大核心环节</div>
+  <div class="phases" id="phases-container">
+    <div class="phase-item active"><div class="num">01</div>需求澄清</div>
+    <div class="phase-item"><div class="num">02</div>WBS 计划</div>
+    <div class="phase-item"><div class="num">03</div>TDD 执行</div>
+    <div class="phase-item"><div class="num">04</div>并行调度</div>
+    <div class="phase-item"><div class="num">05</div>质量门控</div>
+    <div class="phase-item"><div class="num">06</div>交付摘要</div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 6: 需求澄清                                            -->
+<!-- ============================================================ -->
+<div id="s6" class="slide" style="align-items:flex-start; padding:70px 140px">
+  <div class="tag primary" style="margin-bottom:10px">阶段 1/6</div>
+  <div class="slide-title" style="font-size:60px; text-align:left; margin-bottom:6px">需求澄清</div>
+  <div class="subtitle" style="text-align:left">不确认需求，一行代码都不写</div>
+  <div class="questions">
+    <div class="q-card">
+      <div class="q-icon">Q</div>
+      <span class="q-text">搜什么？</span>
+      <span class="q-note">功能范围</span>
+    </div>
+    <div class="q-card">
+      <div class="q-icon">Q</div>
+      <span class="q-text">数据量多大？</span>
+      <span class="q-note">容量规划</span>
+    </div>
+    <div class="q-card">
+      <div class="q-icon">Q</div>
+      <span class="q-text">实时还是缓存？</span>
+      <span class="q-note">性能取舍</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 7: WBS 计划                                            -->
+<!-- ============================================================ -->
+<div id="s7" class="slide" style="align-items:flex-start; padding:70px 140px">
+  <div class="tag primary" style="margin-bottom:10px">阶段 2/6</div>
+  <div class="slide-title" style="font-size:60px; text-align:left; margin-bottom:6px">WBS 计划</div>
+  <div class="subtitle" style="text-align:left">活还没干，清单先列</div>
+  <div class="bullets" style="margin-top:20px">
+    <div class="bullet">
+      <div class="x-icon blue">📋</div>
+      <span>任务精确到文件路径 + 验证命令</span>
+    </div>
+    <div class="bullet">
+      <div class="x-icon blue">📋</div>
+      <span>中断恢复："继续第 4 条"</span>
+    </div>
+    <div class="bullet">
+      <div class="x-icon blue">📋</div>
+      <span>完成一条打勾，永不丢失上下文</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 8: TDD 执行                                            -->
+<!-- ============================================================ -->
+<div id="s8" class="slide" style="align-items:flex-start; padding:70px 140px">
+  <div class="tag red" style="margin-bottom:10px">阶段 3/6 · 最硬的规矩</div>
+  <div class="slide-title" style="font-size:60px; text-align:left; margin-bottom:6px">TDD 执行</div>
+  <div class="subtitle" style="text-align:left">没写测试，不准写代码</div>
+  <div class="process-steps">
+    <div class="p-step" style="background:var(--red)" id="tdd-red"></div>
+    <div class="p-step" id="tdd-green"></div>
+  </div>
+  <div class="bullets" style="margin-top:24px">
+    <div class="bullet">
+      <div class="x-icon red">R</div>
+      <span>先写测试，看到 <span style="color:var(--red);font-weight:700">全红</span></span>
+    </div>
+    <div class="bullet">
+      <div class="x-icon green">G</div>
+      <span>再写功能，跑到 <span style="color:var(--green);font-weight:700">全绿</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 9: 并行调度                                            -->
+<!-- ============================================================ -->
+<div id="s9" class="slide" style="align-items:flex-start; padding:70px 140px">
+  <div class="tag primary" style="margin-bottom:10px">阶段 4/6</div>
+  <div class="slide-title" style="font-size:60px; text-align:left; margin-bottom:6px">并行调度</div>
+  <div class="subtitle" style="text-align:left">多任务同时跑，谁先完谁交</div>
+  <div class="bullets" style="margin-top:20px">
+    <div class="bullet">
+      <div class="x-icon green">⚡</div>
+      <span>前端 / 后端 / 测试 并发执行</span>
+    </div>
+    <div class="bullet">
+      <div class="x-icon green">⚡</div>
+      <span>WBS 台账自动追踪进度</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 10: 质量门控                                           -->
+<!-- ============================================================ -->
+<div id="s10" class="slide" style="align-items:flex-start; padding:70px 140px">
+  <div class="tag primary" style="margin-bottom:10px">阶段 5/6</div>
+  <div class="slide-title" style="font-size:60px; text-align:left; margin-bottom:6px">质量门控</div>
+  <div class="subtitle" style="text-align:left">三道门，全过才放行</div>
+  <div class="gates">
+    <div class="gate-item">
+      <div class="g-icon" style="background:rgba(59,130,246,0.1);color:var(--primary)">❶</div>
+      <span class="g-text">代码有没有偏离需求？</span>
+    </div>
+    <div class="gate-item">
+      <div class="g-icon" style="background:rgba(245,158,11,0.1);color:var(--accent)">❷</div>
+      <span class="g-text">代码质量和安全性过不过关？</span>
+    </div>
+    <div class="gate-item">
+      <div class="g-icon" style="background:rgba(16,185,129,0.1);color:var(--green)">❸</div>
+      <span class="g-text">全量集成测试能不能通过？</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 11: 交付摘要                                           -->
+<!-- ============================================================ -->
+<div id="s11" class="slide" style="align-items:flex-start; padding:70px 140px">
+  <div class="tag primary" style="margin-bottom:10px">阶段 6/6</div>
+  <div class="slide-title" style="font-size:60px; text-align:left; margin-bottom:6px">交付摘要</div>
+  <div class="subtitle" style="text-align:left">干完活自动出报告</div>
+  <div class="bullets" style="margin-top:20px">
+    <div class="bullet">
+      <div class="x-icon green">✓</div>
+      <span>完成了什么任务</span>
+    </div>
+    <div class="bullet">
+      <div class="x-icon green">✓</div>
+      <span>测试通过率多少</span>
+    </div>
+    <div class="bullet">
+      <div class="x-icon green">✓</div>
+      <span>还剩什么风险</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 12: WBS 台账                                           -->
+<!-- ============================================================ -->
+<div id="s12" class="slide" style="align-items:flex-start; padding:60px 140px">
+  <div class="tag primary" style="margin-bottom:10px">单一事实来源</div>
+  <div class="slide-title" style="font-size:56px; text-align:left; margin-bottom:4px">WBS 台账</div>
+  <table class="wbs-table">
+    <thead><tr><th>ID</th><th>任务</th><th>状态</th><th>证据</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>DB Schema</td><td style="color:var(--green)">✅ done</td><td style="font-size:14px;color:var(--muted)">迁移脚本</td></tr>
+      <tr><td>2</td><td>JWT Middleware</td><td style="color:var(--primary)">🔄 doing</td><td style="font-size:14px;color:var(--muted)">测试通过</td></tr>
+      <tr><td>3</td><td>User API</td><td style="color:var(--dim)">⏳ todo</td><td style="font-size:14px;color:var(--dim)">—</td></tr>
+    </tbody>
+  </table>
+  <div class="subtitle" style="font-size:20px; margin-top:16px; text-align:left">
+    每条都有退出标准 + 执行证据
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 13: vs gstack                                         -->
+<!-- ============================================================ -->
+<div id="s13" class="slide" style="align-items:flex-start; padding:60px 140px">
+  <div class="tag" style="background:var(--surface);border:1px solid var(--border);margin-bottom:10px">谁更适合你</div>
+  <div class="slide-title" style="font-size:56px; text-align:left; margin-bottom:16px">轻 vs 重</div>
+  <table class="cmp-table">
+    <thead><tr><th></th><th>gstack</th><th class="hl">SPM</th></tr></thead>
+    <tbody>
+      <tr><td>角色</td><td>23 个</td><td class="hl">1 套流程</td></tr>
+      <tr><td>范围</td><td>全生命周期</td><td class="hl">聚焦编码交付</td></tr>
+      <tr><td>定位</td><td>虚拟公司</td><td class="hl">项目经理</td></tr>
+    </tbody>
+  </table>
+  <div class="bullets" style="margin-top:20px">
+    <div class="bullet">
+      <div class="x-icon blue">💡</div>
+      <span>SPM：不需要一个公司，只需要一个 PM</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 14: 核心优势                                           -->
+<!-- ============================================================ -->
+<div id="s14" class="slide">
+  <div class="tag primary" style="margin-bottom:12px">为什么选 SPM</div>
+  <div class="slide-title" style="font-size:60px; margin-bottom:8px">核心优势</div>
+  <div class="feat-row">
+    <div class="feat-card">
+      <div class="f-icon">⚡</div>
+      <h3 style="color:var(--primary)">轻</h3>
+      <p>一套流程<br>就够了</p>
+    </div>
+    <div class="feat-card">
+      <div class="f-icon">🛡️</div>
+      <h3 style="color:var(--green)">硬</h3>
+      <p>TDD + 质量门控<br>代码真有保障</p>
+    </div>
+    <div class="feat-card">
+      <div class="f-icon">🔌</div>
+      <h3 style="color:var(--accent)">通</h3>
+      <p>OpenClaw 无缝集成<br>即插即用</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 15: 结尾                                               -->
+<!-- ============================================================ -->
+<div id="s15" class="slide" style="align-items:center">
+  <div class="tag primary" style="margin-bottom:16px; font-size:24px; padding:12px 24px">SPM v2.0</div>
+  <div class="slide-title" style="font-size:80px">不再裸用 AI</div>
+  <div class="slide-sub">
+    给它流程、给它规矩<br>给它一个项目经理
+  </div>
+  <div class="divider" style="margin-top:30px"></div>
+</div>
+
+</div><!-- /root -->
+
+<script>
+// ----- GSAP Timeline -----
+window.__timelines = window.__timelines || {};
+const tl = gsap.timeline({ paused: true });
+const progressBar = document.getElementById('progress');
+
+// Time offsets per slide (cumulative)
+// S1:0-5, S2:5-13, S3:13-20, S4:20-27, S5:27-35,
+// S6:35-43, S7:43-50, S8:50-57, S9:57-64, S10:64-72,
+// S11:72-79, S12:79-87, S13:87-94, S14:94-100, S15:100-105
+
+const slides = document.querySelectorAll('.slide');
+// Actual durations from Edge TTS measurement
+const timings = [
+  { start: 0, dur: 8.4 },     // S1 - 封面
+  { start: 8.4, dur: 12.0 },  // S2 - 痛点
+  { start: 20.4, dur: 11.2 }, // S3 - 根本原因
+  { start: 31.6, dur: 11.3 }, // S4 - SPM方案
+  { start: 42.9, dur: 12.8 }, // S5 - 6大环节
+  { start: 55.7, dur: 12.8 }, // S6 - 需求澄清
+  { start: 68.5, dur: 13.5 }, // S7 - WBS计划
+  { start: 82.0, dur: 12.5 }, // S8 - TDD执行
+  { start: 94.5, dur: 10.7 }, // S9 - 并行调度
+  { start: 105.2, dur: 11.9 },// S10 - 质量门控
+  { start: 117.1, dur: 11.0 },// S11 - 交付摘要
+  { start: 128.1, dur: 12.4 },// S12 - WBS台账
+  { start: 140.5, dur: 11.2 },// S13 - vs gstack
+  { start: 151.7, dur: 11.7 },// S14 - 核心优势
+  { start: 163.4, dur: 5.6 }, // S15 - 结尾
+];
+
+slides.forEach((slide, i) => {
+  const t = timings[i];
+  // Show slide
+  tl.set(slide, { visibility: 'visible' }, t.start);
+  // Fade in main content
+  tl.from(slide.querySelector('.slide-title'), {
+    y: 60, opacity: 0, duration: 0.6, ease: 'power3.out'
+  }, t.start + 0.3);
+  tl.from(slide.querySelector('.slide-sub'), {
+    y: 40, opacity: 0, duration: 0.5, ease: 'power2.out'
+  }, t.start + 0.7);
+  // Tags and badges
+  tl.from(slide.querySelectorAll('.tag, [class*="x-icon"]'), {
+    scale: 0.6, opacity: 0, duration: 0.4, ease: 'back.out(1.7)',
+    stagger: 0.15
+  }, t.start + 0.2);
+  // Bullet items stagger
+  tl.from(slide.querySelectorAll('.bullet'), {
+    x: -40, opacity: 0, duration: 0.5, ease: 'power2.out',
+    stagger: 0.2
+  }, t.start + 0.6);
+  // Phase items
+  tl.from(slide.querySelectorAll('.phase-item'), {
+    y: 30, opacity: 0, duration: 0.4, ease: 'back.out(1.5)',
+    stagger: 0.08
+  }, t.start + 0.8);
+  // Question cards
+  tl.from(slide.querySelectorAll('.q-card'), {
+    x: -30, opacity: 0, duration: 0.4, ease: 'power2.out',
+    stagger: 0.12
+  }, t.start + 0.8);
+  // Gate items
+  tl.from(slide.querySelectorAll('.gate-item'), {
+    x: -30, opacity: 0, duration: 0.4, ease: 'power2.out',
+    stagger: 0.15
+  }, t.start + 0.8);
+  // Feature cards
+  tl.from(slide.querySelectorAll('.feat-card'), {
+    y: 30, opacity: 0, duration: 0.4, ease: 'back.out(1.5)',
+    stagger: 0.12
+  }, t.start + 0.8);
+  // Table rows
+  tl.from(slide.querySelectorAll('.wbs-table tbody tr, .cmp-table tbody tr'), {
+    y: 20, opacity: 0, duration: 0.35, ease: 'power2.out',
+    stagger: 0.1
+  }, t.start + 0.8);
+  // Specific for TDD red→green bar
+  if (i === 7) { // S8 = index 7
+    tl.to('#tdd-green', { background: 'var(--green)', duration: 0.5 }, t.start + 1.2);
+  }
+  // Hide slide at end
+  tl.set(slide, { visibility: 'hidden' }, t.start + t.dur);
+});
+
+// Progress bar
+tl.to(progressBar, { width: '100%', duration: 169.1, ease: 'none' }, 0);
+
+window.__timelines["main"] = tl;
+
+window.addEventListener('load', () => {
+  console.log('SPM video loaded. Duration: 169.1s');
+});
+</script>
+</body>
+</html>

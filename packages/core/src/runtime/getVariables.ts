@@ -3,11 +3,11 @@
  *
  * Top-level path: declared defaults from `<html data-composition-variables="...">`
  * merged with `window.__hfVariables` (set at render time by the engine when
- * the user passes `hyperframes render --variables '<json>'`).
+ * the user passes `pentovideo render --variables '<json>'`).
  *
  * Sub-comp path (per-instance scoping): when called inside a sub-composition
  * script wrapped by `compositionScoping.ts`, the wrapper shadows
- * `__hyperframes.getVariables` with a scoped variant that returns the
+ * `__pentovideo.getVariables` with a scoped variant that returns the
  * pre-merged values from `window.__hfVariablesByComp[compositionId]`. The
  * loader populates that table before running scripts, layering the host
  * element's `data-variable-values` over the sub-comp's declared defaults.

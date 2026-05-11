@@ -10,8 +10,8 @@ import { getUpdateMeta, withMeta } from "../utils/updateCheck.js";
 import { getSystemMeta, getShmSizeMb, getFreeDiskMb, bytesToMb } from "../telemetry/system.js";
 
 export const examples: Example[] = [
-  ["Check system dependencies", "hyperframes doctor"],
-  ["Output as JSON for CI / agents", "hyperframes doctor --json"],
+  ["Check system dependencies", "pentovideo doctor"],
+  ["Output as JSON for CI / agents", "pentovideo doctor --json"],
 ];
 
 interface Check {
@@ -67,7 +67,7 @@ async function checkChrome(): Promise<CheckResult> {
   return {
     ok: false,
     detail: "Not found",
-    hint: "Run: npx hyperframes browser ensure",
+    hint: "Run: npx pentovideo browser ensure",
   };
 }
 
@@ -103,7 +103,7 @@ function checkVersion(): CheckResult {
     return {
       ok: false,
       detail: `${VERSION} \u2192 ${meta.latestVersion} available`,
-      hint: "Run: hyperframes upgrade",
+      hint: "Run: pentovideo upgrade",
     };
   }
   return { ok: true, detail: `${VERSION} (latest)` };
@@ -275,15 +275,15 @@ export default defineCommand({
       // Exit code intentionally reflects command success, not environment
       // health — `checkVersion` returns ok:false when an npm update is
       // available, which would poison any CI pipeline doing
-      // `hyperframes doctor --json || fail` the next time a new version is
+      // `pentovideo doctor --json || fail` the next time a new version is
       // published. Consumers who want a gate can do:
-      //   hyperframes doctor --json | jq -e '.ok' > /dev/null || handle_failure
+      //   pentovideo doctor --json | jq -e '.ok' > /dev/null || handle_failure
       console.log(JSON.stringify(buildDoctorReport(outcomes, { redact: true }), null, 2));
       return;
     }
 
     console.log();
-    console.log(c.bold("hyperframes doctor"));
+    console.log(c.bold("pentovideo doctor"));
     console.log();
 
     for (const outcome of outcomes) {

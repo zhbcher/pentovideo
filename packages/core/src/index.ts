@@ -92,13 +92,13 @@ export {
 } from "./parsers/htmlParser";
 
 // Generators
-export type { SerializeOptions } from "./generators/hyperframes";
+export type { SerializeOptions } from "./generators/pentovideo";
 
 export {
-  generateHyperframesHtml,
+  generatePentovideoHtml,
   generateGsapTimelineScript,
-  generateHyperframesStyles,
-} from "./generators/hyperframes";
+  generatePentovideoStyles,
+} from "./generators/pentovideo";
 
 // Compiler (timing only — browser-safe, no linkedom/esbuild)
 export type {
@@ -118,12 +118,12 @@ export {
 
 // Lint
 export type {
-  HyperframeLintSeverity,
-  HyperframeLintFinding,
-  HyperframeLintResult,
-  HyperframeLinterOptions,
+  PentovideoLintSeverity,
+  PentovideoLintFinding,
+  PentovideoLintResult,
+  PentovideoLinterOptions,
 } from "./lint/types";
-export { lintHyperframeHtml } from "./lint/hyperframeLinter";
+export { lintPentovideoHtml } from "./lint/pentovideoLinter";
 export {
   rewriteAssetPaths,
   rewriteAssetPath,
@@ -132,22 +132,22 @@ export {
 
 // Inline scripts
 export {
-  HYPERFRAME_RUNTIME_ARTIFACTS,
-  HYPERFRAME_RUNTIME_CONTRACT,
-  loadHyperframeRuntimeSource,
-  type HyperframeRuntimeContract,
-} from "./inline-scripts/hyperframe";
+  PENTOVIDEO_RUNTIME_ARTIFACTS,
+  PENTOVIDEO_RUNTIME_CONTRACT,
+  loadPentovideoRuntimeSource,
+  type PentovideoRuntimeContract,
+} from "./inline-scripts/pentovideo";
 export {
-  HYPERFRAME_RUNTIME_GLOBALS,
-  HYPERFRAME_BRIDGE_SOURCES,
-  HYPERFRAME_CONTROL_ACTIONS,
-  type HyperframeControlAction,
+  PENTOVIDEO_RUNTIME_GLOBALS,
+  PENTOVIDEO_BRIDGE_SOURCES,
+  PENTOVIDEO_CONTROL_ACTIONS,
+  type PentovideoControlAction,
 } from "./inline-scripts/runtimeContract";
-export { getHyperframeRuntimeScript } from "./generated/runtime-inline";
+export { getPentovideoRuntimeScript } from "./generated/runtime-inline";
 export {
-  buildHyperframesRuntimeScript,
-  type HyperframesRuntimeBuildOptions,
-} from "./inline-scripts/hyperframesRuntime.engine";
+  buildPentovideoRuntimeScript,
+  type PentovideoRuntimeBuildOptions,
+} from "./inline-scripts/pentovideoRuntime.engine";
 export {
   MEDIA_VISUAL_STYLE_PROPERTIES,
   copyMediaVisualStyles,
@@ -155,9 +155,9 @@ export {
   type MediaVisualStyleProperty,
 } from "./inline-scripts/parityContract";
 export type {
-  HyperframePickerApi,
-  HyperframePickerBoundingBox,
-  HyperframePickerElementInfo,
+  PentovideoPickerApi,
+  PentovideoPickerBoundingBox,
+  PentovideoPickerElementInfo,
 } from "./inline-scripts/pickerApi";
 
 // Frame adapters

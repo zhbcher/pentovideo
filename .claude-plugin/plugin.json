@@ -1,13 +1,13 @@
 {
-  "name": "hyperframes",
-  "description": "HyperFrames by HeyGen. Write HTML, render video. Compositions, GSAP and runtime adapter animations, captions, voiceovers, audio-reactive visuals, and website-to-video capture for HyperFrames.",
+  "name": "pentovideo",
+  "description": "PentoVideo by HeyGen. Write HTML, render video. Compositions, GSAP and runtime adapter animations, captions, voiceovers, audio-reactive visuals, and website-to-video capture for PentoVideo.",
   "version": "0.1.0",
   "author": {
     "name": "HeyGen",
-    "email": "hyperframes@heygen.com",
-    "url": "https://hyperframes.heygen.com"
+    "email": "pentovideo@heygen.com",
+    "url": "https://pentovideo.heygen.com"
   },
-  "homepage": "https://hyperframes.heygen.com",
-  "repository": "https://github.com/heygen-com/hyperframes",
+  "homepage": "https://pentovideo.heygen.com",
+  "repository": "https://github.com/heygen-com/pentovideo",
   "license": "Apache-2.0"
 }

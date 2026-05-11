@@ -1,0 +1,9 @@
+{
+  "$schema": "https://pentovideos.heygen.com/schema/pentovideos.json",
+  "registry": "https://raw.githubusercontent.com/heygen-com/pentovideos/main/registry",
+  "paths": {
+    "blocks": "compositions",
+    "components": "compositions/components",
+    "assets": "assets"
+  }
+}

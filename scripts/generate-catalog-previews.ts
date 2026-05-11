@@ -47,10 +47,10 @@ const scriptDir = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(scriptDir, "..");
 const registryDir = resolve(repoRoot, "registry");
 
-if (!process.env.PRODUCER_HYPERFRAME_MANIFEST_PATH) {
-  process.env.PRODUCER_HYPERFRAME_MANIFEST_PATH = resolve(
+if (!process.env.PRODUCER_PENTOVIDEO_MANIFEST_PATH) {
+  process.env.PRODUCER_PENTOVIDEO_MANIFEST_PATH = resolve(
     repoRoot,
-    "packages/core/dist/hyperframe.manifest.json",
+    "packages/core/dist/pentovideo.manifest.json",
   );
 }
 
@@ -97,7 +97,7 @@ function discoverItems(kindFilter: ItemKind | null, nameFilter: string | null): 
       } else {
         const manifest = JSON.parse(readFileSync(manifestPath, "utf-8"));
         const compFile = manifest.files?.find(
-          (f: { type: string }) => f.type === "hyperframes:composition",
+          (f: { type: string }) => f.type === "pentovideo:composition",
         );
         entryFile = compFile?.path ?? `${e.name}.html`;
       }
@@ -128,7 +128,7 @@ function prepareProjectDir(item: CatalogItem): string {
   mkdirSync(tmpDir, { recursive: true });
   cpSync(item.sourceDir, tmpDir, { recursive: true });
 
-  // The HyperFrames producer navigates to index.html at the project root.
+  // The PentoVideo producer navigates to index.html at the project root.
   // Blocks and component demos are standalone HTML files, not index.html.
   // If the entry file is a standalone HTML (has its own timeline registration),
   // just rename it to index.html. Otherwise create a wrapper.

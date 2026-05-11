@@ -2,7 +2,7 @@
  * File Server for Render Mode
  *
  * Lightweight HTTP server that serves the project directory inside Docker.
- * Key responsibility: inject the verified Hyperframe runtime + render mode extension
+ * Key responsibility: inject the verified Pentovideo runtime + render mode extension
  * into index.html on-the-fly, so Puppeteer can load the composition with
  * all relative URLs (compositions, CSS, JS, assets) resolving correctly.
  */
@@ -12,8 +12,8 @@ import { serve } from "@hono/node-server";
 import type { IncomingMessage } from "node:http";
 import { readFileSync, existsSync, realpathSync, statSync } from "node:fs";
 import { join, extname, resolve, sep } from "node:path";
-import { injectScriptsAtHeadStart, injectScriptsIntoHtml } from "@hyperframes/core/compiler";
-import { getVerifiedHyperframeRuntimeSource } from "./hyperframeRuntimeLoader.js";
+import { injectScriptsAtHeadStart, injectScriptsIntoHtml } from "@pentovideo/core/compiler";
+import { getVerifiedPentovideoRuntimeSource } from "./pentovideoRuntimeLoader.js";
 
 export { injectScriptsAtHeadStart, injectScriptsIntoHtml };
 
@@ -319,7 +319,7 @@ const RENDER_MODE_SCRIPT = `(function() {
 /**
  * Early stub: ensures `window.__hf` exists *before* any user `<script>` in
  * `<body>` executes. Without this, libraries that opportunistically write to
- * `__hf` during page-script execution (notably `@hyperframes/shader-transitions`,
+ * `__hf` during page-script execution (notably `@pentovideo/shader-transitions`,
  * which writes the active transition map to `__hf.transitions` inside its
  * `init()` call) silently no-op because `__hf` hasn't been created yet — the
  * full bridge script is injected at end-of-body and runs *after* user scripts.
@@ -332,12 +332,12 @@ const HF_EARLY_STUB = `(function() {
 })();`;
 
 /**
- * Bridge script: maps window.__player (Hyperframe runtime) → window.__hf (engine protocol).
+ * Bridge script: maps window.__player (Pentovideo runtime) → window.__hf (engine protocol).
  * Injected after RENDER_MODE_SCRIPT so the engine's frameCapture can find window.__hf.
  *
  * This script *patches* the existing __hf object rather than replacing it, so
  * fields written during page-script execution (e.g. transitions metadata from
- * @hyperframes/shader-transitions) are preserved through to engine query time.
+ * @pentovideo/shader-transitions) are preserved through to engine query time.
  */
 const HF_BRIDGE_SCRIPT = `(function() {
   var __realSetInterval =
@@ -416,7 +416,7 @@ export interface FileServerOptions {
   port?: number;
   /** Scripts injected into <head> of every served HTML file before authored scripts. */
   preHeadScripts?: string[];
-  /** Scripts injected into <head> of index.html. Default: verified Hyperframe runtime. */
+  /** Scripts injected into <head> of index.html. Default: verified Pentovideo runtime. */
   headScripts?: string[];
   /** Scripts injected before </body> of index.html. Default: render mode extension. */
   bodyScripts?: string[];
@@ -437,11 +437,11 @@ export function createFileServer(options: FileServerOptions): Promise<FileServer
   // to window.__hf during page-script execution (e.g. shader-transitions
   // populating __hf.transitions) find it already defined. The full bridge in
   // bodyScripts later upgrades this stub with `seek` / `duration` once the
-  // Hyperframe runtime's __player is ready, while preserving any fields
+  // Pentovideo runtime's __player is ready, while preserving any fields
   // already written.
   const preHeadScripts = [HF_EARLY_STUB, ...(options.preHeadScripts ?? [])];
-  // Default scripts: Hyperframe runtime in <head>, render mode in </body>
-  const headScripts = options.headScripts ?? [getVerifiedHyperframeRuntimeSource()];
+  // Default scripts: Pentovideo runtime in <head>, render mode in </body>
+  const headScripts = options.headScripts ?? [getVerifiedPentovideoRuntimeSource()];
   const bodyScripts = options.bodyScripts ?? [RENDER_MODE_SCRIPT, HF_BRIDGE_SCRIPT];
 
   const app = new Hono();

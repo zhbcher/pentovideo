@@ -1,7 +1,7 @@
-import type { LintContext, HyperframeLintFinding } from "../context";
+import type { LintContext, PentovideoLintFinding } from "../context";
 import { readAttr } from "../utils";
 
-export const adapterRules: Array<(ctx: LintContext) => HyperframeLintFinding[]> = [
+export const adapterRules: Array<(ctx: LintContext) => PentovideoLintFinding[]> = [
   // missing_lottie_script
   ({ tags, scripts }) => {
     const allScriptTexts = scripts.filter((s) => !/\bsrc\s*=/.test(s.attrs)).map((s) => s.content);

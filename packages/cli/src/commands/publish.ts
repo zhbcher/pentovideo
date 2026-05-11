@@ -11,9 +11,9 @@ import { formatLintFindings } from "../utils/lintFormat.js";
 import { publishProjectArchive } from "../utils/publishProject.js";
 
 export const examples: Example[] = [
-  ["Publish the current project with a public URL", "hyperframes publish"],
-  ["Publish a specific directory", "hyperframes publish ./my-video"],
-  ["Skip the consent prompt (scripts)", "hyperframes publish --yes"],
+  ["Publish the current project with a public URL", "pentovideo publish"],
+  ["Publish a specific directory", "pentovideo publish ./my-video"],
+  ["Skip the consent prompt (scripts)", "pentovideo publish --yes"],
 ];
 
 export default defineCommand({
@@ -49,7 +49,7 @@ export default defineCommand({
     if (args.yes !== true) {
       console.log();
       console.log(
-        `  ${c.bold("hyperframes publish uploads this project and creates a stable public URL.")}`,
+        `  ${c.bold("pentovideo publish uploads this project and creates a stable public URL.")}`,
       );
       console.log(
         `  ${c.dim("Anyone with the URL can open the published project and claim it after authenticating.")}`,
@@ -64,7 +64,7 @@ export default defineCommand({
       }
     }
 
-    clack.intro(c.bold("hyperframes publish"));
+    clack.intro(c.bold("pentovideo publish"));
     const publishSpinner = clack.spinner();
     publishSpinner.start("Uploading project...");
 
@@ -80,7 +80,7 @@ export default defineCommand({
       console.log(`  ${c.dim("Public")}     ${c.accent(claimUrl.toString())}`);
       console.log();
       console.log(
-        `  ${c.dim("Open the URL on hyperframes.dev to claim the project and continue editing.")}`,
+        `  ${c.dim("Open the URL on pentovideo.dev to claim the project and continue editing.")}`,
       );
       console.log();
       return;

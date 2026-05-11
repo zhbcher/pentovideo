@@ -12,7 +12,7 @@
  * This is intentionally NOT wired into `regression-harness.ts` — the harness
  * compares each fixture against a golden MP4, but transparency requires a
  * different validation strategy (pixel inspection of the alpha channel). Run
- * this script via `bun run --filter @hyperframes/producer test:transparency`
+ * this script via `bun run --filter @pentovideo/producer test:transparency`
  * or directly via `tsx src/transparency-test.ts` from this package.
  */
 
@@ -22,7 +22,7 @@ import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { decodePng, runFfmpeg } from "@hyperframes/engine";
+import { decodePng, runFfmpeg } from "@pentovideo/engine";
 import { createRenderJob, executeRenderJob } from "./services/renderOrchestrator.js";
 
 const moduleDir = dirname(fileURLToPath(import.meta.url));

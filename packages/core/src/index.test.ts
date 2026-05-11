@@ -2,7 +2,7 @@
 import { describe, it, expect } from "vitest";
 import * as core from "./index.js";
 
-describe("@hyperframes/core public API exports", () => {
+describe("@pentovideo/core public API exports", () => {
   describe("type-related constants and utilities", () => {
     it("exports CANVAS_DIMENSIONS", () => {
       expect(core.CANVAS_DIMENSIONS).toBeDefined();
@@ -119,10 +119,10 @@ describe("@hyperframes/core public API exports", () => {
   });
 
   describe("generator exports", () => {
-    it("exports hyperframes generator functions", () => {
-      expect(typeof core.generateHyperframesHtml).toBe("function");
+    it("exports pentovideo generator functions", () => {
+      expect(typeof core.generatePentovideoHtml).toBe("function");
       expect(typeof core.generateGsapTimelineScript).toBe("function");
-      expect(typeof core.generateHyperframesStyles).toBe("function");
+      expect(typeof core.generatePentovideoStyles).toBe("function");
     });
   });
 
@@ -137,26 +137,26 @@ describe("@hyperframes/core public API exports", () => {
   });
 
   describe("lint exports", () => {
-    it("exports lintHyperframeHtml", () => {
-      expect(typeof core.lintHyperframeHtml).toBe("function");
+    it("exports lintPentovideoHtml", () => {
+      expect(typeof core.lintPentovideoHtml).toBe("function");
     });
   });
 
   describe("inline-script exports", () => {
-    it("exports hyperframe runtime artifacts", () => {
-      expect(core.HYPERFRAME_RUNTIME_ARTIFACTS).toBeDefined();
-      expect(core.HYPERFRAME_RUNTIME_CONTRACT).toBeDefined();
-      expect(typeof core.loadHyperframeRuntimeSource).toBe("function");
+    it("exports pentovideo runtime artifacts", () => {
+      expect(core.PENTOVIDEO_RUNTIME_ARTIFACTS).toBeDefined();
+      expect(core.PENTOVIDEO_RUNTIME_CONTRACT).toBeDefined();
+      expect(typeof core.loadPentovideoRuntimeSource).toBe("function");
     });
 
     it("exports runtime contract constants", () => {
-      expect(core.HYPERFRAME_RUNTIME_GLOBALS).toBeDefined();
-      expect(core.HYPERFRAME_BRIDGE_SOURCES).toBeDefined();
-      expect(core.HYPERFRAME_CONTROL_ACTIONS).toBeDefined();
+      expect(core.PENTOVIDEO_RUNTIME_GLOBALS).toBeDefined();
+      expect(core.PENTOVIDEO_BRIDGE_SOURCES).toBeDefined();
+      expect(core.PENTOVIDEO_CONTROL_ACTIONS).toBeDefined();
     });
 
-    it("exports buildHyperframesRuntimeScript", () => {
-      expect(typeof core.buildHyperframesRuntimeScript).toBe("function");
+    it("exports buildPentovideoRuntimeScript", () => {
+      expect(typeof core.buildPentovideoRuntimeScript).toBe("function");
     });
 
     it("exports MEDIA_VISUAL_STYLE_PROPERTIES", () => {

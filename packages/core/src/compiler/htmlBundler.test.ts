@@ -34,14 +34,14 @@ describe("bundleToSingleHtml", () => {
 
     const bundled = await bundleToSingleHtml(dir);
     const runtimeBlock = bundled.match(
-      /<script\b[^>]*data-hyperframes-preview-runtime[^>]*>[\s\S]*?<\/script>/i,
+      /<script\b[^>]*data-pentovideo-preview-runtime[^>]*>[\s\S]*?<\/script>/i,
     )?.[0];
 
     expect(runtimeBlock).toBeDefined();
     // The runtime block must contain the inlined HF runtime IIFE — bundled
     // output is self-contained, so the bundle's runtime body is loaded inline,
     // not referenced via src.
-    expect(runtimeBlock).toMatch(/data-hyperframes-preview-runtime="1">/);
+    expect(runtimeBlock).toMatch(/data-pentovideo-preview-runtime="1">/);
     expect(runtimeBlock).not.toMatch(/src=""/);
     // The author's specific composition script must NOT be merged INTO the
     // runtime tag — it stays as its own <script> elsewhere in the document.
@@ -49,7 +49,7 @@ describe("bundleToSingleHtml", () => {
     expect(bundled).toContain('document.getElementById("scene")');
   });
 
-  it("produces a self-contained runtime script when no HYPERFRAME_RUNTIME_URL is set", async () => {
+  it("produces a self-contained runtime script when no PENTOVIDEO_RUNTIME_URL is set", async () => {
     // Regression guard: hf#XXX. The bundler used to emit
     // <script ... src=""></script> when no runtime URL was configured. An
     // empty src resolves to the page URL itself, which Chrome flags as an
@@ -62,17 +62,17 @@ describe("bundleToSingleHtml", () => {
 </body></html>`,
     });
 
-    const previousUrl = process.env.HYPERFRAME_RUNTIME_URL;
-    delete process.env.HYPERFRAME_RUNTIME_URL;
+    const previousUrl = process.env.PENTOVIDEO_RUNTIME_URL;
+    delete process.env.PENTOVIDEO_RUNTIME_URL;
     let bundled: string;
     try {
       bundled = await bundleToSingleHtml(dir);
     } finally {
-      if (previousUrl !== undefined) process.env.HYPERFRAME_RUNTIME_URL = previousUrl;
+      if (previousUrl !== undefined) process.env.PENTOVIDEO_RUNTIME_URL = previousUrl;
     }
 
     const runtimeBlock = bundled.match(
-      /<script\b[^>]*data-hyperframes-preview-runtime[^>]*>[\s\S]*?<\/script>/i,
+      /<script\b[^>]*data-pentovideo-preview-runtime[^>]*>[\s\S]*?<\/script>/i,
     )?.[0];
     expect(runtimeBlock).toBeDefined();
     // Must NOT have an empty src attribute (would self-fetch).

@@ -1,259 +1,259 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry.json",
-  "name": "hyperframes",
-  "homepage": "https://hyperframes.heygen.com",
+  "$schema": "https://pentovideo.heygen.com/schema/registry.json",
+  "name": "pentovideo",
+  "homepage": "https://pentovideo.heygen.com",
   "items": [
     {
       "name": "warm-grain",
-      "type": "hyperframes:example"
+      "type": "pentovideo:example"
     },
     {
       "name": "play-mode",
-      "type": "hyperframes:example"
+      "type": "pentovideo:example"
     },
     {
       "name": "swiss-grid",
-      "type": "hyperframes:example"
+      "type": "pentovideo:example"
     },
     {
       "name": "vignelli",
-      "type": "hyperframes:example"
+      "type": "pentovideo:example"
     },
     {
       "name": "decision-tree",
-      "type": "hyperframes:example"
+      "type": "pentovideo:example"
     },
     {
       "name": "kinetic-type",
-      "type": "hyperframes:example"
+      "type": "pentovideo:example"
     },
     {
       "name": "product-promo",
-      "type": "hyperframes:example"
+      "type": "pentovideo:example"
     },
     {
       "name": "nyt-graph",
-      "type": "hyperframes:example"
+      "type": "pentovideo:example"
     },
     {
       "name": "data-chart",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "flowchart",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "logo-outro",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "grain-overlay",
-      "type": "hyperframes:component"
+      "type": "pentovideo:component"
     },
     {
       "name": "shimmer-sweep",
-      "type": "hyperframes:component"
+      "type": "pentovideo:component"
     },
     {
       "name": "grid-pixelate-wipe",
-      "type": "hyperframes:component"
+      "type": "pentovideo:component"
     },
     {
       "name": "texture-mask-text",
-      "type": "hyperframes:component"
+      "type": "pentovideo:component"
     },
     {
       "name": "instagram-follow",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "tiktok-follow",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "yt-lower-third",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "x-post",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "reddit-post",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "spotify-card",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "macos-notification",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "app-showcase",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "north-korea-locked-down",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "apple-money-count",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "vpn-youtube-spot",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "blue-sweater-intro-video",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "nyc-paris-flight",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "ui-3d-reveal",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "domain-warp-dissolve",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "ridged-burn",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "whip-pan",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "sdf-iris",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "ripple-waves",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "gravitational-lens",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "cinematic-zoom",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "chromatic-radial-split",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "glitch",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "swirl-vortex",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "thermal-distortion",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "flash-through-white",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "cross-warp-morph",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "light-leak",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "transitions-3d",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "transitions-blur",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "transitions-cover",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "transitions-destruction",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "transitions-dissolve",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "transitions-distortion",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "transitions-grid",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "transitions-light",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "transitions-mechanical",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "transitions-other",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "transitions-push",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "transitions-radial",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "transitions-scale",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "vfx-text-cursor",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "vfx-liquid-background",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "vfx-iphone-device",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "vfx-magnetic",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "vfx-portal",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "vfx-liquid-glass",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     },
     {
       "name": "vfx-shatter",
-      "type": "hyperframes:block"
+      "type": "pentovideo:block"
     }
   ]
 }

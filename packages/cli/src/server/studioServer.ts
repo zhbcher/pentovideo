@@ -1,7 +1,7 @@
 /**
- * Embedded studio server for `hyperframes preview` outside the monorepo.
+ * Embedded studio server for `pentovideo preview` outside the monorepo.
  *
- * Uses the shared studio API module from @hyperframes/core/studio-api,
+ * Uses the shared studio API module from @pentovideo/core/studio-api,
  * providing a CLI-specific adapter for single-project, in-process rendering.
  */
 
@@ -19,9 +19,9 @@ import {
   type StudioApiAdapter,
   type ResolvedProject,
   type RenderJobState,
-} from "@hyperframes/core/studio-api";
-import { getElementScreenshotClip } from "@hyperframes/core/studio-api/screenshot-clip";
-import type { ScreenshotClip } from "@hyperframes/core/studio-api/screenshot-clip";
+} from "@pentovideo/core/studio-api";
+import { getElementScreenshotClip } from "@pentovideo/core/studio-api/screenshot-clip";
+import type { ScreenshotClip } from "@pentovideo/core/studio-api/screenshot-clip";
 
 // ── Path resolution ─────────────────────────────────────────────────────────
 
@@ -61,9 +61,9 @@ export function resolveStudioBundle(): StudioBundleResolution {
 }
 
 function resolveRuntimePath(): string {
-  const builtPath = resolve(__dirname, "hyperframe-runtime.js");
+  const builtPath = resolve(__dirname, "pentovideo-runtime.js");
   if (existsSync(builtPath)) return builtPath;
-  const iifePath = resolve(__dirname, "hyperframe.runtime.iife.js");
+  const iifePath = resolve(__dirname, "pentovideo.runtime.iife.js");
   if (existsSync(iifePath)) return iifePath;
   const devPath = resolve(
     __dirname,
@@ -72,7 +72,7 @@ function resolveRuntimePath(): string {
     "..",
     "core",
     "dist",
-    "hyperframe.runtime.iife.js",
+    "pentovideo.runtime.iife.js",
   );
   if (existsSync(devPath)) return devPath;
   return builtPath;
@@ -93,7 +93,7 @@ async function getThumbnailBrowser(): Promise<import("puppeteer-core").Browser |
   _thumbnailBrowserInitializing = (async () => {
     try {
       const { ensureBrowser } = await import("../browser/manager.js");
-      const { acquireBrowser, buildChromeArgs } = await import("@hyperframes/engine");
+      const { acquireBrowser, buildChromeArgs } = await import("@pentovideo/engine");
 
       try {
         const b = await ensureBrowser();
@@ -157,15 +157,15 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
 
     async bundle(dir: string): Promise<string | null> {
       try {
-        const { bundleToSingleHtml } = await import("@hyperframes/core/compiler");
+        const { bundleToSingleHtml } = await import("@pentovideo/core/compiler");
         // Studio dev server: ask the bundler for an empty `src=""` placeholder so
         // we can point it at our hot-reloadable local runtime endpoint. Inlining
         // ~150 KB of runtime body on every preview render would defeat browser
         // caching across composition edits.
         let html = await bundleToSingleHtml(dir, { runtime: "placeholder" });
         html = html.replace(
-          'data-hyperframes-preview-runtime="1" src=""',
-          'data-hyperframes-preview-runtime="1" src="/api/runtime.js"',
+          'data-pentovideo-preview-runtime="1" src=""',
+          'data-pentovideo-preview-runtime="1" src="/api/runtime.js"',
         );
         return html;
       } catch (err) {
@@ -181,8 +181,8 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
     },
 
     async lint(html: string, opts?: { filePath?: string }) {
-      const { lintHyperframeHtml } = await import("@hyperframes/core/lint");
-      return lintHyperframeHtml(html, opts);
+      const { lintPentovideoHtml } = await import("@pentovideo/core/lint");
+      return lintPentovideoHtml(html, opts);
     },
 
     runtimeUrl: "/api/runtime.js",
@@ -200,7 +200,7 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
       // Run render asynchronously, mutating the state object
       (async () => {
         try {
-          const { createRenderJob, executeRenderJob } = await import("@hyperframes/producer");
+          const { createRenderJob, executeRenderJob } = await import("@pentovideo/producer");
           const { ensureBrowser } = await import("../browser/manager.js");
 
           try {
@@ -305,11 +305,11 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
   const app = new Hono();
 
   // Config probe endpoint — used by port detection to identify existing
-  // HyperFrames instances and reuse them instead of spawning duplicates.
-  // See portUtils.ts detectHyperframesServer() for the consumer.
-  app.get("/__hyperframes_config", (c) => {
+  // PentoVideo instances and reuse them instead of spawning duplicates.
+  // See portUtils.ts detectPentovideoServer() for the consumer.
+  app.get("/__pentovideo_config", (c) => {
     return c.json({
-      isHyperframes: true,
+      isPentovideo: true,
       projectName: projectId,
       projectDir: projectDir,
       version,
@@ -382,7 +382,7 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>HyperFrames Studio unavailable</title>
+    <title>PentoVideo Studio unavailable</title>
     <style>
       body {
         margin: 0;

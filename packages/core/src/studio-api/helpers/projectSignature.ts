@@ -17,7 +17,7 @@ const SIGNATURE_TEXT_EXTENSIONS = new Set([
 const SIGNATURE_EXCLUDED_DIRS = new Set([
   ".cache",
   ".git",
-  ".hyperframes",
+  ".pentovideo",
   ".next",
   ".vite",
   "build",

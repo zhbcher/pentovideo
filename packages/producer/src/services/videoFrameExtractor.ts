@@ -1,5 +1,5 @@
 /**
- * Re-exported from @hyperframes/engine.
+ * Re-exported from @pentovideo/engine.
  * @see engine/src/services/videoFrameExtractor.ts for implementation.
  */
 export {
@@ -14,4 +14,4 @@ export {
   type ExtractionOptions,
   type ExtractionResult,
   type ExtractionPhaseBreakdown,
-} from "@hyperframes/engine";
+} from "@pentovideo/engine";

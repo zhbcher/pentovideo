@@ -1,10 +1,10 @@
 {
-  "name": "@hyperframes/core",
+  "name": "@pentovideo/core",
   "version": "0.5.7",
-  "description": "",
+  "description": "PentoVideo shared library — composition tree parsing, config, runtime",
   "repository": {
     "type": "git",
-    "url": "https://github.com/heygen-com/hyperframes",
+    "url": "https://github.com/pentovideo/pentovideo",
     "directory": "packages/core"
   },
   "files": [
@@ -29,7 +29,7 @@
       "import": "./src/compiler/index.ts",
       "types": "./src/compiler/index.ts"
     },
-    "./runtime": "./dist/hyperframe.runtime.iife.js",
+    "./runtime": "./dist/pentovideo.runtime.iife.js",
     "./runtime/lottie-readiness": {
       "import": "./src/runtime/adapters/lottieReadiness.ts",
       "types": "./src/runtime/adapters/lottieReadiness.ts"
@@ -68,7 +68,7 @@
         "import": "./dist/compiler/index.js",
         "types": "./dist/compiler/index.d.ts"
       },
-      "./runtime": "./dist/hyperframe.runtime.iife.js",
+      "./runtime": "./dist/pentovideo.runtime.iife.js",
       "./runtime/lottie-readiness": {
         "import": "./dist/runtime/adapters/lottieReadiness.js",
         "types": "./dist/runtime/adapters/lottieReadiness.d.ts"
@@ -96,24 +96,24 @@
     "types": "./dist/index.d.ts"
   },
   "scripts": {
-    "build": "bun run build:hyperframes-runtime && tsc",
+    "build": "bun run build:pentovideo-runtime && tsc",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "typecheck": "tsc --noEmit",
     "lint:runtime-preview-guards": "tsx scripts/lint-runtime-preview-guards.ts",
-    "build:hyperframes-runtime": "tsx scripts/build-hyperframes-runtime-artifact.ts",
-    "build:hyperframes-runtime:modular": "SANDBOX_RUNTIME_VARIANT=modular tsx scripts/build-hyperframes-runtime-artifact.ts",
-    "build:hyperframe-runtime": "tsx scripts/build-hyperframes-runtime-artifact.ts",
-    "test:hyperframe-runtime-contract": "tsx scripts/test-hyperframe-runtime-contract.ts",
-    "test:hyperframe-runtime-behavior": "tsx scripts/test-hyperframe-runtime-behavior.ts",
-    "test:hyperframe-runtime-seek": "tsx scripts/test-hyperframe-runtime-seek.ts",
-    "test:hyperframe-runtime-duration-guards": "tsx scripts/test-hyperframe-runtime-duration-guards.ts",
-    "test:hyperframe-runtime-parity": "tsx scripts/test-hyperframe-runtime-parity.ts",
-    "test:hyperframe-runtime-security": "tsx scripts/test-hyperframe-runtime-security.ts",
-    "test:hyperframe-linter": "tsx scripts/test-hyperframe-linter.ts",
-    "test:hyperframe-runtime-ci": "bun run build:hyperframes-runtime && bun run test:hyperframe-runtime-contract && bun run test:hyperframe-runtime-behavior && bun run test:hyperframe-runtime-seek && bun run test:hyperframe-runtime-duration-guards && bun run test:hyperframe-runtime-parity && bun run test:hyperframe-runtime-security",
-    "check:hyperframe-html": "tsx scripts/check-hyperframe-static.ts",
+    "build:pentovideo-runtime": "tsx scripts/build-pentovideo-runtime-artifact.ts",
+    "build:pentovideo-runtime:modular": "SANDBOX_RUNTIME_VARIANT=modular tsx scripts/build-pentovideo-runtime-artifact.ts",
+    "build:pentovideo-runtime": "tsx scripts/build-pentovideo-runtime-artifact.ts",
+    "test:pentovideo-runtime-contract": "tsx scripts/test-pentovideo-runtime-contract.ts",
+    "test:pentovideo-runtime-behavior": "tsx scripts/test-pentovideo-runtime-behavior.ts",
+    "test:pentovideo-runtime-seek": "tsx scripts/test-pentovideo-runtime-seek.ts",
+    "test:pentovideo-runtime-duration-guards": "tsx scripts/test-pentovideo-runtime-duration-guards.ts",
+    "test:pentovideo-runtime-parity": "tsx scripts/test-pentovideo-runtime-parity.ts",
+    "test:pentovideo-runtime-security": "tsx scripts/test-pentovideo-runtime-security.ts",
+    "test:pentovideo-linter": "tsx scripts/test-pentovideo-linter.ts",
+    "test:pentovideo-runtime-ci": "bun run build:pentovideo-runtime && bun run test:pentovideo-runtime-contract && bun run test:pentovideo-runtime-behavior && bun run test:pentovideo-runtime-seek && bun run test:pentovideo-runtime-duration-guards && bun run test:pentovideo-runtime-parity && bun run test:pentovideo-runtime-security",
+    "check:pentovideo-html": "tsx scripts/check-pentovideo-static.ts",
     "debug:timeline": "tsx scripts/debug-timeline.ts",
     "prepublishOnly": "echo skip"
   },

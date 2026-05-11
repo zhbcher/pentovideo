@@ -27,9 +27,9 @@ export {
 
 // Static guard
 export {
-  validateHyperframeHtmlContract,
-  type HyperframeStaticFailureReason,
-  type HyperframeStaticGuardResult,
+  validatePentovideoHtmlContract,
+  type PentovideoStaticFailureReason,
+  type PentovideoStaticGuardResult,
 } from "./staticGuard";
 
 // Composition isolation helpers

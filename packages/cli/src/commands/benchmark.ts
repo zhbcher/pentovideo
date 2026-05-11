@@ -3,9 +3,9 @@ import type { Example } from "./_examples.js";
 import { existsSync, statSync } from "node:fs";
 
 export const examples: Example[] = [
-  ["Run benchmarks with default settings (3 runs)", "hyperframes benchmark"],
-  ["Run 5 iterations per config", "hyperframes benchmark --runs 5"],
-  ["Output results as JSON", "hyperframes benchmark --json"],
+  ["Run benchmarks with default settings (3 runs)", "pentovideo benchmark"],
+  ["Run 5 iterations per config", "pentovideo benchmark --runs 5"],
+  ["Output results as JSON", "pentovideo benchmark --json"],
 ];
 import { resolve, join } from "node:path";
 import { resolveProject } from "../utils/project.js";
@@ -82,7 +82,7 @@ export default defineCommand({
         errorBox(
           "Producer module not available",
           "The rendering pipeline could not be loaded.",
-          "Ensure @hyperframes/producer is built and linked.",
+          "Ensure @pentovideo/producer is built and linked.",
         );
       }
       process.exit(1);

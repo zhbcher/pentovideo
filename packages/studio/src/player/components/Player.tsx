@@ -1,8 +1,8 @@
 import { forwardRef, useEffect, useRef, useState } from "react";
-import { isLottieAnimationLoaded } from "@hyperframes/core/runtime/lottie-readiness";
+import { isLottieAnimationLoaded } from "@pentovideo/core/runtime/lottie-readiness";
 import { useMountEffect } from "../../hooks/useMountEffect";
-import { HyperframesLoader } from "../../components/ui";
-// NOTE: importing "@hyperframes/player" registers a class extending HTMLElement
+import { PentovideoLoader } from "../../components/ui";
+// NOTE: importing "@pentovideo/player" registers a class extending HTMLElement
 // at module load, which throws under SSR. Defer the import to the mount effect
 // so it only runs in the browser.
 
@@ -13,7 +13,7 @@ interface PlayerProps {
   portrait?: boolean;
 }
 
-interface HyperframesPlayerElement extends HTMLElement {
+interface PentovideoPlayerElement extends HTMLElement {
   iframeElement: HTMLIFrameElement;
 }
 
@@ -64,7 +64,7 @@ function hasUnloadedAssets(iframe: HTMLIFrameElement, lastResult: boolean): bool
 }
 
 /**
- * Renders a composition preview using the <hyperframes-player> web component.
+ * Renders a composition preview using the <pentovideo-player> web component.
  *
  * The web component handles iframe scaling, dimension detection, and
  * ResizeObserver internally. This wrapper bridges its inner iframe to the
@@ -90,11 +90,11 @@ export const Player = forwardRef<HTMLIFrameElement, PlayerProps>(
       let cleanup: (() => void) | undefined;
 
       // Dynamic import registers the custom element in the browser only.
-      import("@hyperframes/player").then(() => {
+      import("@pentovideo/player").then(() => {
         if (canceled) return;
 
         // Create the web component imperatively to avoid JSX custom-element typing.
-        const player = document.createElement("hyperframes-player") as HyperframesPlayerElement;
+        const player = document.createElement("pentovideo-player") as PentovideoPlayerElement;
         const src = directUrl || `/api/projects/${projectId}/preview`;
         player.setAttribute("shader-capture-scale", "1");
         player.setAttribute("shader-loading", "player");
@@ -232,7 +232,7 @@ export const Player = forwardRef<HTMLIFrameElement, PlayerProps>(
         {showAssetOverlay && (
           <div
             className="absolute inset-0 bg-black flex items-center justify-center z-20 select-none"
-            data-hyperframes-ignore=""
+            data-pentovideo-ignore=""
             draggable={false}
             style={{
               opacity: assetOverlayFading ? 0 : 1,
@@ -243,7 +243,7 @@ export const Player = forwardRef<HTMLIFrameElement, PlayerProps>(
             onMouseDown={(event) => event.preventDefault()}
             onPointerDown={(event) => event.preventDefault()}
           >
-            <HyperframesLoader
+            <PentovideoLoader
               title="Preparing preview assets"
               detail="Waiting for media and motion assets before playback starts."
               size={56}

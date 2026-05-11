@@ -1,20 +1,20 @@
-import { lintHyperframeHtml } from "../lint/hyperframeLinter";
+import { lintPentovideoHtml } from "../lint/pentovideoLinter";
 
-export type HyperframeStaticFailureReason =
+export type PentovideoStaticFailureReason =
   | "missing_composition_id"
   | "missing_composition_dimensions"
   | "missing_timeline_registry"
   | "invalid_script_syntax"
-  | "invalid_static_hyperframe_contract";
+  | "invalid_static_pentovideo_contract";
 
-export type HyperframeStaticGuardResult = {
+export type PentovideoStaticGuardResult = {
   isValid: boolean;
   missingKeys: string[];
-  failureReason: HyperframeStaticFailureReason | null;
+  failureReason: PentovideoStaticFailureReason | null;
 };
 
-export function validateHyperframeHtmlContract(html: string): HyperframeStaticGuardResult {
-  const result = lintHyperframeHtml(html);
+export function validatePentovideoHtmlContract(html: string): PentovideoStaticGuardResult {
+  const result = lintPentovideoHtml(html);
   const missingKeys = result.findings
     .filter((finding) => finding.severity === "error")
     .map((finding) => finding.message);
@@ -24,7 +24,7 @@ export function validateHyperframeHtmlContract(html: string): HyperframeStaticGu
   }
 
   const joined = missingKeys.join(" ").toLowerCase();
-  let failureReason: HyperframeStaticFailureReason = "invalid_static_hyperframe_contract";
+  let failureReason: PentovideoStaticFailureReason = "invalid_static_pentovideo_contract";
   if (joined.includes("data-composition-id")) {
     failureReason = "missing_composition_id";
   } else if (joined.includes("data-width") || joined.includes("data-height")) {

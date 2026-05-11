@@ -13,10 +13,10 @@ import { fileURLToPath } from "node:url";
  *
  * URL routes:
  *   /                                  → host.html (default fixture: gsap-heavy)
- *   /host.html?fixture=<name>          → embed page hosting <hyperframes-player>
- *   /player/hyperframes-player.global.js
+ *   /host.html?fixture=<name>          → embed page hosting <pentovideo-player>
+ *   /player/pentovideo-player.global.js
  *   /vendor/gsap.min.js
- *   /vendor/hyperframe.runtime.iife.js
+ *   /vendor/pentovideo.runtime.iife.js
  *   /fixtures/<name>/<file>            → fixture HTML + assets
  */
 
@@ -32,8 +32,8 @@ function firstExisting(candidates: string[]): string {
 }
 
 const PATHS = {
-  player: join(PLAYER_PKG, "dist/hyperframes-player.global.js"),
-  runtime: join(REPO_ROOT, "packages/core/dist/hyperframe.runtime.iife.js"),
+  player: join(PLAYER_PKG, "dist/pentovideo-player.global.js"),
+  runtime: join(REPO_ROOT, "packages/core/dist/pentovideo.runtime.iife.js"),
   // bun installs gsap into the package's node_modules in workspace mode, but
   // hoists it to the repo root if multiple packages share the same version.
   // Probe both locations so the server works regardless of layout.
@@ -78,7 +78,7 @@ function mimeFor(path: string): string {
 }
 
 function buildHostHtml(fixtureName: string, width: number, height: number): string {
-  const playerSrc = "/player/hyperframes-player.global.js";
+  const playerSrc = "/player/pentovideo-player.global.js";
   const fixtureSrc = `/fixtures/${fixtureName}/index.html`;
   return `<!doctype html>
 <html lang="en">
@@ -87,17 +87,17 @@ function buildHostHtml(fixtureName: string, width: number, height: number): stri
     <title>player perf host: ${fixtureName}</title>
     <style>
       html, body { margin: 0; padding: 0; background: #000; }
-      hyperframes-player { display: block; }
+      pentovideo-player { display: block; }
     </style>
   </head>
   <body>
-    <hyperframes-player
+    <pentovideo-player
       id="player"
       src="${fixtureSrc}"
       width="${width}"
       height="${height}"
       muted
-    ></hyperframes-player>
+    ></pentovideo-player>
     <script>
       window.__playerReady = false;
       window.__playerReadyAt = null;
@@ -160,11 +160,11 @@ export function startServer(options: ServeOptions = {}): RunningServer {
         );
       }
 
-      if (path === "/player/hyperframes-player.global.js") {
+      if (path === "/player/pentovideo-player.global.js") {
         return applyCacheHeaders(await readBunFile(PATHS.player), noCache);
       }
 
-      if (path === "/vendor/hyperframe.runtime.iife.js") {
+      if (path === "/vendor/pentovideo.runtime.iife.js") {
         return applyCacheHeaders(await readBunFile(PATHS.runtime), noCache);
       }
 

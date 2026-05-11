@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join, win32 } from "node:path";
 import { tmpdir } from "node:os";
-import type { EngineConfig, ExtractedFrames } from "@hyperframes/engine";
+import type { EngineConfig, ExtractedFrames } from "@pentovideo/engine";
 import type { CompiledComposition } from "./htmlCompiler.js";
 
 import {
@@ -135,8 +135,8 @@ describe("createCompiledFrameSrcResolver", () => {
     const resolver = createCompiledFrameSrcResolver("/tmp/hf job/compiled");
 
     expect(
-      resolver("/tmp/hf job/compiled/__hyperframes_video_frames/video 1/frame_00001.jpg"),
-    ).toBe("/__hyperframes_video_frames/video%201/frame_00001.jpg");
+      resolver("/tmp/hf job/compiled/__pentovideo_video_frames/video 1/frame_00001.jpg"),
+    ).toBe("/__pentovideo_video_frames/video%201/frame_00001.jpg");
   });
 
   it("returns null for paths outside compiledDir", () => {
@@ -148,8 +148,8 @@ describe("createCompiledFrameSrcResolver", () => {
   it("resolves symlinked cache frames when materialized under compiledDir", () => {
     const resolver = createCompiledFrameSrcResolver("/tmp/hf-job/compiled");
 
-    expect(resolver("/tmp/hf-job/compiled/__hyperframes_video_frames/vid1/frame_00001.jpg")).toBe(
-      "/__hyperframes_video_frames/vid1/frame_00001.jpg",
+    expect(resolver("/tmp/hf-job/compiled/__pentovideo_video_frames/vid1/frame_00001.jpg")).toBe(
+      "/__pentovideo_video_frames/vid1/frame_00001.jpg",
     );
 
     expect(resolver("/tmp/cache/abc123/frame_00001.jpg")).toBeNull();
@@ -159,12 +159,12 @@ describe("createCompiledFrameSrcResolver", () => {
     const resolver = createCompiledFrameSrcResolver("/tmp/hf-job/compiled");
 
     expect(
-      resolver("/tmp/hf-job/compiled/__hyperframes_video_frames/video#1/frame_00001.jpg"),
-    ).toBe("/__hyperframes_video_frames/video%231/frame_00001.jpg");
+      resolver("/tmp/hf-job/compiled/__pentovideo_video_frames/video#1/frame_00001.jpg"),
+    ).toBe("/__pentovideo_video_frames/video%231/frame_00001.jpg");
 
     expect(
-      resolver("/tmp/hf-job/compiled/__hyperframes_video_frames/video?q=1/frame_00001.jpg"),
-    ).toBe("/__hyperframes_video_frames/video%3Fq%3D1/frame_00001.jpg");
+      resolver("/tmp/hf-job/compiled/__pentovideo_video_frames/video?q=1/frame_00001.jpg"),
+    ).toBe("/__pentovideo_video_frames/video%3Fq%3D1/frame_00001.jpg");
   });
 });
 
@@ -182,7 +182,7 @@ describe("materializeExtractedFramesForCompiledDir", () => {
 
   it("leaves Windows frame paths already under compiledDir unchanged", () => {
     const compiledDir = win32.resolve("C:\\compiled");
-    const outputDir = win32.join(compiledDir, "__hyperframes_video_frames", "video-1");
+    const outputDir = win32.join(compiledDir, "__pentovideo_video_frames", "video-1");
     const framePath = win32.join(outputDir, "frame_000001.jpg");
     const extracted = createExtractedFrames(outputDir, framePath);
 
@@ -223,7 +223,7 @@ describe("materializeExtractedFramesForCompiledDir", () => {
       },
     });
 
-    const linkPath = win32.join(compiledDir, "__hyperframes_video_frames", "video-1");
+    const linkPath = win32.join(compiledDir, "__pentovideo_video_frames", "video-1");
     expect(extracted.outputDir).toBe(linkPath);
     expect(extracted.framePaths.get(0)).toBe(win32.join(linkPath, "frame_000001.jpg"));
     expect(extracted.framePaths.get(0)).not.toContain(outputDir);

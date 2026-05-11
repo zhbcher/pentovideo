@@ -126,8 +126,8 @@ jobs:
         with:
           node-version: 22
       - run: bun install --frozen-lockfile
-      - run: bun run --cwd packages/core build:hyperframes-runtime
-      - run: bun run --filter '!@hyperframes/producer' test
+      - run: bun run --cwd packages/core build:pentovideo-runtime
+      - run: bun run --filter '!@pentovideo/producer' test
 
   test-runtime-contract:
     name: "Test: runtime contract"
@@ -144,7 +144,7 @@ jobs:
         with:
           node-version: 22
       - run: bun install --frozen-lockfile
-      - run: bun run --filter @hyperframes/core test:hyperframe-runtime-ci
+      - run: bun run --filter @pentovideo/core test:hyperframe-runtime-ci
 
   smoke-global-install:
     name: "Smoke: global install"
@@ -169,14 +169,14 @@ jobs:
 
       # Install globally using --prefix to avoid sudo
       - name: Install globally via npm
-        run: npm install -g --prefix /tmp/hf-smoke ./packages/cli/hyperframes-cli-*.tgz
+        run: npm install -g --prefix /tmp/hf-smoke ./packages/cli/pentovideo-cli-*.tgz
 
       # Scaffold a blank project
       - name: Init blank project
         run: |
           export PATH="/tmp/hf-smoke/bin:$PATH"
           mkdir /tmp/hf-project && cd /tmp/hf-project
-          hyperframes init test-project --example blank
+          pentovideo init test-project --example blank
 
       # Start preview, probe the runtime endpoint, assert no esbuild errors
       - name: Smoke-test preview server
@@ -185,7 +185,7 @@ jobs:
           cd /tmp/hf-project/test-project
 
           # Start the preview server in the background; capture stderr
-          CI=true hyperframes preview --port 3099 2>/tmp/hf-stderr.log &
+          CI=true pentovideo preview --port 3099 2>/tmp/hf-stderr.log &
           SERVER_PID=$!
 
           # Wait for the server to be ready (up to 15 s)
@@ -259,16 +259,16 @@ jobs:
           set -euo pipefail
           rm -rf /tmp/hf-cli-inside
 
-          bun run --filter @hyperframes/cli dev -- init /tmp/hf-cli-inside \
+          bun run --filter @pentovideo/cli dev -- init /tmp/hf-cli-inside \
             --example warm-grain \
             --video /tmp/hf-cli-input.mp4 \
             --skip-transcribe \
             --non-interactive \
             --skip-skills
 
-          bun run --filter @hyperframes/cli dev -- lint /tmp/hf-cli-inside
-          bun run --filter @hyperframes/cli dev -- validate /tmp/hf-cli-inside --timeout 3000
-          bun run --filter @hyperframes/cli dev -- render /tmp/hf-cli-inside \
+          bun run --filter @pentovideo/cli dev -- lint /tmp/hf-cli-inside
+          bun run --filter @pentovideo/cli dev -- validate /tmp/hf-cli-inside --timeout 3000
+          bun run --filter @pentovideo/cli dev -- render /tmp/hf-cli-inside \
             --quality standard \
             --workers auto \
             --strict \
@@ -297,16 +297,16 @@ jobs:
           export PATH="/tmp/hf-cli-global/bin:$PATH"
           rm -rf /tmp/hf-cli-outside
 
-          hyperframes init /tmp/hf-cli-outside \
+          pentovideo init /tmp/hf-cli-outside \
             --example warm-grain \
             --video /tmp/hf-cli-input.mp4 \
             --skip-transcribe \
             --non-interactive \
             --skip-skills
 
-          hyperframes lint /tmp/hf-cli-outside
-          hyperframes validate /tmp/hf-cli-outside --timeout 3000
-          hyperframes render /tmp/hf-cli-outside \
+          pentovideo lint /tmp/hf-cli-outside
+          pentovideo validate /tmp/hf-cli-outside --timeout 3000
+          pentovideo render /tmp/hf-cli-outside \
             --quality standard \
             --workers auto \
             --strict \

@@ -143,7 +143,7 @@ async function readErrorMessage(response: Response, fallback: string): Promise<s
   }
 
   if (response.status === 403 && response.headers.get("cf-mitigated") === "challenge") {
-    return "Publish upload was blocked before reaching HyperFrames. Please retry after staged uploads are available.";
+    return "Publish upload was blocked before reaching PentoVideo. Please retry after staged uploads are available.";
   }
 
   const text = await response.text().catch(() => "");
@@ -198,7 +198,7 @@ export function createPublishArchive(projectDir: string): PublishArchiveResult {
 
 export function getPublishApiBaseUrl(): string {
   return (
-    process.env["HYPERFRAMES_PUBLISHED_PROJECTS_API_URL"] ||
+    process.env["PENTOVIDEO_PUBLISHED_PROJECTS_API_URL"] ||
     process.env["HEYGEN_API_URL"] ||
     "https://api2.heygen.com"
   ).replace(/\/$/, "");
@@ -225,7 +225,7 @@ async function publishProjectArchiveDirect(
     heygen_route: "canary",
   };
 
-  const response = await fetch(`${apiBaseUrl}/v1/hyperframes/projects/publish`, {
+  const response = await fetch(`${apiBaseUrl}/v1/pentovideo/projects/publish`, {
     method: "POST",
     body,
     headers,
@@ -247,7 +247,7 @@ async function publishProjectArchiveStaged(
   archive: PublishArchiveResult,
 ): Promise<PublishedProjectResponse | null> {
   const fileName = `${title}.zip`;
-  const uploadResponse = await fetch(`${apiBaseUrl}/v1/hyperframes/projects/publish/upload`, {
+  const uploadResponse = await fetch(`${apiBaseUrl}/v1/pentovideo/projects/publish/upload`, {
     method: "POST",
     body: JSON.stringify({
       file_name: fileName,
@@ -284,7 +284,7 @@ async function publishProjectArchiveStaged(
     throw new Error(await readErrorMessage(s3Response, "Failed to upload project archive"));
   }
 
-  const completeResponse = await fetch(`${apiBaseUrl}/v1/hyperframes/projects/publish/complete`, {
+  const completeResponse = await fetch(`${apiBaseUrl}/v1/pentovideo/projects/publish/complete`, {
     method: "POST",
     body: JSON.stringify({
       upload_key: stagedUpload.uploadKey,

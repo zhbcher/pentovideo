@@ -594,7 +594,7 @@ export async function extractAllVideoFrames(
         if (!warnedSrcs.has(video.src)) {
           warnedSrcs.add(video.src);
           process.stderr.write(
-            `[hyperframes:render] WARNING: video src="${video.src}" ` +
+            `[pentovideo:render] WARNING: video src="${video.src}" ` +
               `could not be resolved on disk (looked for ${videoPath}). ` +
               `The rendered output will show this video's first frame for the entire clip duration. ` +
               `If your <video> lives inside a sub-composition, prefer project-root-relative paths ` +

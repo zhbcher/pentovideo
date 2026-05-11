@@ -1,4 +1,4 @@
-# HyperFrames Core Changelog
+# PentoVideo Core Changelog
 
 ## v0.1
 

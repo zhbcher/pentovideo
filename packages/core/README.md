@@ -1,11 +1,11 @@
-# @hyperframes/core
+# @pentovideo/core
 
-Types, parsers, generators, compiler, linter, runtime, and frame adapters for the Hyperframes video framework.
+Types, parsers, generators, compiler, linter, runtime, and frame adapters for the Pentovideo video framework.
 
 ## Install
 
 ```bash
-npm install @hyperframes/core
+npm install @pentovideo/core
 ```
 
 > Most users don't need to install core directly — the [CLI](../cli), [producer](../producer), and [studio](../studio) packages depend on it internally.
@@ -16,9 +16,9 @@ npm install @hyperframes/core
 | ------------------ | ---------------------------------------------------------------------------------------------------- |
 | **Types**          | `TimelineElement`, `CompositionSpec`, `Asset`, canvas dimensions, defaults                           |
 | **Parsers**        | `parseHtml` — extract timeline elements from HTML; `parseGsapScript` — parse GSAP animations         |
-| **Generators**     | `generateHyperframesHtml` — produce valid Hyperframes HTML from a composition spec                   |
+| **Generators**     | `generatePentovideoHtml` — produce valid Pentovideo HTML from a composition spec                   |
 | **Compiler**       | `compileTimingAttrs` — resolve `data-start` / `data-duration` into absolute times                    |
-| **Linter**         | `lintHyperframeHtml` — validate Hyperframes HTML (missing attributes, overlapping tracks, etc.)      |
+| **Linter**         | `lintPentovideoHtml` — validate Pentovideo HTML (missing attributes, overlapping tracks, etc.)      |
 | **Runtime**        | IIFE script injected into the browser — manages seek, media playback, and the `window.__hf` protocol |
 | **Frame Adapters** | Pluggable animation drivers (GSAP, Lottie, CSS, or custom)                                           |
 
@@ -27,7 +27,7 @@ npm install @hyperframes/core
 A frame adapter tells the engine how to seek your animation to a specific frame:
 
 ```typescript
-import { createGSAPFrameAdapter } from "@hyperframes/core";
+import { createGSAPFrameAdapter } from "@pentovideo/core";
 
 const adapter = createGSAPFrameAdapter({
   getTimeline: () => gsap.timeline(),
@@ -38,7 +38,7 @@ const adapter = createGSAPFrameAdapter({
 Implement `FrameAdapter` for custom animation runtimes:
 
 ```typescript
-import type { FrameAdapter } from "@hyperframes/core";
+import type { FrameAdapter } from "@pentovideo/core";
 
 const myAdapter: FrameAdapter = {
   id: "my-adapter",
@@ -52,27 +52,27 @@ const myAdapter: FrameAdapter = {
 ## Parsing and generating HTML
 
 ```typescript
-import { parseHtml, generateHyperframesHtml } from "@hyperframes/core";
+import { parseHtml, generatePentovideoHtml } from "@pentovideo/core";
 
 const { elements, metadata } = parseHtml(htmlString);
-const html = generateHyperframesHtml(spec);
+const html = generatePentovideoHtml(spec);
 ```
 
 ## Linting
 
 ```typescript
-import { lintHyperframeHtml } from "@hyperframes/core/lint";
+import { lintPentovideoHtml } from "@pentovideo/core/lint";
 
-const result = lintHyperframeHtml(htmlString);
+const result = lintPentovideoHtml(htmlString);
 // result.findings: { severity, message, elementId }[]
 ```
 
 ## Documentation
 
-Full documentation: [hyperframes.heygen.com/packages/core](https://hyperframes.heygen.com/packages/core)
+Full documentation: [pentovideo.heygen.com/packages/core](https://pentovideo.heygen.com/packages/core)
 
 ## Related packages
 
-- [`@hyperframes/engine`](../engine) — rendering engine that drives the browser
-- [`@hyperframes/producer`](../producer) — full render pipeline (capture + encode)
-- [`hyperframes`](../cli) — CLI
+- [`@pentovideo/engine`](../engine) — rendering engine that drives the browser
+- [`@pentovideo/producer`](../producer) — full render pipeline (capture + encode)
+- [`pentovideo`](../cli) — CLI

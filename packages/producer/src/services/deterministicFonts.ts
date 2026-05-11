@@ -276,7 +276,7 @@ function warnUnresolvedFonts(unresolved: string[]): void {
       `    2. Add a @font-face block in your HTML with a local or hosted font file\n` +
       `    3. Install the font locally on the render machine (Docker: add to Dockerfile)\n` +
       `    4. Add an alias to FONT_ALIASES in deterministicFonts.ts (for contributors)\n` +
-      `  Docs: https://hyperframes.heygen.com/docs/fonts`,
+      `  Docs: https://pentovideo.heygen.com/docs/fonts`,
   );
 }
 
@@ -284,7 +284,7 @@ function warnUnresolvedFonts(unresolved: string[]): void {
 // Google Fonts on-demand fetch + local cache
 // ---------------------------------------------------------------------------
 
-const GOOGLE_FONTS_CACHE_DIR = join(homedir(), ".cache", "hyperframes", "fonts");
+const GOOGLE_FONTS_CACHE_DIR = join(homedir(), ".cache", "pentovideo", "fonts");
 
 // Chrome UA triggers woff2 responses from Google Fonts CSS API
 const WOFF2_USER_AGENT =
@@ -406,7 +406,7 @@ export async function injectDeterministicFontFaces(html: string): Promise<string
   }
 
   const styleEl = document.createElement("style");
-  styleEl.setAttribute("data-hyperframes-deterministic-fonts", "true");
+  styleEl.setAttribute("data-pentovideo-deterministic-fonts", "true");
   styleEl.textContent = css;
   head.insertBefore(styleEl, head.firstChild);
 

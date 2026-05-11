@@ -1,5 +1,5 @@
 import type { RuntimeTimelineMessage, RuntimeTimelineLike } from "./types";
-import type { HyperframePickerApi } from "../inline-scripts/pickerApi";
+import type { PentovideoPickerApi } from "../inline-scripts/pickerApi";
 import type { PlayerAPI } from "../core.types";
 
 type ThreeClockLike = {
@@ -35,7 +35,7 @@ declare global {
     __HF_FPS?: number;
     __HF_MAX_DURATION_SEC?: number;
     __hfThreeTime?: number;
-    __HF_PICKER_API?: HyperframePickerApi;
+    __HF_PICKER_API?: PentovideoPickerApi;
     gsap?: {
       timeline: (params?: { paused?: boolean }) => RuntimeTimelineLike;
       ticker?: {
@@ -80,9 +80,9 @@ declare global {
     __hfLottie?: unknown[];
     /**
      * Render-time variable overrides injected by the engine when the user
-     * passes `hyperframes render --variables '<json>'`. Read indirectly via
-     * `window.__hyperframes.getVariables()` (or the named `getVariables`
-     * export from `@hyperframes/core`), which merges these over the
+     * passes `pentovideo render --variables '<json>'`. Read indirectly via
+     * `window.__pentovideo.getVariables()` (or the named `getVariables`
+     * export from `@pentovideo/core`), which merges these over the
      * declared defaults from `<html data-composition-variables="...">`.
      */
     __hfVariables?: Record<string, unknown>;

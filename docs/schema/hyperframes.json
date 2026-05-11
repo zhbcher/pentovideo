@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://hyperframes.heygen.com/schema/hyperframes.json",
-  "title": "Hyperframes Project Config",
-  "description": "Per-project configuration for a Hyperframes project (hyperframes.json). Tells `hyperframes add` which registry to pull items from and where to drop them in the project tree. Created by `hyperframes init`; users may edit it to point at custom registries or reshape their project layout.",
+  "$id": "https://pentovideo.heygen.com/schema/pentovideo.json",
+  "title": "Pentovideo Project Config",
+  "description": "Per-project configuration for a Pentovideo project (pentovideo.json). Tells `pentovideo add` which registry to pull items from and where to drop them in the project tree. Created by `pentovideo init`; users may edit it to point at custom registries or reshape their project layout.",
   "type": "object",
   "required": ["registry", "paths"],
   "additionalProperties": false,
@@ -10,13 +10,13 @@
     "$schema": {
       "type": "string",
       "format": "uri",
-      "description": "JSON Schema URL — https://hyperframes.heygen.com/schema/hyperframes.json."
+      "description": "JSON Schema URL — https://pentovideo.heygen.com/schema/pentovideo.json."
     },
     "registry": {
       "type": "string",
       "format": "uri",
       "minLength": 1,
-      "description": "Base URL of the registry to pull items from. Point at the official Hyperframes registry or a custom one."
+      "description": "Base URL of the registry to pull items from. Point at the official Pentovideo registry or a custom one."
     },
     "paths": {
       "type": "object",
@@ -27,12 +27,12 @@
         "blocks": {
           "type": "string",
           "minLength": 1,
-          "description": "Where `hyperframes:block` items land. Defaults to `compositions`."
+          "description": "Where `pentovideo:block` items land. Defaults to `compositions`."
         },
         "components": {
           "type": "string",
           "minLength": 1,
-          "description": "Where `hyperframes:component` items land. Defaults to `compositions/components`."
+          "description": "Where `pentovideo:component` items land. Defaults to `compositions/components`."
         },
         "assets": {
           "type": "string",

@@ -4,13 +4,13 @@ import { homedir } from "node:os";
 import { randomUUID } from "node:crypto";
 
 // ---------------------------------------------------------------------------
-// Config directory: ~/.hyperframes/
+// Config directory: ~/.pentovideo/
 // ---------------------------------------------------------------------------
 
-const CONFIG_DIR = join(homedir(), ".hyperframes");
+const CONFIG_DIR = join(homedir(), ".pentovideo");
 const CONFIG_FILE = join(CONFIG_DIR, "config.json");
 
-export interface HyperframesConfig {
+export interface PentovideoConfig {
   /** Whether anonymous telemetry is enabled (default: true in production) */
   telemetryEnabled: boolean;
   /** Stable anonymous identifier — no PII, just a random UUID */
@@ -53,20 +53,20 @@ export interface HyperframesConfig {
   };
 }
 
-const DEFAULT_CONFIG: HyperframesConfig = {
+const DEFAULT_CONFIG: PentovideoConfig = {
   telemetryEnabled: true,
   anonymousId: "",
   telemetryNoticeShown: false,
   commandCount: 0,
 };
 
-let cachedConfig: HyperframesConfig | null = null;
+let cachedConfig: PentovideoConfig | null = null;
 
 /**
  * Read the config file, creating it with defaults if it doesn't exist.
  * Returns a mutable copy — call `writeConfig()` to persist changes.
  */
-export function readConfig(): HyperframesConfig {
+export function readConfig(): PentovideoConfig {
   if (cachedConfig) return { ...cachedConfig };
 
   if (!existsSync(CONFIG_FILE)) {
@@ -77,9 +77,9 @@ export function readConfig(): HyperframesConfig {
 
   try {
     const raw = readFileSync(CONFIG_FILE, "utf-8");
-    const parsed = JSON.parse(raw) as Partial<HyperframesConfig>;
+    const parsed = JSON.parse(raw) as Partial<PentovideoConfig>;
 
-    const config: HyperframesConfig = {
+    const config: PentovideoConfig = {
       telemetryEnabled: parsed.telemetryEnabled ?? DEFAULT_CONFIG.telemetryEnabled,
       anonymousId: parsed.anonymousId || randomUUID(),
       telemetryNoticeShown: parsed.telemetryNoticeShown ?? DEFAULT_CONFIG.telemetryNoticeShown,
@@ -103,7 +103,7 @@ export function readConfig(): HyperframesConfig {
 /**
  * Persist config to disk. Updates the in-memory cache.
  */
-export function writeConfig(config: HyperframesConfig): void {
+export function writeConfig(config: PentovideoConfig): void {
   try {
     mkdirSync(CONFIG_DIR, { recursive: true, mode: 0o700 });
     writeFileSync(CONFIG_FILE, JSON.stringify(config, null, 2) + "\n", { mode: 0o600 });

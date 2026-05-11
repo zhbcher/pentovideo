@@ -1,10 +1,10 @@
 {
-  "name": "@hyperframes/producer",
+  "name": "@pentovideo/producer",
   "version": "0.5.7",
-  "description": "HTML-to-video rendering engine using Chrome's BeginFrame API",
+  "description": "HTML-to-video rendering engine using Chrome BeginFrame API",
   "repository": {
     "type": "git",
-    "url": "https://github.com/heygen-com/hyperframes",
+    "url": "https://github.com/pentovideo/pentovideo",
     "directory": "packages/producer"
   },
   "files": [
@@ -27,7 +27,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
-    "build": "bun run build:fonts && bun run --cwd ../.. build:hyperframes-runtime:modular && node build.mjs",
+    "build": "bun run build:fonts && bun run --cwd ../.. build:pentovideo-runtime:modular && node build.mjs",
     "build:fonts": "tsx scripts/generate-font-data.ts",
     "typecheck": "tsc --noEmit",
     "parity:check": "tsx src/parity-harness.ts",
@@ -41,9 +41,9 @@
     "test": "tsx src/regression-harness.ts --exclude-tags transparency",
     "test:update": "tsx src/regression-harness.ts --update --exclude-tags transparency",
     "test:transparency": "tsx src/transparency-test.ts",
-    "docker:build:test": "docker build -f ../../Dockerfile.test -t hyperframes-producer:test ../..",
-    "docker:test": "docker run --rm --security-opt seccomp=unconfined --shm-size=2g -v ./tests:/app/packages/producer/tests hyperframes-producer:test",
-    "docker:test:update": "docker run --rm --security-opt seccomp=unconfined --shm-size=2g -v ./tests:/app/packages/producer/tests hyperframes-producer:test --update",
+    "docker:build:test": "docker build -f ../../Dockerfile.test -t pentovideo-producer:test ../..",
+    "docker:test": "docker run --rm --security-opt seccomp=unconfined --shm-size=2g -v ./tests:/app/packages/producer/tests pentovideo-producer:test",
+    "docker:test:update": "docker run --rm --security-opt seccomp=unconfined --shm-size=2g -v ./tests:/app/packages/producer/tests pentovideo-producer:test --update",
     "prepublishOnly": "echo skip"
   },
   "dependencies": {
@@ -59,8 +59,8 @@
     "@fontsource/outfit": "^5.2.8",
     "@fontsource/space-mono": "^5.2.9",
     "@hono/node-server": "^1.13.0",
-    "@hyperframes/core": "workspace:^",
-    "@hyperframes/engine": "workspace:^",
+    "@pentovideo/core": "workspace:^",
+    "@pentovideo/engine": "workspace:^",
     "hono": "^4.6.0",
     "linkedom": "^0.18.12",
     "postcss": "^8.4.0",

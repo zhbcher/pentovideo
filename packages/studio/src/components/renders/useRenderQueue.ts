@@ -11,7 +11,7 @@ export interface RenderJob {
   durationMs?: number;
 }
 
-// Mirrors `CanvasResolution` from @hyperframes/core. Kept local because
+// Mirrors `CanvasResolution` from @pentovideo/core. Kept local because
 // studio's tsconfig doesn't include node types, and the core barrel
 // transitively pulls in modules with `node:fs` imports. Drift risk is
 // low (4 string literals tied to a stable enum).
@@ -103,7 +103,7 @@ export function useRenderQueue(projectId: string | null) {
           id: crypto.randomUUID(),
           status: "failed",
           progress: 0,
-          error: "Could not reach render server. Use `hyperframes render` from the CLI instead.",
+          error: "Could not reach render server. Use `pentovideo render` from the CLI instead.",
           filename: "Export failed",
           createdAt: startTime,
         };

@@ -110,7 +110,7 @@ async function validateInBrowser(
   projectDir: string,
   opts: { timeout?: number; contrast?: boolean },
 ): Promise<{ errors: ConsoleEntry[]; warnings: ConsoleEntry[]; contrast?: ContrastEntry[] }> {
-  const { bundleToSingleHtml } = await import("@hyperframes/core/compiler");
+  const { bundleToSingleHtml } = await import("@pentovideo/core/compiler");
   const { ensureBrowser } = await import("../browser/manager.js");
 
   // `bundleToSingleHtml` now inlines the runtime IIFE by default, so the
@@ -119,7 +119,7 @@ async function validateInBrowser(
   const html = await bundleToSingleHtml(projectDir);
 
   const { createServer } = await import("node:http");
-  const { getMimeType } = await import("@hyperframes/core/studio-api");
+  const { getMimeType } = await import("@pentovideo/core/studio-api");
 
   const server = createServer((req, res) => {
     const url = req.url ?? "/";
@@ -153,7 +153,7 @@ async function validateInBrowser(
   try {
     const browser = await ensureBrowser();
     const puppeteer = await import("puppeteer-core");
-    const { buildChromeArgs } = await import("@hyperframes/engine");
+    const { buildChromeArgs } = await import("@pentovideo/engine");
     const browserGpuMode =
       process.env.PRODUCER_BROWSER_GPU_MODE === "software" ? "software" : "hardware";
     const chromeBrowser = await puppeteer.default.launch({
@@ -240,10 +240,10 @@ export default defineCommand({
     description: `Load a composition in headless Chrome and report console errors
 
 Examples:
-  hyperframes validate
-  hyperframes validate ./my-project
-  hyperframes validate --json
-  hyperframes validate --timeout 5000`,
+  pentovideo validate
+  pentovideo validate ./my-project
+  pentovideo validate --json
+  pentovideo validate --timeout 5000`,
   },
   args: {
     dir: { type: "positional", description: "Project directory", required: false },

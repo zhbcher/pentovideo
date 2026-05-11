@@ -1,5 +1,5 @@
 /**
- * Re-exported from @hyperframes/engine.
+ * Re-exported from @pentovideo/engine.
  * @see engine/src/services/streamingEncoder.ts for implementation.
  */
 export {
@@ -9,4 +9,4 @@ export {
   type StreamingEncoderOptions,
   type StreamingEncoderResult,
   type FrameReorderBuffer,
-} from "@hyperframes/engine";
+} from "@pentovideo/engine";
