@@ -1,7 +1,7 @@
 {
-  "$schema": "https://pentovideo.heygen.com/schema/registry.json",
+  "$schema": "https://github.com/zhbcher/pentovideo/schema/registry.json",
   "name": "pentovideo",
-  "homepage": "https://pentovideo.heygen.com",
+  "homepage": "https://github.com/zhbcher/pentovideo",
   "items": [
     {
       "name": "warm-grain",

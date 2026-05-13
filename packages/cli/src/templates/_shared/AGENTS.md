@@ -5,7 +5,7 @@
 This project uses AI agent skills for framework-specific patterns. Install them if not already present:
 
 ```bash
-npx skills add heygen-com/pentovideo
+npx skills add zhbcher/pentovideo
 ```
 
 Skills encode patterns like `window.__timelines` registration, `data-*` attribute semantics, Tailwind v4 browser-runtime styling for `--tailwind` projects, and shader-compatible CSS rules that are not in generic web docs. Using them produces correct compositions from the start.
@@ -53,6 +53,6 @@ Fix all errors before presenting the result.
 
 ## Documentation
 
-Full docs: https://pentovideo.heygen.com/introduction
+Full docs: https://github.com/zhbcher/pentovideo/introduction
 
-Machine-readable index for AI tools: https://pentovideo.heygen.com/llms.txt
+Machine-readable index for AI tools: https://github.com/zhbcher/pentovideo/llms.txt

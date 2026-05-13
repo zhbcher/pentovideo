@@ -118,7 +118,7 @@ animated dimensions, the GSAP tween animates them — see [timing.md](timing.md)
 When HF detects a nested iframe in a composition, it auto-falls back to
 **screenshot mode** rather than the deterministic BeginFrame mode. This
 costs render performance but produces visibly-correct output. See
-[pentovideo-vs-remotion.mdx](https://github.com/heygen-com/pentovideo/blob/main/docs/guides/pentovideo-vs-remotion.mdx)
+[pentovideo-vs-remotion.mdx](https://github.com/zhbcher/pentovideo/blob/main/docs/guides/pentovideo-vs-remotion.mdx)
 for details.
 
 ## `delayRender()` / `continueRender()`
@@ -130,7 +130,7 @@ useEffect(() => {
 }, []);
 ```
 
-Drop. HF waits on asset readiness via the [Frame Adapter pattern](https://pentovideo.heygen.com/concepts/frame-adapters)
+Drop. HF waits on asset readiness via the [Frame Adapter pattern](https://github.com/zhbcher/pentovideo/concepts/frame-adapters)
 — images, videos, fonts, and Lottie animations all signal load
 completion natively. There's nothing to do at the application level.
 

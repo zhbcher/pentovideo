@@ -116,7 +116,7 @@ Don't paint a fullscreen background in your HTML. The default body background is
 
 ## Documentation
 
-Full documentation: [pentovideo.heygen.com/packages/producer](https://pentovideo.heygen.com/packages/producer)
+Full documentation: [github.com/zhbcher/pentovideo/packages/producer](https://github.com/zhbcher/pentovideo/packages/producer)
 
 ## Related packages
 

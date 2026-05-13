@@ -69,7 +69,7 @@ Most users should use `@pentovideo/producer` or the `pentovideo` CLI instead of 
 
 ## Documentation
 
-Full documentation: [pentovideo.heygen.com/packages/engine](https://pentovideo.heygen.com/packages/engine)
+Full documentation: [github.com/zhbcher/pentovideo/packages/engine](https://github.com/zhbcher/pentovideo/packages/engine)
 
 ## Related packages
 

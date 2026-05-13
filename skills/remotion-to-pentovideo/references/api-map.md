@@ -9,7 +9,7 @@ details (timing, transitions, etc.).
 - **`drop`** = remove from output entirely. The HF runtime handles it.
 - **`see references/X.md`** = the mapping is non-trivial; read the linked file.
 - **`refuse + interop`** = the skill bows out and recommends the runtime adapter
-  pattern from [PR #214](https://github.com/heygen-com/pentovideo/pull/214).
+  pattern from [PR #214](https://github.com/zhbcher/pentovideo/pull/214).
 
 ## Composition root
 
@@ -71,7 +71,7 @@ See [transitions.md](transitions.md).
 | Remotion                                                                       | PentoVideo                                                                                               |
 | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
 | `<TransitionSeries>` + `<TransitionSeries.Transition presentation={fade()} />` | manual `gsap.to(scene, {opacity: 0/1, duration})` crossfade at the boundary                               |
-| `slide()`, `wipe()`, `clockWipe()`, `fade()`                                   | HF [shader-transitions](https://pentovideo.heygen.com/catalog/blocks) package presets — pick the closest |
+| `slide()`, `wipe()`, `clockWipe()`, `fade()`                                   | HF [shader-transitions](https://github.com/zhbcher/pentovideo/catalog/blocks) package presets — pick the closest |
 | `linearTiming({durationInFrames})`                                             | duration in seconds (`/fps`)                                                                              |
 | `springTiming({config})`                                                       | duration in seconds, ease `back.out` — see [timing.md](timing.md)                                         |
 
@@ -135,7 +135,7 @@ in `TRANSLATION_NOTES.md`. HF is single-machine today; document the gap.
 ## When to bow out entirely
 
 If any blocker pattern is present, recommend the runtime interop pattern from
-[PR #214](https://github.com/heygen-com/pentovideo/pull/214) instead of
+[PR #214](https://github.com/zhbcher/pentovideo/pull/214) instead of
 attempting translation. See [escape-hatch.md](escape-hatch.md).
 
 The blockers are documented in [`scripts/lint_source.py`](../scripts/lint_source.py)

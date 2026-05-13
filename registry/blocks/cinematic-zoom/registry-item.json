@@ -1,5 +1,5 @@
 {
-  "$schema": "https://pentovideo.heygen.com/schema/registry-item.json",
+  "$schema": "https://github.com/zhbcher/pentovideo/schema/registry-item.json",
   "name": "cinematic-zoom",
   "type": "pentovideo:block",
   "title": "Cinematic Zoom",

@@ -6,11 +6,11 @@
   "description": "Write HTML, render video. Compositions, Tailwind v4 styles, GSAP and runtime adapter animations, captions, voiceovers, audio-reactive visuals, and website-to-video capture for PentoVideo.",
   "author": {
     "name": "HeyGen",
-    "email": "pentovideo@heygen.com"
+    "email": "github.com/zhbcher/pentovideo"
   },
   "publisher": "HeyGen",
-  "homepage": "https://pentovideo.heygen.com",
-  "repository": "https://github.com/heygen-com/pentovideo",
+  "homepage": "https://github.com/zhbcher/pentovideo",
+  "repository": "https://github.com/zhbcher/pentovideo",
   "license": "Apache-2.0",
   "logo": "assets/logo.png",
   "category": "developer-tools",

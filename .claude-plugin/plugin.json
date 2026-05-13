@@ -4,10 +4,10 @@
   "version": "0.1.0",
   "author": {
     "name": "HeyGen",
-    "email": "pentovideo@heygen.com",
-    "url": "https://pentovideo.heygen.com"
+    "email": "github.com/zhbcher/pentovideo",
+    "url": "https://github.com/zhbcher/pentovideo"
   },
-  "homepage": "https://pentovideo.heygen.com",
-  "repository": "https://github.com/heygen-com/pentovideo",
+  "homepage": "https://github.com/zhbcher/pentovideo",
+  "repository": "https://github.com/zhbcher/pentovideo",
   "license": "Apache-2.0"
 }

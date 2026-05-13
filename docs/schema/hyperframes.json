@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://pentovideo.heygen.com/schema/pentovideo.json",
+  "$id": "https://github.com/zhbcher/pentovideo/schema/pentovideo.json",
   "title": "Pentovideo Project Config",
   "description": "Per-project configuration for a Pentovideo project (pentovideo.json). Tells `pentovideo add` which registry to pull items from and where to drop them in the project tree. Created by `pentovideo init`; users may edit it to point at custom registries or reshape their project layout.",
   "type": "object",
@@ -10,7 +10,7 @@
     "$schema": {
       "type": "string",
       "format": "uri",
-      "description": "JSON Schema URL — https://pentovideo.heygen.com/schema/pentovideo.json."
+      "description": "JSON Schema URL — https://github.com/zhbcher/pentovideo/schema/pentovideo.json."
     },
     "registry": {
       "type": "string",

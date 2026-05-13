@@ -60,7 +60,7 @@ Use a 2-3 letter prefix. ALL element IDs must use this prefix to avoid collision
 
 ```json
 {
-  "$schema": "https://pentovideo.heygen.com/schema/registry-item.json",
+  "$schema": "https://github.com/zhbcher/pentovideo/schema/registry-item.json",
   "name": "{block-name}",
   "type": "pentovideo:block",
   "title": "{Human Title}",
@@ -82,7 +82,7 @@ Use a 2-3 letter prefix. ALL element IDs must use this prefix to avoid collision
 
 ```json
 {
-  "$schema": "https://pentovideo.heygen.com/schema/registry-item.json",
+  "$schema": "https://github.com/zhbcher/pentovideo/schema/registry-item.json",
   "name": "{component-name}",
   "type": "pentovideo:component",
   "title": "{Human Title}",

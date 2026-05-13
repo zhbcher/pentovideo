@@ -496,7 +496,7 @@ Opens the PentoVideo Studio at `http://localhost:3002` with frame-accurate scrub
 This project was drafted in Claude Design. To polish animations, timing, and pacing:
 
 ```bash
-npx skills add heygen-com/pentovideo   # install PentoVideo skills (one-time)
+npx skills add zhbcher/pentovideo   # install PentoVideo skills (one-time)
 npx pentovideo lint                     # verify structure (should pass with zero errors)
 npx pentovideo preview                  # open the studio for live feedback
 ```
@@ -1221,9 +1221,9 @@ tl.to("#s5-headline", { backgroundSize: "100% 30%", duration: 0.6, ease: "power2
 
 Everything critical is inlined above. These are for edge cases:
 
-- Core composition contract (data attributes, sub-comp wiring): https://github.com/heygen-com/pentovideo/blob/main/skills/pentovideo/SKILL.md
-- Motion theory (easing as emotion, direction rules): https://github.com/heygen-com/pentovideo/blob/main/skills/pentovideo/references/motion-principles.md
-- Typography (full banned list, weight contrast, OpenType): https://github.com/heygen-com/pentovideo/blob/main/skills/pentovideo/references/typography.md
-- Transitions (shader catalog, CSS transition patterns): https://github.com/heygen-com/pentovideo/blob/main/skills/pentovideo/references/transitions.md
-- Captions synced to audio: https://github.com/heygen-com/pentovideo/blob/main/skills/pentovideo/references/captions.md
-- Full docs: https://pentovideo.heygen.com/
+- Core composition contract (data attributes, sub-comp wiring): https://github.com/zhbcher/pentovideo/blob/main/skills/pentovideo/SKILL.md
+- Motion theory (easing as emotion, direction rules): https://github.com/zhbcher/pentovideo/blob/main/skills/pentovideo/references/motion-principles.md
+- Typography (full banned list, weight contrast, OpenType): https://github.com/zhbcher/pentovideo/blob/main/skills/pentovideo/references/typography.md
+- Transitions (shader catalog, CSS transition patterns): https://github.com/zhbcher/pentovideo/blob/main/skills/pentovideo/references/transitions.md
+- Captions synced to audio: https://github.com/zhbcher/pentovideo/blob/main/skills/pentovideo/references/captions.md
+- Full docs: https://github.com/zhbcher/pentovideo/

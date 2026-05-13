@@ -6,7 +6,7 @@ If you discover a security vulnerability in Pentovideo, please report it respons
 
 **Do not open a public GitHub issue for security vulnerabilities.**
 
-Instead, open a [GitHub Security Advisory](https://github.com/heygen-com/pentovideo/security/advisories/new) with:
+Instead, open a [GitHub Security Advisory](https://github.com/zhbcher/pentovideo/security/advisories/new) with:
 
 - A description of the vulnerability
 - Steps to reproduce

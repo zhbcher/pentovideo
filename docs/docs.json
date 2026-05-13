@@ -40,7 +40,7 @@
         "description": "Report a bug or request a feature",
         "icon": "github",
         "iconType": "brands",
-        "href": "https://github.com/heygen-com/pentovideo/issues/new"
+        "href": "https://github.com/zhbcher/pentovideo/issues/new"
       }
     ]
   },
@@ -237,7 +237,7 @@
   },
   "footer": {
     "socials": {
-      "github": "https://github.com/heygen-com/pentovideo"
+      "github": "https://github.com/zhbcher/pentovideo"
     }
   }
 }

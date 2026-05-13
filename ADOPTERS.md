@@ -18,7 +18,7 @@ If you'd rather not be listed publicly, that's fine — drop a note in [our Disc
 
 | Organization                     | Contact                                      | How PentoVideo is used                                                                    |
 | -------------------------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| [HeyGen](https://www.heygen.com) | [@jrusso1020](https://github.com/jrusso1020) | Powers AI-generated video composition and rendering across HeyGen's video product surface. |
+| [HeyGen](https://www.github.com/zhbcher) | [@jrusso1020](https://github.com/jrusso1020) | Powers AI-generated video composition and rendering across HeyGen's video product surface. |
 
 ## Evaluating
 

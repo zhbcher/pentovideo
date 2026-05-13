@@ -40,7 +40,7 @@ These paths are configurable in `pentovideo.json`:
 
 ```json
 {
-  "registry": "https://raw.githubusercontent.com/heygen-com/pentovideo/main/registry",
+  "registry": "https://raw.githubusercontent.com/zhbcher/pentovideo/main/registry",
   "paths": {
     "blocks": "compositions",
     "components": "compositions/components",
@@ -96,7 +96,7 @@ Browse available items:
 
 ```bash
 # Read the registry manifest
-curl -s https://raw.githubusercontent.com/heygen-com/pentovideo/main/registry/registry.json
+curl -s https://raw.githubusercontent.com/zhbcher/pentovideo/main/registry/registry.json
 ```
 
 Each item's `registry-item.json` contains: name, type, title, description, tags, dimensions (blocks only), duration (blocks only), and file list.

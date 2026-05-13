@@ -7,7 +7,7 @@ Open-source video rendering framework: write HTML, render video.
 This repo ships AI agent skills via [vercel-labs/skills](https://github.com/vercel-labs/skills). Install them before writing compositions — they encode framework-specific patterns that generic docs don't cover.
 
 ```bash
-npx skills add heygen-com/pentovideo
+npx skills add zhbcher/pentovideo
 ```
 
 ## Build & Test
@@ -56,7 +56,7 @@ registry/
   blocks/               → Installable sub-composition scenes (50+)
   components/           → Installable effects and snippets
   examples/             → Starter project templates
-docs/                   → Mintlify documentation site (pentovideo.heygen.com)
+docs/                   → Mintlify documentation site (github.com/zhbcher/pentovideo)
 skills/                 → AI agent skill definitions
 ```
 
@@ -71,5 +71,5 @@ skills/                 → AI agent skill definitions
 
 ## Documentation
 
-- Docs: https://pentovideo.heygen.com/introduction
-- Catalog (50+ blocks): https://pentovideo.heygen.com/catalog/blocks/data-chart
+- Docs: https://github.com/zhbcher/pentovideo/introduction
+- Catalog (50+ blocks): https://github.com/zhbcher/pentovideo/catalog/blocks/data-chart

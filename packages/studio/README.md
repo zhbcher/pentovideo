@@ -38,7 +38,7 @@ bun run typecheck  # Type-check
 
 ## Documentation
 
-Full documentation: [pentovideo.heygen.com/packages/studio](https://pentovideo.heygen.com/packages/studio)
+Full documentation: [github.com/zhbcher/pentovideo/packages/studio](https://github.com/zhbcher/pentovideo/packages/studio)
 
 ## Related packages
 

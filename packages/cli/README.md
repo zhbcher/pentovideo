@@ -117,7 +117,7 @@ npx pentovideo upgrade --check --json  # machine-readable for agents
 
 ## Documentation
 
-Full documentation: [pentovideo.heygen.com/packages/cli](https://pentovideo.heygen.com/packages/cli)
+Full documentation: [github.com/zhbcher/pentovideo/packages/cli](https://github.com/zhbcher/pentovideo/packages/cli)
 
 ## Related packages
 

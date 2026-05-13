@@ -20,7 +20,7 @@
 | **waapi**                  | `/waapi`                  | Web Animations API motion driven through `document.getAnimations()`                               |
 
 > **Skills not available?** Ask the user to run `npx pentovideo skills` and restart their
-> agent session, or install manually: `npx skills add heygen-com/pentovideo`.
+> agent session, or install manually: `npx skills add zhbcher/pentovideo`.
 
 ## Commands
 
@@ -47,7 +47,7 @@ Topics: `data-attributes`, `gsap`, `compositions`, `rendering`, `examples`, `tro
 **For full documentation**, discover pages via the machine-readable index — do NOT guess URLs:
 
 ```
-https://pentovideo.heygen.com/llms.txt
+https://github.com/zhbcher/pentovideo/llms.txt
 ```
 
 ## Project Structure

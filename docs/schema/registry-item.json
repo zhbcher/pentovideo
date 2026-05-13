@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://pentovideo.heygen.com/schema/registry-item.json",
+  "$id": "https://github.com/zhbcher/pentovideo/schema/registry-item.json",
   "title": "Pentovideo Registry Item",
   "description": "Manifest for a single distributable item (example, block, or component).",
   "type": "object",

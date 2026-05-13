@@ -319,7 +319,7 @@ Copy-paste starter templates for each component type. These embed the proven pat
 
 ```json
 {
-  "$schema": "https://pentovideo.heygen.com/schema/registry-item.json",
+  "$schema": "https://github.com/zhbcher/pentovideo/schema/registry-item.json",
   "name": "BLOCKNAME",
   "type": "pentovideo:block",
   "title": "Human-Readable Title",
@@ -341,7 +341,7 @@ Copy-paste starter templates for each component type. These embed the proven pat
 
 ```json
 {
-  "$schema": "https://pentovideo.heygen.com/schema/registry-item.json",
+  "$schema": "https://github.com/zhbcher/pentovideo/schema/registry-item.json",
   "name": "COMPONENTNAME",
   "type": "pentovideo:component",
   "title": "Human-Readable Title",

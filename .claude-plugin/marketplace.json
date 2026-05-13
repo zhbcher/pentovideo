@@ -2,8 +2,8 @@
   "name": "pentovideo",
   "owner": {
     "name": "HeyGen",
-    "email": "pentovideo@heygen.com",
-    "url": "https://pentovideo.heygen.com"
+    "email": "github.com/zhbcher/pentovideo",
+    "url": "https://github.com/zhbcher/pentovideo"
   },
   "plugins": [
     {
@@ -11,7 +11,7 @@
       "source": "./",
       "description": "PentoVideo by HeyGen. Write HTML, render video. Compositions, GSAP and runtime adapter animations, captions, voiceovers, audio-reactive visuals, and website-to-video capture for PentoVideo.",
       "version": "0.1.0",
-      "homepage": "https://pentovideo.heygen.com",
+      "homepage": "https://github.com/zhbcher/pentovideo",
       "license": "Apache-2.0"
     }
   ]

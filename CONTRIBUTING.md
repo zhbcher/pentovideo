@@ -5,7 +5,7 @@ Thanks for your interest in contributing to Pentovideo! This guide will help you
 ## Getting Started
 
 1. Fork the repository
-2. Clone your fork: `git clone https://github.com/YOUR_USERNAME/pentovideo.git`
+2. Clone your fork: `git clone https://github.com/zhbcher/pentovideo.git`
 3. Install dependencies: `bun install`
 4. Create a branch: `git checkout -b my-feature`
 
@@ -173,7 +173,7 @@ bun run set-version 0.2.0 --no-tag   # updates package.json files only
 
 ## Reporting Issues
 
-- Use [GitHub Issues](https://github.com/heygen-com/pentovideo/issues) for bug reports and feature requests
+- Use [GitHub Issues](https://github.com/zhbcher/pentovideo/issues) for bug reports and feature requests
 - Search existing issues before creating a new one
 - Include reproduction steps for bugs
 

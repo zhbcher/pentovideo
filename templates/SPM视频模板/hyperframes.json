@@ -1,6 +1,6 @@
 {
-  "$schema": "https://pentovideos.heygen.com/schema/pentovideos.json",
-  "registry": "https://raw.githubusercontent.com/heygen-com/pentovideos/main/registry",
+  "$schema": "https://pentovideos.github.com/zhbcher/schema/pentovideos.json",
+  "registry": "https://raw.githubusercontent.com/zhbcher/pentovideos/main/registry",
   "paths": {
     "blocks": "compositions",
     "components": "compositions/components",

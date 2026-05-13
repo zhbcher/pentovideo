@@ -20,8 +20,8 @@ Created automatically by `pentovideo init`. If it doesn't exist when you run `ad
 
 ```json
 {
-  "$schema": "https://pentovideo.heygen.com/schema/pentovideo.json",
-  "registry": "https://raw.githubusercontent.com/heygen-com/pentovideo/main/registry",
+  "$schema": "https://github.com/zhbcher/pentovideo/schema/pentovideo.json",
+  "registry": "https://raw.githubusercontent.com/zhbcher/pentovideo/main/registry",
   "paths": {
     "blocks": "compositions",
     "components": "compositions/components",

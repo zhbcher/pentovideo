@@ -5,7 +5,7 @@
 The top-level `registry.json` lists all available items:
 
 ```bash
-curl -s https://raw.githubusercontent.com/heygen-com/pentovideo/main/registry/registry.json
+curl -s https://raw.githubusercontent.com/zhbcher/pentovideo/main/registry/registry.json
 ```
 
 Each entry has `name` and `type` (`pentovideo:example`, `pentovideo:block`, or `pentovideo:component`).

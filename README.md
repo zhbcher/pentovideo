@@ -1,234 +1,163 @@
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/logo/dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="docs/logo/light.svg">
-    <img alt="PentoVideo" src="docs/logo/light.svg" width="300">
-  </picture>
+  <h1>🎬 PentoVideo</h1>
+  <p><strong>AI Video Factory — Write HTML. Render video. Built for agents.</strong></p>
+  <p>AI 视频工厂 — 写 HTML，出视频。为 AI Agent 而生。</p>
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/pentovideo"><img src="https://img.shields.io/npm/v/pentovideo.svg?style=flat" alt="npm version"></a>
-  <a href="https://www.npmjs.com/package/pentovideo"><img src="https://img.shields.io/npm/dm/pentovideo.svg?style=flat" alt="npm downloads"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg" alt="License"></a>
-  <a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-%3E%3D22-brightgreen" alt="Node.js"></a>
-  <a href="https://discord.gg/EbK98HBPdk"><img src="https://img.shields.io/badge/Discord-Join-5865F2?logo=discord&logoColor=white" alt="Discord"></a>
+  <img src="https://img.shields.io/badge/PentoVideo-Skill-76B900?style=for-the-badge" alt="Skill" />
+  <img src="https://img.shields.io/badge/License-Apache%202.0-blue?style=for-the-badge" alt="License" />
+  <img src="https://img.shields.io/badge/Node-%3E%3D22-brightgreen?style=for-the-badge" alt="Node.js" />
+  <img src="https://img.shields.io/badge/OpenClaw-Plugin-6366f1?style=for-the-badge" alt="OpenClaw" />
 </p>
 
-<p align="center"><b>Write HTML. Render video. Built for agents.</b></p>
+---
 
-<p align="center">
-  <img src="https://static.heygen.ai/pentovideo-oss/docs/images/hfgif-1280.webp" alt="PentoVideo demo — HTML code on the left transforms into a rendered video on the right" width="800">
-</p>
+## What is PentoVideo? | 这是什么？
 
-Pentovideo is an open-source video rendering framework that lets you create, preview, and render HTML-based video compositions — with first-class support for AI agents.
+PentoVideo is an AI-powered video factory that turns text, images, PPTs, and prompts into professional videos via HyperFrames HTML rendering. Four production lines, one engine. Forked from and built upon the open-source PentoVideo framework.
 
-## Quick Start
+PentoVideo 是一个 AI 视频工厂，通过 HyperFrames HTML 渲染将主题、图片、PPT、口播稿转化为专业视频。四条生产线，一个引擎。基于开源 PentoVideo 框架构建。
 
-### Option 1: With an AI coding agent (recommended)
+| Line 生产线 | Input 输入 | Output 输出 |
+|-----------|---------|----------|
+| **A — Pure CSS** | Topic / Script | HTML + CSS animation → MP4 |
+| **B — Image Gen** | Topic + SenseNova | AI images + HTML → MP4 |
+| **C — PPT** | PPTX file | OCR → HTML → MP4 |
+| **D — Images** | Images + Script | OCR/align → HTML → MP4 |
+| **D-Fast** ⚡ | Images + Script (ready) | TTS → HTML → MP4 (4 steps) |
 
-Install the PentoVideo skills, then describe the video you want:
+---
 
-```bash
-npx skills add heygen-com/pentovideo
-```
-
-This teaches your agent (Claude Code, Cursor, Gemini CLI, Codex) how to write correct compositions, GSAP timelines, Tailwind v4 browser-runtime styles, and first-party adapter animations. In Claude Code, the skills register as slash commands — invoke `/pentovideo` to author compositions, `/pentovideo-cli` for the dev-loop commands (init, lint, preview, render), `/pentovideo-media` for asset preprocessing (TTS, transcription, background removal), `/tailwind` for `init --tailwind` projects, `/gsap` for timeline animation help, or the adapter skills (`/animejs`, `/css-animations`, `/lottie`, `/three`, `/waapi`) when a composition uses those runtimes.
-
-For Claude Design, open [`docs/guides/claude-design-pentovideo.md`](https://github.com/heygen-com/pentovideo/blob/main/docs/guides/claude-design-pentovideo.md) on GitHub and click the download button (↓) to save it, then attach the file to your Claude Design chat. It produces a valid first draft; refine in any AI coding agent. See the [Claude Design guide](https://pentovideo.heygen.com/guides/claude-design).
-
-For Codex specifically, the same skills are also exposed as an [OpenAI Codex plugin](./.codex-plugin/plugin.json) — sparse-install just the plugin surface:
+## Quick Start | 快速开始
 
 ```bash
-codex plugin marketplace add heygen-com/pentovideo --sparse .codex-plugin --sparse skills --sparse assets
+# Clone the skill
+git clone https://github.com/zhbcher/pentovideo.git
+
+# Install dependencies
+pnpm install
+
+# Start video production
+# Agent auto-triggers: §0 gate → route → produce
 ```
 
-For Claude Code, the repo also ships a [Claude Code plugin manifest](./.claude-plugin/plugin.json): test it locally with `claude --plugin-dir .`. The manifest intentionally omits `skills` because Claude Code auto-discovers the root `skills/` directory by convention, and for marketplace submission use the title `PentoVideo by HeyGen` plus the black/white icon assets at [`assets/claude-code-icon-dark.svg`](./assets/claude-code-icon-dark.svg) and [`assets/claude-code-icon-light.svg`](./assets/claude-code-icon-light.svg) for the two theme slots.
-For Cursor, the same skills are packaged as a [Cursor plugin](./.cursor-plugin/plugin.json) — install from the Cursor Marketplace, or sideload by cloning this repo and pointing **Settings → Plugins → Load unpacked** at the repo root.
+### Fastest Path | 最快路径
 
-#### Try it: example prompts
+Have images + script + style? Jump straight to **Line D-Fast**:
 
-Copy any of these into your agent to get started. The `/pentovideo` prefix loads the skill context explicitly so you get correct output the first time.
-
-**Cold start — describe what you want:**
-
-> Using `/pentovideo`, create a 10-second product intro with a fade-in title, a background video, and background music.
-
-**Warm start — turn existing context into a video:**
-
-> Take a look at this GitHub repo https://github.com/heygen-com/pentovideo and explain its uses and architecture to me using `/pentovideo`.
-
-> Summarize the attached PDF into a 45-second pitch video using `/pentovideo`.
-
-> Turn this CSV into an animated bar chart race using `/pentovideo`.
-
-**Format-specific:**
-
-> Make a 9:16 TikTok-style hook video about [topic] using `/pentovideo`, with bouncy captions synced to a TTS narration.
-
-**Iterate — talk to the agent like a video editor:**
-
-> Make the title 2x bigger, swap to dark mode, and add a fade-out at the end.
-
-> Add a lower third at 0:03 with my name and title.
-
-The agent handles scaffolding, animation, and rendering. See the [prompting guide](https://pentovideo.heygen.com/guides/prompting) for more patterns.
-
-### Option 2: Start a project manually
-
-```bash
-npx pentovideo init my-video
-cd my-video
-npx pentovideo preview      # preview in browser (live reload)
-npx pentovideo render       # render to MP4
+```
+Images + Script → Edge TTS → Scene split → HTML → Render → MP4
 ```
 
-`pentovideo init` installs skills automatically, so you can hand off to your AI agent at any point.
+See [workflows/line-d-fast.md](workflows/line-d-fast.md) for the 4-step workflow.
 
-**Requirements:** Node.js >= 22, FFmpeg
+---
 
-## Why Pentovideo?
+## Architecture | 架构
 
-- **HTML-native** — compositions are HTML files with data attributes. No React, no proprietary DSL.
-- **AI-first** — agents already speak HTML. The CLI is non-interactive by default, designed for agent-driven workflows.
-- **Deterministic rendering** — same input = identical output. Built for automated pipelines.
-- **Frame Adapter pattern** — bring your own animation runtime (GSAP, Lottie, CSS, Three.js).
-
-## Pentovideo vs Remotion
-
-Pentovideo is inspired by [Remotion](https://www.remotion.dev) — we used Remotion at HeyGen in production, learned a ton from it, and kept attribution comments in the source for the patterns it pioneered (Chrome launch flags, image2pipe → FFmpeg streaming, frame buffering). Both tools drive headless Chrome and both are deterministic. They differ on one decision: **what the primary author writes.** Remotion's bet is React components; Pentovideo' bet is HTML.
-
-|                                                       | **Pentovideo**                | **Remotion**                      |
-| ----------------------------------------------------- | ------------------------------ | --------------------------------- |
-| Authoring                                             | HTML + CSS + GSAP              | React components (TSX)            |
-| Build step                                            | None; `index.html` plays as-is | Required (bundler)                |
-| Library-clock animations (GSAP, Anime.js, Motion One) | Seekable, frame-accurate       | Plays at wall-clock during render |
-| Arbitrary HTML / CSS passthrough                      | Paste and animate              | Rewrite as JSX                    |
-| Distributed rendering                                 | Single-machine today           | Lambda, production-ready          |
-
-### Licensing: fully open source vs source-available
-
-**Pentovideo is completely open source under [Apache 2.0](LICENSE)** — an OSI-approved license. Use it commercially at any scale, with no per-render fees, no seat caps, no company-size thresholds.
-
-**Remotion is [source-available, not open source](https://www.remotion.pro/license).** The code is on GitHub under a custom Remotion License that requires a paid company license above small-team thresholds. It's a great product with a real team behind it — but if open-source licensing matters to you (OSI compliance, redistribution rights, no per-use fees), that's a first-order decision point.
-
-Full write-up with benchmarks, an honest list of where each tool wins, and a GSAP side-by-side: **[Pentovideo vs Remotion guide](https://pentovideo.heygen.com/guides/pentovideo-vs-remotion)**.
-
-## How It Works
-
-Define your video as HTML with data attributes:
-
-```html
-<div id="stage" data-composition-id="my-video" data-start="0" data-width="1920" data-height="1080">
-  <video
-    id="clip-1"
-    data-start="0"
-    data-duration="5"
-    data-track-index="0"
-    src="intro.mp4"
-    muted
-    playsinline
-  ></video>
-  <img
-    id="overlay"
-    class="clip"
-    data-start="2"
-    data-duration="3"
-    data-track-index="1"
-    src="logo.png"
-  />
-  <audio
-    id="bg-music"
-    data-start="0"
-    data-duration="9"
-    data-track-index="2"
-    data-volume="0.5"
-    src="music.wav"
-  ></audio>
-</div>
+```
+                    §0 Pre-Flight Gate (7-field check)
+                              │
+                    §1 Routing Decision Tree
+                              │
+        ┌─────────────────────┼─────────────────────┐
+        ▼                     ▼                     ▼
+   Line A (CSS)          Line B (Gen)          Line C/D (PPT/Img)
+        │                     │                     │
+        └─────────────────────┼─────────────────────┘
+                              ▼
+                    §2 Design System
+                    §3 Prompt Expansion
+                    §4 Build Timeline
+                    §5 HTML Authoring
+                    §6 Quality Gates (lint/validate)
+                    §7 Preview → Render → Deliver
 ```
 
-Preview instantly in the browser. Render to MP4 locally or in Docker.
+---
 
-## Catalog
+## Key Features | 核心功能
 
-50+ ready-to-use blocks and components — social overlays, shader transitions, data visualizations, and cinematic effects:
+- **🛑 Pre-Flight Gate (§0)** — 7-field check before any work starts. Prevents context-losing rework.
+- **🚀 Quick Jump** — 8 scenario-based entry points. Find your path in one click.
+- **⚡ Line D-Fast** — Images + script → video in 4 steps. Our fastest production line.
+- **🎨 18 Style Presets** — Tech-dark, neon-gradient, business-green, and more.
+- **🎙️ Edge TTS** — Free unlimited Chinese TTS. Inline Python command, no script dependency.
+- **🖼️ SenseNova Gen** — AI image generation via SenseNova U1 Fast. 11 sizes, 16:9 ready.
+- **✅ Quality Gates** — lint/validate/inspect/contrast/design/animation-map. 6 checks before render.
+- **🌐 Bilingual** — Chinese + English throughout. Built for Chinese-speaking developers.
 
-```bash
-npx pentovideo add flash-through-white   # shader transition
-npx pentovideo add instagram-follow      # social overlay
-npx pentovideo add data-chart            # animated chart
+---
+
+## Production Lines | 生产线详情
+
+| Line | Workflow | When to Use |
+|------|----------|-------------|
+| **A** | [line-a-pure-css.md](workflows/line-a-pure-css.md) | Topic → HTML+CSS animation |
+| **B** | [line-b-image-gen.md](workflows/line-b-image-gen.md) | Topic → SenseNova gen → OCR → HTML |
+| **C** | [line-c-ppt.md](workflows/line-c-ppt.md) | PPT → OCR → HTML |
+| **D** | [line-d-images.md](workflows/line-d-images.md) | Images → OCR → HTML |
+| **D-Fast** ⚡ | [line-d-fast.md](workflows/line-d-fast.md) | Images + Script → 4-step fast track |
+
+---
+
+## Tools & Integration | 工具集成
+
+| Tool | Description | File |
+|------|-------------|------|
+| **Edge TTS** | Free Chinese text-to-speech | [tools/edge-tts.md](tools/edge-tts.md) |
+| **SenseNova Gen** | AI image generation | [tools/sensenova-image-gen.md](tools/sensenova-image-gen.md) |
+| **OCR Check** | Image text extraction QA | [tools/ocr-check.md](tools/ocr-check.md) |
+| **Cover Gen** | Video cover/thumbnail | [tools/cover-generation.md](tools/cover-generation.md) |
+| **Build Timeline** | Scene timing construction | [tools/build-timeline.md](tools/build-timeline.md) |
+
+---
+
+## Animations & Transitions | 动画与转场
+
+Full animation adapter support: GSAP, WAAPI, CSS, Anime.js, Three.js, Lottie. CSS + WebGL transition system.
+
+| Adapter | Coverage |
+|---------|----------|
+| GSAP | Full timeline, easing, stagger |
+| CSS Animations | Keyframes, delays, fill modes |
+| WAAPI | element.animate(), deterministic seeking |
+| Anime.js | Timelines, seek-driven rendering |
+| Three.js | WebGL scenes, camera motion |
+| Lottie | JSON + dotLottie, paused playback |
+
+---
+
+## Project Structure | 项目结构
+
+```
+PentoVideo/
+├── SKILL.md                 # Skill definition (bilingual)
+├── README.md                # This file
+├── workflows/               # 4 production lines + line-d-fast
+├── tools/                   # TTS, image gen, OCR, cover, timeline
+├── references/              # Design system, transitions, captions
+├── styles/                  # 18 style presets
+├── animations/              # 6 animation adapters
+├── packages/                # CLI, core, engine, producer
+├── docs/                    # Optimization plans, guides
+└── templates/               # Project templates
 ```
 
-Browse the full catalog at **[pentovideo.heygen.com/catalog](https://pentovideo.heygen.com/catalog/blocks/data-chart)**.
+---
 
-## Documentation
+## Requirements | 环境要求
 
-Full documentation at **[pentovideo.heygen.com/introduction](https://pentovideo.heygen.com/introduction)** — [Quickstart](https://pentovideo.heygen.com/quickstart) | [Guides](https://pentovideo.heygen.com/guides/gsap-animation) | [API Reference](https://pentovideo.heygen.com/packages/core) | [Catalog](https://pentovideo.heygen.com/catalog/blocks/data-chart)
+- Node.js >= 22
+- FFmpeg
+- pnpm
+- OpenClaw (for skill integration)
 
-## Packages
+---
 
-| Package                                                          | Description                                                 |
-| ---------------------------------------------------------------- | ----------------------------------------------------------- |
-| [`pentovideo`](packages/cli)                                    | CLI — create, preview, lint, and render compositions        |
-| [`@pentovideo/core`](packages/core)                             | Types, parsers, generators, linter, runtime, frame adapters |
-| [`@pentovideo/engine`](packages/engine)                         | Seekable page-to-video capture engine (Puppeteer + FFmpeg)  |
-| [`@pentovideo/producer`](packages/producer)                     | Full rendering pipeline (capture + encode + audio mix)      |
-| [`@pentovideo/studio`](packages/studio)                         | Browser-based composition editor UI                         |
-| [`@pentovideo/player`](packages/player)                         | Embeddable `<pentovideo-player>` web component             |
-| [`@pentovideo/shader-transitions`](packages/shader-transitions) | WebGL shader transitions for compositions                   |
+## License | 许可证
 
-## Skills
+Apache 2.0 — see [LICENSE](LICENSE).
 
-PentoVideo ships [skills](https://github.com/vercel-labs/skills) that teach AI agents framework-specific patterns that generic docs don't cover.
-
-```bash
-npx skills add heygen-com/pentovideo
-```
-
-| Skill                     | What it teaches                                                                                                     |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `pentovideo`             | HTML composition authoring, captions, TTS, audio-reactive animation, transitions                                    |
-| `pentovideo-cli`         | Dev-loop CLI: init, lint, inspect, preview, render, doctor                                                          |
-| `pentovideo-media`       | Asset preprocessing: tts (Kokoro), transcribe (Whisper), remove-background (u2net) — voice/model/codec selection    |
-| `pentovideo-registry`    | Block and component installation via `pentovideo add`                                                              |
-| `website-to-pentovideo`  | Capture a URL and turn it into a video — full website-to-video pipeline                                             |
-| `remotion-to-pentovideo` | Translate a Remotion (React) composition into a PentoVideo HTML composition                                        |
-| `gsap`                    | GSAP timelines for PentoVideo: paused registration, deterministic seeking, easing, sequencing, performance         |
-| `animejs`                 | Anime.js animations and timelines registered on `window.__hfAnime` for deterministic PentoVideo seeking            |
-| `css-animations`          | CSS keyframe animation patterns that PentoVideo can discover, pause, and seek                                      |
-| `lottie`                  | `lottie-web` and dotLottie players registered on `window.__hfLottie` with local assets and paused playback          |
-| `three`                   | Three.js scenes that render from PentoVideo `hf-seek` events and `window.__hfThreeTime` instead of wall-clock time |
-| `waapi`                   | Web Animations API `element.animate()` patterns seeked through `document.getAnimations()`                           |
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-### Cloning the repo
-
-The repo uses [Git LFS](https://git-lfs.com) for golden regression-test baselines under `packages/producer/tests/**/output.mp4` (~240 MB of `.mp4` files). If you're cloning the full repo for development, install Git LFS first:
-
-```bash
-# macOS
-brew install git-lfs
-
-# Ubuntu/Debian
-sudo apt install git-lfs
-
-# Windows
-winget install GitHub.GitLFS
-# (or install Git for Windows, which bundles Git LFS as an optional component)
-
-# Then (once, per machine)
-git lfs install
-```
-
-If you hit `git-lfs filter-process: command not found` during `git clone` or `npx skills add heygen-com/pentovideo`, install Git LFS and retry. You can also skip LFS content if you only need the source files:
-
-```bash
-GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/heygen-com/pentovideo.git
-```
-
-## License
-
-[Apache 2.0](LICENSE)
+Forked from the open-source PentoVideo framework. Built with ❤️ for the OpenClaw community.

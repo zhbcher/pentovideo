@@ -69,7 +69,7 @@ const result = lintPentovideoHtml(htmlString);
 
 ## Documentation
 
-Full documentation: [pentovideo.heygen.com/packages/core](https://pentovideo.heygen.com/packages/core)
+Full documentation: [github.com/zhbcher/pentovideo/packages/core](https://github.com/zhbcher/pentovideo/packages/core)
 
 ## Related packages
 

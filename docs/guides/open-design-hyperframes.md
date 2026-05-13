@@ -37,7 +37,7 @@ od:
 > as a one-shot.**
 
 This skill teaches Open Design to emit a **valid first draft** of a
-[PentoVideo](https://github.com/heygen-com/pentovideo) composition — plain
+[PentoVideo](https://github.com/zhbcher/pentovideo) composition — plain
 HTML + CSS + a paused GSAP timeline. The CLI (`npx pentovideo render
 index.html`) turns the HTML into an MP4. You author the HTML; the user runs
 the render locally.
@@ -45,7 +45,7 @@ the render locally.
 **PentoVideo replaces the default video-artifact workflow.** Do NOT emit a
 React/Babel composition, do NOT call other prototype skills, do NOT use the
 sandboxed iframe's wall-clock playback for timing decisions. Plain HTML +
-GSAP only. Treat the [`claude-design-pentovideo.md`](https://github.com/heygen-com/pentovideo/blob/main/docs/guides/claude-design-pentovideo.md)
+GSAP only. Treat the [`claude-design-pentovideo.md`](https://github.com/zhbcher/pentovideo/blob/main/docs/guides/claude-design-pentovideo.md)
 companion document as the **upstream spec for PentoVideo structural rules** —
 the rules below condense it to what Open Design needs at emission time, but
 that file is the source of truth for shader catalogs, skeleton variants, and
@@ -83,7 +83,7 @@ refine immediately** — no structural fixes needed.
 - Scene content that tells the story (headlines, stats, copy, imagery)
 - Structural validity (passes `npx pentovideo lint` with zero errors)
 - Appropriate shader choices for the mood (use the catalog at
-  [pentovideo.heygen.com/catalog](https://pentovideo.heygen.com/catalog))
+  [github.com/zhbcher/pentovideo/catalog](https://github.com/zhbcher/pentovideo/catalog))
 - Reasonable scene count and durations for the video type
 
 ### What the coding agent polishes after you
@@ -397,7 +397,7 @@ npx pentovideo render      # writes MP4
 - **No wall-clock JS animations** — `setTimeout`, `setInterval`,
   `requestAnimationFrame`-driven animation breaks deterministic seeking. GSAP
   timeline only. (Library-clock animations like Anime.js, Motion One, and
-  Lottie are supported via [PentoVideo' Frame Adapter](https://pentovideo.heygen.com/concepts/frame-adapters)
+  Lottie are supported via [PentoVideo' Frame Adapter](https://github.com/zhbcher/pentovideo/concepts/frame-adapters)
   pattern, but stick to GSAP for first-draft handoffs unless the brief
   requires another runtime.)
 
@@ -406,7 +406,7 @@ npx pentovideo render      # writes MP4
 ## When to defer to the Claude Design instructions
 
 For these advanced areas, treat
-[`claude-design-pentovideo.md`](https://github.com/heygen-com/pentovideo/blob/main/docs/guides/claude-design-pentovideo.md)
+[`claude-design-pentovideo.md`](https://github.com/zhbcher/pentovideo/blob/main/docs/guides/claude-design-pentovideo.md)
 as the canonical reference and follow its patterns verbatim:
 
 - The full skeleton catalog (Skeletons A–D)
