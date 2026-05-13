@@ -5,24 +5,51 @@
 
 ---
 
-## 阶段1：TTS 配音
+## 阶段1：TTS 配音（逐段精确对齐）
 
-**中文** → Edge TTS（推荐 `zh-CN-YunyangNeural`，语速 +15%）：
+**🔴 铁律：禁止估算时长。必须逐段生成音频，实测后设置场景时长。**
+
+### 步骤1.1：拆段生成
+
+将口播稿按自然段落拆为 N 段，逐段生成：
 
 ```bash
 python3 -c "
 import asyncio, edge_tts
-text = open('script.txt').read()
 async def main():
-    c = edge_tts.Communicate(text, 'zh-CN-YunyangNeural', rate='+15%')
-    await c.save('narration.mp3')
+    segs = [('s0','开场文本...'),('s1','第二段文本...'),...]
+    for name,text in segs:
+        c = edge_tts.Communicate(text,'zh-CN-YunyangNeural',rate='+12%')
+        await c.save(f'assets/scenes/{name}.mp3')
 asyncio.run(main())
 "
 ```
 
-**英文** → Kokoro（`npx hyperframes tts`）。
+### 步骤1.2：实测时长
 
-**关键**：检查音频时长 → `ffprobe narration.mp3` → 音频时长 = 视频总时长。
+```bash
+for f in assets/scenes/s*.mp3; do
+  echo "$(basename $f .mp3): $(ffprobe -v quiet -show_entries format=duration -of csv=p=0 $f)s"
+done
+```
+
+### 步骤1.3：合并音轨
+
+```bash
+cd assets/scenes
+for f in s0.mp3 s1.mp3 ...; do echo "file '$PWD/$f'"; done > /tmp/list.txt
+ffmpeg -f concat -safe 0 -i /tmp/list.txt -c copy ../narration.mp3 -y
+```
+
+### 步骤1.4：场景时长 = 音频时长
+
+```html
+<!-- 实测 s0.mp3 时长 7.8s → data-duration="8" -->
+<div id="s0" class="clip" data-start="0" data-duration="8">
+
+<!-- 实测 s1.mp3 时长 11.7s → data-duration="12" -->  
+<div id="s1" class="clip" data-start="8" data-duration="12">
+```
 
 ---
 

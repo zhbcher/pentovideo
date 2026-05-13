@@ -31,10 +31,58 @@ HTML is the source of truth for video. A composition is an HTML file with `data-
 | 1 | **主题** | 必填 | 🛑 反问：要做什么主题的视频？ | — |
 | 2 | **受众** | 必填 | 🛑 反问：给谁看？开发者/高管/消费者/学生？ | — |
 | 3 | **路线** | 必填 | 🛑 反问：用哪条线？A纯CSS / B生图 / C PPT / D图片？ | — |
-| 4 | **平台** | 选填 | 使用默认值，告知用户 | 抖音、横版1920x1080、时长≤10分钟 |
-| 5 | **时长目标** | 推荐 | 按平台推断默认值，告知用户 | 抖音 15-60s / B站 3-8min / 官网 1-3min |
+| 4 | **平台** | 选填 | 使用默认值，告知用户 | 默认：B站/YouTube风格，横版1920x1080，时长≤10分钟 |
+| 5 | **时长目标** | 推荐 | 按平台推断默认值，告知用户 | 抖音 30-90s / B站 3-8min / 项目介绍 60-120s |
 | 6 | **风格偏好** | 推荐 | 按受众推断默认风格，告知用户 | 开发者→tech-dark / 消费者→neon-gradient / 高管→business-green |
 | 7 | **底线/禁止** | 推荐 | 使用默认值，告知用户 | 无特殊限制；自动排除安装命令、GitHub地址、下载链接 |
+
+### 🔴 三大默认铁律（Iron Defaults）
+
+| # | 规则 | 说明 |
+|---|------|------|
+| 1 | **默认横版** | 无特殊说明一律 1920×1080（16:9 横版），非竖版 |
+| 2 | **默认配音** | 无特殊说明一律生成口播配音。中文→Edge TTS(`zh-CN-YunyangNeural`)，英文→Kokoro |
+| 3 | **默认精确对齐** | 口播必须按自然段落拆分场景。每段口播时长=场景时长。禁止用估算时长，必须用 `ffprobe` 实测音频时长后设置 `data-duration` |
+| 4 | **默认动画效果** | PPT/讲解类视频：每个页面元素必须有入场动画（`gsap.from`），页间必须有转场动画。禁止纯静态页面切换 |
+
+**对齐操作流程**：
+```
+1. 口播稿按自然段拆为 N 段
+2. 逐段生成 TTS → 用 ffprobe 测每段精确时长
+3. 场景 data-duration = 该段音频时长（取整秒）
+4. 合并音频 → 写 HTML → 时间线自动对齐
+```
+
+### 默认行为规则
+- **格式默认**：无特殊说明时一律横版 1920×1080（非竖版）
+- **配音默认**：无特殊说明时一律生成口播配音（Edge TTS 中文 / Kokoro 英文）
+- **字幕默认**：无特殊说明时一律不加字幕（除非用户要求或抖音竖版）
+- **对齐默认**：口播与画面必须精确对齐，禁止估算
+- **动画默认**：PPT/讲解类视频每个页面的元素必须有入场动画（`gsap.from`），页与页之间必须有转场动画（opacity + visibility hard kill）。禁止纯静态页面切换
+
+### §0.5 方向确认（Direction Picker）🆕
+
+**在 §0 门控通过后、§1 路由前执行。** 锁定视觉方向，不让 Agent 乱发挥。
+
+```
+§0 门控通过 →
+  §0.5 方向确认：
+    ├─ 用户明确指定风格 → 直接锁定，跳过
+    ├─ 用户只说了大概（"科技风""高级感"）→ 从 design-systems/ 推3个候选 → 用户选1个
+    └─ 用户完全没提 → 按受众默认推（开发者→tech-dark，消费者→neon-gradient，高管→business-green）
+  §1 路由 →
+```
+
+**推选格式（不超过3行）**：
+```
+根据你的需求，推荐 3 个视觉方向：
+1. tech-dark（深色科技风，适合开发者）
+2. neon-electric（霓虹电光，适合劲爆内容）
+3. clean-corporate（简洁商务，适合正式场合）
+选哪个？不需要就回"直接做"。
+```
+
+**锁死后**：Agent 从 `design-systems/{name}.md` 读取配色+字体，全片使用，禁止中途切换。
 
 ### 门控执行流程
 
@@ -95,8 +143,9 @@ If `design.md` or `DESIGN.md` exists in the project, read it first. It's the sou
 
 If no `design.md` exists, offer the user a choice:
 
-1. **User named a style or mood?** → 读 [styles/match-guide.md](styles/match-guide.md) 从18套风格中匹配
-2. **Want to browse options?** → 读 [references/design-picker.md](references/design-picker.md) 可视化选色
+1. **User named a specific brand?** → 读 `design-systems/{name}.md` 直接用现成配色（Stripe/Apple/Notion/Linear 等 10 套）
+2. **User named a style or mood?** → 读 [styles/match-guide.md](styles/match-guide.md) 从18套风格中匹配
+3. **Want to browse options?** → 读 [references/design-picker.md](references/design-picker.md) 可视化选色
 3. **Want to go fast?** → 问mood/light or dark/品牌色，从 [house-style.md](house-style.md) 选
 
 ---

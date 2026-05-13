@@ -11,7 +11,10 @@
 阶段4：TTS配音 → 合并一段 → narration.mp3
 阶段5：语音转字幕 → transcribe → transcript.json
 阶段6：时间轴构建 → build_timeline.py
-阶段7：写HTML → 图片背景+字幕 → lint → validate
+阶段7：写HTML → 图片背景+字幕+**元素动画+页间转场** → lint → validate
+  🔴 每个页面元素必须有 gsap.from 入场动画
+  🔴 页与页之间必须有转场动画（opacity + visibility hard kill）
+  🔴 禁止纯静态页面切换
 阶段8：预览确认 → ★ 用户确认
 阶段9：渲染+交付
 ```
