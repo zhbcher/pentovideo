@@ -10,10 +10,35 @@
 
 ## Edge TTS
 
+**直接 Python 命令（推荐，无需依赖脚本）**：
+
+```bash
+python3 -c "
+import asyncio, edge_tts
+async def main():
+    c = edge_tts.Communicate('你的口播稿文本', 'zh-CN-YunyangNeural', rate='+15%')
+    await c.save('narration.mp3')
+asyncio.run(main())
+"
+```
+
+**或从文件读取**：
+
+```bash
+python3 -c "
+import asyncio, edge_tts
+async def main():
+    text = open('script.txt').read()
+    c = edge_tts.Communicate(text, 'zh-CN-YunyangNeural', rate='+15%')
+    await c.save('narration.mp3')
+asyncio.run(main())
+"
+```
+
+**脚本方式**（如果 `scripts/tts_generate.py` 存在）：
+
 ```bash
 python3 scripts/tts_generate.py --text "口播稿" --voice zh-CN-YunyangNeural --output narration.mp3
-python3 scripts/tts_generate.py --file script.txt --voice zh-CN-YunyangNeural
-```
 
 ### 可靠中文男声
 - `zh-CN-YunyangNeural` — 云扬（沉稳商务）

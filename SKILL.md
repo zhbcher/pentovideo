@@ -1,11 +1,24 @@
 ---
 name: PentoVideo
-description: AI视频工厂。主题→视频、生图→视频、PPT→视频、图片→视频，四条线全部走 HTML 渲染。含§0前置门控、Prompt Expansion完整工作流、商汤生图、OCR质检、Edge TTS、Whisper字幕、时间轴、封面生成。覆盖GSAP/WAAPI/CSS/Anime.js/Three.js/Lottie全部动画适配器、CSS+WebGL完整转场系统、质量门控(lint/validate/inspect/contrast/design/animation-map)。
+description: AI Video Factory — Topic→Video, ImageGen→Video, PPT→Video, Images→Video. Four production lines via HyperFrames HTML rendering. AI Video Factory 四条线全走HTML渲染：主题→视频、生图→视频、PPT→视频、图片→视频。Includes pre-flight gate, prompt expansion, SenseNova image gen, OCR QA, Edge TTS, Whisper captions, GSAP/WAAPI/CSS/Anime.js/Three.js/Lottie animations, CSS+WebGL transitions, quality gates (lint/validate/inspect/contrast/design/animation-map).
 ---
 
 # PentoVideo
 
 HTML is the source of truth for video. A composition is an HTML file with `data-*` attributes for timing, a GSAP timeline for animation, and CSS for appearance. PentoVideo handles clip visibility, media playback, and timeline sync.
+
+## 🚀 Quick Jump
+
+| 你的情况 | 直接跳转 |
+|---------|----------|
+| 有口播稿+图片，做视频 | → [线D-Fast](#线d-fast快速模式-图片口播稿) |
+| 有PPT，做讲解视频 | → [§1 线C](workflows/line-c-ppt.md) |
+| 有主题，需要生图 | → [§1 线B](workflows/line-b-image-gen.md) |
+| 有图片，无口播稿 | → [§1 线D](workflows/line-d-images.md) |
+| 只有纯文本主题 | → [§1 线A](workflows/line-a-pure-css.md) |
+| 只要配音 | → [Edge TTS](tools/edge-tts.md) |
+| 只要生图 | → [商汤生图](tools/sensenova-image-gen.md) |
+| 只要封面 | → [封面生成](tools/cover-generation.md) |
 
 ---
 
@@ -28,10 +41,17 @@ HTML is the source of truth for video. A composition is an HTML file with `data-
 ```
 用户说"做视频" →
   Step 0: 提取已有信息，检查 7 项
+  Step 0.5: 快速通道？口播稿+图片/PPT+风格 三者齐全？
+    ├─ YES → 跳过反问，直接进入 §1 路由
+    └─ NO  → 继续 Step 1
   Step 1: 必填项全齐？
     ├─ YES → 进入 §1 路由
     └─ NO  → 反问缺失项（只问缺的，不重复已提供的），等待用户回复后重新走 §0
 ```
+
+**快速通道触发条件**（满足任意一组即可跳过反问）：
+1. 口播稿/脚本 + 图片/PPT + 风格偏好 → 直接进线C或线D
+2. 主题 + 风格 + 平台 → 直接进线A或线B
 
 ### 反问格式（简洁，不超过 5 行）
 
@@ -56,6 +76,7 @@ HTML is the source of truth for video. A composition is an HTML file with `data-
 ├─ 线B → workflows/line-b-image-gen.md    # 主题 + 商汤生图→OCR质检 → HTML → 视频
 ├─ 线C → workflows/line-c-ppt.md          # PPT → 识图 → HTML → 视频（有/无口播稿）
 ├─ 线D → workflows/line-d-images.md       # 图片 → 识图 → HTML → 视频（有/无口播稿）
+├─ 线D-Fast → workflows/line-d-fast.md    # ★ 图片+口播稿快速模式（跳过OCR，4阶段）
 ├─ "只生图" → tools/sensenova-image-gen.md
 ├─ "只要配音" → tools/edge-tts.md
 ├─ "生成封面" → tools/cover-generation.md
