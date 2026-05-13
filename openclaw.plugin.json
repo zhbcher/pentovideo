@@ -1,0 +1,26 @@
+{
+  "id": "PentoVideo",
+  "name": "PentoVideo - AI Video Factory",
+  "version": "1.0.0",
+  "description": "AI Video Factory — 4 production lines (Topic/ImageGen/PPT/Images → HTML → MP4). D-Fast quick mode, Edge TTS, SenseNova image gen, bilingual docs. AI视频工厂：四条生产线，HyperFrames HTML渲染。",
+  "author": "zhbcher",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/zhbcher/pentovideo",
+  "repository": "https://github.com/zhbcher/pentovideo",
+  "keywords": ["video", "ai", "hyperframes", "tts", "image-gen", "html", "gsap"],
+  "enabledByDefault": true,
+  "entry": "SKILL.md",
+  "kind": "skill",
+  "contracts": {},
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": true,
+    "properties": {
+      "enabled": {
+        "type": "boolean",
+        "default": true,
+        "description": "Enable PentoVideo skill"
+      }
+    }
+  }
+}

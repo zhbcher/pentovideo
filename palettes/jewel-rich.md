@@ -1,4 +1,4 @@
-# Jewel / Rich
+# Jewel Rich 宝石绚丽 | Saturated & Opulent
 
 Luxury, events, sophisticated, high-end content.
 

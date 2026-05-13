@@ -1,4 +1,4 @@
-## Blur
+# CSS Blur 模糊转场
 
 All blur transitions scale with energy. See SKILL.md "Blur Intensity by Energy" for the full table.
 

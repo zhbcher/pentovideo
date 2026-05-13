@@ -1,4 +1,4 @@
-# Neon / Electric
+# Neon Electric 霓虹电光 | Cyberpunk & Futuristic
 
 Gaming, tech, nightlife, Gen Z content.
 

@@ -1,4 +1,4 @@
-# Typography
+# Typography 字体排版 | Font Selection & Pairing
 
 The compiler embeds supported fonts — just write `font-family` in CSS.
 

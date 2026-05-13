@@ -1,4 +1,4 @@
-# Prompt Expansion
+# Prompt Expansion 提示词扩展 | Ground Intent Against Design
 
 Run on every composition. Expansion is not about lengthening a short prompt — it's about grounding the user's intent against `design.md` and `house-style.md` and producing a consistent intermediate that every downstream agent reads the same way.
 

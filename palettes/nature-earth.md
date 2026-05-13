@@ -1,4 +1,4 @@
-# Nature / Earth
+# Nature Earth 自然大地 | Warm & Organic
 
 Sustainability, outdoor, organic, wellness content.
 

@@ -1,4 +1,4 @@
-# PentoVideo Design System & Style Guide
+# Design System 设计系统 | Colors, Fonts, Spacing
 
 Use this guide to configure Mintlify docs or any other platform to match the PentoVideo brand.
 

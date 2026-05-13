@@ -1,4 +1,4 @@
-# Warm / Editorial
+# Warm Editorial 温暖编辑 | Magazine & Print
 
 Storytelling, documentaries, case studies, narrative content.
 

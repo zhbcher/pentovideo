@@ -1,4 +1,4 @@
-# Composition Patterns
+# Animation Patterns 动画模式 | Common Motion Recipes
 
 ## Picture-in-Picture (Video in a Frame)
 

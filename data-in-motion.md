@@ -1,4 +1,4 @@
-# Data in Motion
+# Data in Motion 动态数据 | Chart & Number Animations
 
 Light guidance for data and stats in video compositions. The [house style](./house-style.md) handles aesthetics — this just addresses data-specific pitfalls.
 

@@ -1,4 +1,4 @@
-# Transcript Guide
+# Transcript Guide 转录指南 | Whisper + Caption Sync
 
 For the `transcribe` CLI invocation, the `.en`-translates-non-English rule, and whisper model selection, see the `pentovideo-media` skill. This file covers what to do with the resulting transcript when authoring captions: input formats, mandatory quality checks, cleaning code, external-API fallbacks.
 

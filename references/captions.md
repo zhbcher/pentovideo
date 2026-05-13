@@ -1,4 +1,4 @@
-# Captions
+# Captions 字幕系统 | Synced Text Overlays
 
 ## Language Rule (Non-Negotiable)
 

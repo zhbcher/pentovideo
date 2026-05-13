@@ -1,4 +1,4 @@
-# Beat Direction
+# Beat Direction 节拍律动 | Scene Rhythm Templates
 
 How to plan and direct individual scenes (beats) in a multi-scene composition. Read before writing any multi-scene video.
 

@@ -1,4 +1,4 @@
-# 模板速查
+# Template Quick Reference 模板速查
 
 PentoVideo 内置视频模板，可直接套用或参考。
 

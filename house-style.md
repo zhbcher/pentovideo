@@ -1,4 +1,4 @@
-# House Style
+# House Style 默认风格 | Brand Color System
 
 Creative direction for compositions when no `design.md` is provided. These are starting points — override anything that doesn't serve the content. When a `design.md` exists, its brand values take precedence; house-style fills gaps.
 

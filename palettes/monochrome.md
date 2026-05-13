@@ -1,4 +1,4 @@
-# Monochrome
+# Monochrome 单色极简 | Black, White & Gray
 
 Dramatic, typography-focused, serious content.
 

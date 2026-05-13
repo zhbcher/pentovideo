@@ -1,4 +1,4 @@
-# Visual Style Library
+# Visual Styles 视觉风格 | 18 Preset Themes
 
 Named visual identities for PentoVideo videos. Each style is grounded in a real graphic design tradition and expressed as a DESIGN.md-compatible token block. Use them as starters — copy the YAML into your project's `design.md` front matter, then customize.
 

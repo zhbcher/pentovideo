@@ -1,4 +1,4 @@
-# Video Composition
+# Video Composition 视频合成 | Layout & Timing Rules
 
 Video frames are not web pages. These rules apply to every composition regardless of brand, style, or design.md.
 

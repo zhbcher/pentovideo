@@ -1,4 +1,4 @@
-# GSAP Effects for PentoVideo
+# GSAP Effects 效果参考 | Easing, Stagger, Timeline
 
 Drop-in animation patterns for PentoVideo compositions. Each effect is self-contained with HTML, CSS, and code.
 

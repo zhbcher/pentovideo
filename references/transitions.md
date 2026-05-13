@@ -1,4 +1,4 @@
-# Scene Transitions
+# Transitions 转场系统 | CSS + WebGL Scene Changes
 
 A transition tells the viewer how two scenes relate. A crossfade says "this continues." A push slide says "next point." A blur crossfade says "drift with me." Choose transitions that match what the content is doing emotionally, not just technically.
 

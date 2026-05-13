@@ -1,4 +1,4 @@
-# Pastel / Soft
+# Pastel Soft 柔和粉彩 | Gentle & Feminine
 
 Fashion, beauty, lifestyle, wellness content.
 

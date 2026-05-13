@@ -1,4 +1,4 @@
-# Design Picker
+# Design Picker 设计选择器 | Visual Style Configuration
 
 Two-phase visual picker: mood boards first (pick a complete direction), then fine-tune individual categories.
 

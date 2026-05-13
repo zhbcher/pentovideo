@@ -1,4 +1,4 @@
-# Bold / Energetic
+# Bold Energetic 大胆活力 | High Contrast & Impact
 
 Product launches, social media, announcements, high-energy content.
 

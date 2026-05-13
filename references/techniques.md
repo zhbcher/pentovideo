@@ -1,4 +1,4 @@
-# Visual Techniques Reference
+# Techniques 动画技法 | GSAP/WAAPI/CSS Patterns
 
 10 proven techniques from production PentoVideo videos. Use these in your storyboard and compositions to create visually rich, professional output. Each technique includes a minimal code pattern you can adapt.
 

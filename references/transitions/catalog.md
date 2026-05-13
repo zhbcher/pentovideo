@@ -1,4 +1,4 @@
-# Transition Catalog
+# Transition Catalog 转节目录 | All Built-in Transitions
 
 Hard rules, scene template, and routing to implementation code. Read the reference file for the transition type you need — don't load all of them.
 

@@ -1,4 +1,4 @@
-# Audio-Reactive Animation
+# Audio-Reactive 音频响应 | Beat Sync & Visual Pulse
 
 Drive visuals from music, voice, or sound. Any GSAP-animatable property can respond to pre-extracted audio data.
 

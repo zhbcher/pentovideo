@@ -1,4 +1,4 @@
-# CSS Patterns for Marker Highlighting
+# CSS Patterns CSS样式模式 | Layout & Animation Patterns
 
 Pure CSS + GSAP implementations of all five MarkerHighlight.js drawing modes. Use these for deterministic rendering in PentoVideo compositions — no external library dependency, full GSAP timeline control.
 

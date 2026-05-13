@@ -1,4 +1,4 @@
-# Motion Principles
+# Motion Principles 动画原则 | GSAP Best Practices
 
 ## Guardrails
 
