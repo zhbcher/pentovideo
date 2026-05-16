@@ -7,18 +7,34 @@ description: AI Video Factory — Topic→Video, ImageGen→Video, PPT→Video, 
 
 HTML is the source of truth for video. A composition is an HTML file with `data-*` attributes for timing, a GSAP timeline for animation, and CSS for appearance. PentoVideo handles clip visibility, media playback, and timeline sync.
 
+## 🔧 工具链 (Toolchain)
+
+**CLI 入口**: `workspace/skills/PentoVideo/packages/cli/dist/cli.js`
+
+| 命令                  | 用途     | 本地调用方式                                               |
+| --------------------- | -------- | ---------------------------------------------------------- |
+| `pentovideo render`   | 渲染视频 | `node skills/PentoVideo/packages/cli/dist/cli.js render`   |
+| `pentovideo lint`     | 代码检查 | `node skills/PentoVideo/packages/cli/dist/cli.js lint`     |
+| `pentovideo validate` | 结构验证 | `node skills/PentoVideo/packages/cli/dist/cli.js validate` |
+| `pentovideo preview`  | 预览     | `node skills/PentoVideo/packages/cli/dist/cli.js preview`  |
+| `pentovideo inspect`  | 布局检查 | `node skills/PentoVideo/packages/cli/dist/cli.js inspect`  |
+
+> 所有渲染、检查、预览、验证操作一律调用上方 `node .../cli.js` 命令。如果 CLI 未编译，先执行 `cd workspace/skills/PentoVideo && bun run --filter @pentovideo/cli build`。
+
+---
+
 ## 🚀 Quick Jump
 
-| 你的情况 | 直接跳转 |
-|---------|----------|
+| 你的情况              | 直接跳转                                   |
+| --------------------- | ------------------------------------------ |
 | 有口播稿+图片，做视频 | → [线D-Fast](#线d-fast快速模式-图片口播稿) |
-| 有PPT，做讲解视频 | → [§1 线C](workflows/line-c-ppt.md) |
-| 有主题，需要生图 | → [§1 线B](workflows/line-b-image-gen.md) |
-| 有图片，无口播稿 | → [§1 线D](workflows/line-d-images.md) |
-| 只有纯文本主题 | → [§1 线A](workflows/line-a-pure-css.md) |
-| 只要配音 | → [Edge TTS](tools/edge-tts.md) |
-| 只要生图 | → [商汤生图](tools/sensenova-image-gen.md) |
-| 只要封面 | → [封面生成](tools/cover-generation.md) |
+| 有PPT，做讲解视频     | → [§1 线C](workflows/line-c-ppt.md)        |
+| 有主题，需要生图      | → [§1 线B](workflows/line-b-image-gen.md)  |
+| 有图片，无口播稿      | → [§1 线D](workflows/line-d-images.md)     |
+| 只有纯文本主题        | → [§1 线A](workflows/line-a-pure-css.md)   |
+| 只要配音              | → [Edge TTS](tools/edge-tts.md)            |
+| 只要生图              | → [商汤生图](tools/sensenova-image-gen.md) |
+| 只要封面              | → [封面生成](tools/cover-generation.md)    |
 
 ---
 
@@ -26,26 +42,28 @@ HTML is the source of truth for video. A composition is an HTML file with `data-
 
 **接到任何视频制作请求后，立即检查以下 7 项。缺任何必填项，禁止进入后续步骤，必须先反问补齐。**
 
-| # | 字段 | 类型 | 缺失时的行为 | 默认值 |
-|---|------|------|-------------|--------|
-| 1 | **主题** | 必填 | 🛑 反问：要做什么主题的视频？ | — |
-| 2 | **受众** | 必填 | 🛑 反问：给谁看？开发者/高管/消费者/学生？ | — |
-| 3 | **路线** | 必填 | 🛑 反问：用哪条线？A纯CSS / B生图 / C PPT / D图片？ | — |
-| 4 | **平台** | 选填 | 使用默认值，告知用户 | 默认：B站/YouTube风格，横版1920x1080，时长≤10分钟 |
-| 5 | **时长目标** | 推荐 | 按平台推断默认值，告知用户 | 抖音 30-90s / B站 3-8min / 项目介绍 60-120s |
-| 6 | **风格偏好** | 推荐 | 按受众推断默认风格，告知用户 | 开发者→tech-dark / 消费者→neon-gradient / 高管→business-green |
-| 7 | **底线/禁止** | 推荐 | 使用默认值，告知用户 | 无特殊限制；自动排除安装命令、GitHub地址、下载链接 |
+| #   | 字段          | 类型 | 缺失时的行为                                        | 默认值                                                        |
+| --- | ------------- | ---- | --------------------------------------------------- | ------------------------------------------------------------- |
+| 1   | **主题**      | 必填 | 🛑 反问：要做什么主题的视频？                       | —                                                             |
+| 2   | **受众**      | 必填 | 🛑 反问：给谁看？开发者/高管/消费者/学生？          | —                                                             |
+| 3   | **路线**      | 必填 | 🛑 反问：用哪条线？A纯CSS / B生图 / C PPT / D图片？ | —                                                             |
+| 4   | **平台**      | 选填 | 使用默认值，告知用户                                | 默认：B站/YouTube风格，横版1920x1080，时长≤10分钟             |
+| 5   | **时长目标**  | 推荐 | 按平台推断默认值，告知用户                          | 抖音 30-90s / B站 3-8min / 项目介绍 60-120s                   |
+| 6   | **风格偏好**  | 推荐 | 按受众推断默认风格，告知用户                        | 开发者→tech-dark / 消费者→neon-gradient / 高管→business-green |
+| 7   | **底线/禁止** | 推荐 | 使用默认值，告知用户                                | 无特殊限制；自动排除安装命令、GitHub地址、下载链接            |
 
 ### 🔴 三大默认铁律（Iron Defaults）
 
-| # | 规则 | 说明 |
-|---|------|------|
-| 1 | **默认横版** | 无特殊说明一律 1920×1080（16:9 横版），非竖版 |
-| 2 | **默认配音** | 无特殊说明一律生成口播配音。中文→Edge TTS(`zh-CN-YunyangNeural`)，英文→Kokoro |
-| 3 | **默认精确对齐** | 口播必须按自然段落拆分场景。每段口播时长=场景时长。禁止用估算时长，必须用 `ffprobe` 实测音频时长后设置 `data-duration` |
-| 4 | **默认动画效果** | PPT/讲解类视频：每个页面元素必须有入场动画（`gsap.from`），页间必须有转场动画。禁止纯静态页面切换 |
+| #   | 规则             | 说明                                                                                                                   |
+| --- | ---------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| 1   | **默认横版**     | 无特殊说明一律 1920×1080（16:9 横版），非竖版                                                                          |
+| 2   | **默认配音**     | 无特殊说明一律生成口播配音。中文→Edge TTS(`zh-CN-YunyangNeural`)，英文→Kokoro                                          |
+| 3   | **默认精确对齐** | 口播必须按自然段落拆分场景。每段口播时长=场景时长。禁止用估算时长，必须用 `ffprobe` 实测音频时长后设置 `data-duration` |
+| 4   | **默认动画效果** | PPT/讲解类视频：每个页面元素必须有入场动画（`gsap.from`），页间必须有转场动画。禁止纯静态页面切换                      |
+| 5   | **默认页面密度** | 每个场景至少 4 种不同视觉元素（标题+副标题+卡片+图标+背景等）。禁止一张图+一句话的偷懒式幻灯片                         |
 
 **对齐操作流程**：
+
 ```
 1. 口播稿按自然段拆为 N 段
 2. 逐段生成 TTS → 用 ffprobe 测每段精确时长
@@ -54,11 +72,13 @@ HTML is the source of truth for video. A composition is an HTML file with `data-
 ```
 
 ### 默认行为规则
+
 - **格式默认**：无特殊说明时一律横版 1920×1080（非竖版）
 - **配音默认**：无特殊说明时一律生成口播配音（Edge TTS 中文 / Kokoro 英文）
 - **字幕默认**：无特殊说明时一律不加字幕（除非用户要求或抖音竖版）
 - **对齐默认**：口播与画面必须精确对齐，禁止估算
 - **动画默认**：PPT/讲解类视频每个页面的元素必须有入场动画（`gsap.from`），页与页之间必须有转场动画（opacity + visibility hard kill）。禁止纯静态页面切换
+- **密度默认**：每个场景至少包含 4 种不同视觉元素（例如：标题+副标题+数据卡片+标签/图标+背景装饰），禁止一张图+一句话的"偷懒"式幻灯片
 
 ### §0.5 方向确认（Direction Picker）🆕
 
@@ -74,6 +94,7 @@ HTML is the source of truth for video. A composition is an HTML file with `data-
 ```
 
 **推选格式（不超过3行）**：
+
 ```
 根据你的需求，推荐 3 个视觉方向：
 1. tech-dark（深色科技风，适合开发者）
@@ -98,6 +119,7 @@ HTML is the source of truth for video. A composition is an HTML file with `data-
 ```
 
 **快速通道触发条件**（满足任意一组即可跳过反问）：
+
 1. 口播稿/脚本 + 图片/PPT + 风格偏好 → 直接进线C或线D
 2. 主题 + 风格 + 平台 → 直接进线A或线B
 
@@ -146,7 +168,7 @@ If no `design.md` exists, offer the user a choice:
 1. **User named a specific brand?** → 读 `design-systems/{name}.md` 直接用现成配色（Stripe/Apple/Notion/Linear 等 10 套）
 2. **User named a style or mood?** → 读 [styles/match-guide.md](styles/match-guide.md) 从18套风格中匹配
 3. **Want to browse options?** → 读 [references/design-picker.md](references/design-picker.md) 可视化选色
-3. **Want to go fast?** → 问mood/light or dark/品牌色，从 [house-style.md](house-style.md) 选
+4. **Want to go fast?** → 问mood/light or dark/品牌色，从 [house-style.md](house-style.md) 选
 
 ---
 
@@ -176,6 +198,7 @@ Before writing ANY composition HTML — verify visual identity from §2. If reac
 </HARD-GATE>
 
 ---
+
 Before writing ANY composition HTML — verify you have a visual identity from Step 1. If you're reaching for `#333`, `#3b82f6`, or `Roboto`, you skipped it.
 </HARD-GATE>
 
